@@ -1,0 +1,25 @@
+POST http://localhost:8080/login-register
+Content-Type: application/json
+
+{
+  "user": "julian",
+  "password": "baum1234"
+}
+
+> {%
+client.assert(typeof response.body.token !== "undefined", "No token returned!")
+client.global.set("auth_token", response.body.token)
+%}
+
+###
+
+POST http://localhost:8080/snippets
+Content-Type: text/plain
+Authorization: Bearer {{auth_token}}
+
+"Hahahah"
+
+###
+
+GET http://localhost:8080/snippets
+Content-Type: application/json

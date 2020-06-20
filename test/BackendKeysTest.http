@@ -1,0 +1,17 @@
+POST http://localhost:8080/keys/attach
+Content-Type: application/json
+
+{
+  "key": "EF0PH9-K9SNDC00-0O1GWLE0-1HESQ3",
+  "machineIdentifier": "Moritz PC"
+}
+
+###
+
+GET http://localhost:8080/keys/validate
+Content-Type: application/json
+
+{
+  "key": "EF0PH9-K9SNDC00-0O1GWLE0-1HESQ3",
+  "machineIdentifier": "Moritz PC"
+}
