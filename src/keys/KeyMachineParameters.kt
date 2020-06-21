@@ -1,5 +1,6 @@
 package keys
 
+import DragonflyBackend
 import com.google.cloud.firestore.DocumentReference
 import com.google.cloud.firestore.DocumentSnapshot
 import io.ktor.application.*
@@ -36,8 +37,7 @@ suspend fun PipelineContext<Unit, ApplicationCall>.tryReceiveKeyMachineParameter
     } catch (e: Throwable) {
         call.respond(mapOf(
             "success" to false,
-            "error" to "INVALID_BODY",
-            "errorMessage" to "Could not parse parameters from request body, probably bad request!"
+            "message" to "Could not parse parameters from request body, probably bad request!"
         ))
         return null
     }
@@ -48,8 +48,7 @@ suspend fun PipelineContext<Unit, ApplicationCall>.tryReceiveKeyMachineParameter
     if (!document.exists()) {
         call.respond(mapOf(
             "success" to false,
-            "error" to "KEY_NOT_FOUND",
-            "errorMessage" to "The provided key does not exist!"
+            "message" to "The provided key does not exist!"
         ))
         return null
     }

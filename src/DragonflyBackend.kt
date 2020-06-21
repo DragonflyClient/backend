@@ -7,8 +7,8 @@ import com.google.firebase.cloud.FirestoreClient
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.features.*
-import io.ktor.http.HttpStatusCode
-import io.ktor.jackson.jackson
+import io.ktor.http.*
+import io.ktor.jackson.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import keys.routes.keysAttach
@@ -68,11 +68,19 @@ fun Application.main() {
     install(Authentication) {
         basic {
             realm = "Master Authentication"
-            validate { if(it.name == "master" && it.password == "JRa5zHzyft4ikNAKGhAbAdStp7HzX97qomzSPDdo") UserIdPrincipal("master") else null }
+            validate { if (it.name == "master" && it.password == "JRa5zHzyft4ikNAKGhAbAdStp7HzX97qomzSPDdo") UserIdPrincipal("master") else null }
         }
     }
 
     routing {
+        get {
+            call.respond(
+                mapOf(
+                    "available" to true
+                )
+            )
+        }
+
         keysMasterGenerate()
         keysMaterRequest()
         keysAttach()
