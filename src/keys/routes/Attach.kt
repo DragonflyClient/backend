@@ -3,7 +3,8 @@ package keys.routes
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import keys.*
+import keys.KeyMachineParameters
+import keys.tryReceiveKeyMachineParameters
 
 /**
  * Creates the `/keys/attach` route that will attach a specific device to a key and thus
@@ -20,7 +21,7 @@ fun Routing.keysAttach() {
             if (documentSnapshot!!.getBoolean("attached") == true) {
                 return@post call.respond(mapOf(
                     "success" to false,
-                    "message" to "The provided key is already attached to another device!"
+                    "message" to "The provided key is already attached to a device!"
                 ))
             }
 

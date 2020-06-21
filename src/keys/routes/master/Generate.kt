@@ -1,5 +1,7 @@
 package keys.routes.master
 
+import DragonflyBackend
+import com.google.cloud.Timestamp
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.response.*
@@ -22,11 +24,13 @@ fun Routing.keysMasterGenerate() {
             val key = KeyGenerator.generateKey()
             val collection = DragonflyBackend.firestore.collection("keys")
             val document = collection.document(key)
+            val timestamp = Timestamp.now()
 
             withContext(Dispatchers.IO) {
                 document.set(
                     mapOf(
-                        "attached" to false
+                        "attached" to false,
+                        "createdOn" to timestamp
                     )
                 ).get()
             }
@@ -34,7 +38,8 @@ fun Routing.keysMasterGenerate() {
             call.respond(
                 mapOf(
                     "success" to true,
-                    "key" to key
+                    "key" to key,
+                    "createdOn" to timestamp.toString()
                 )
             )
         }
