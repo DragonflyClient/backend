@@ -1,0 +1,12 @@
+{
+   "stable": {
+      "version": "1.0.3.0-alpha",
+      "patchNotes": "https://inceptioncloud.net/dragonfly/patchnotes/patch/v1.0.3.0-alpha",
+      "requiresInstaller": false
+   },
+   "earlyAccess": {
+      "version": "1.0.3.0-alpha",
+      "patchNotes": "https://inceptioncloud.net/dragonfly/patchnotes/patch/v1.0.3.0-alpha",
+      "requiresInstaller": false
+   }
+}
