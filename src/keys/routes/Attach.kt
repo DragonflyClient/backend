@@ -1,5 +1,6 @@
 package keys.routes
 
+import com.google.cloud.firestore.SetOptions
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
@@ -29,11 +30,12 @@ fun Routing.keysAttach() {
                 mapOf(
                     "attached" to true,
                     "machineIdentifier" to machineIdentifier
-                )
+                ), SetOptions.merge()
             )
 
             call.respond(mapOf(
-                "success" to true
+                "success" to true,
+                "message" to "success"
             ))
         }
     }

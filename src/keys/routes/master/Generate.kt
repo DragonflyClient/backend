@@ -2,6 +2,7 @@ package keys.routes.master
 
 import DragonflyBackend
 import com.google.cloud.Timestamp
+import com.google.cloud.firestore.SetOptions
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.response.*
@@ -31,7 +32,7 @@ fun Routing.keysMasterGenerate() {
                     mapOf(
                         "attached" to false,
                         "createdOn" to timestamp
-                    )
+                    ), SetOptions.merge()
                 ).get()
             }
 

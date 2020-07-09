@@ -3,9 +3,8 @@ package keys.routes
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import keys.*
-import org.slf4j.Logger
-import org.slf4j.impl.StaticLoggerBinder
+import keys.KeyMachineParameters
+import keys.tryReceiveKeyMachineParameters
 
 /**
  * Provides the `/keys/validate` route that is called on every client startup to validate
@@ -16,25 +15,25 @@ import org.slf4j.impl.StaticLoggerBinder
  * to the stored one.
  */
 fun Routing.keysValidate() {
-    get("/keys/validate") {
+    post("/keys/validate") {
         tryReceiveKeyMachineParameters()?.run {
-            println("Hello")
             if (documentSnapshot!!.getBoolean("attached") != true) {
-                return@get call.respond(mapOf(
+                return@post call.respond(mapOf(
                     "success" to false,
                     "message" to "The provided key isn't attached to any device!"
                 ))
             }
 
             if (documentSnapshot!!.getString("machineIdentifier") != machineIdentifier) {
-                return@get call.respond(mapOf(
+                return@post call.respond(mapOf(
                     "success" to false,
                     "message" to "The provided key is attached to another device!"
                 ))
             }
 
             call.respond(mapOf(
-                "success" to true
+                "success" to true,
+                "message" to "success"
             ))
         }
     }
