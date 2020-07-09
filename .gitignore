@@ -8,3 +8,5 @@
 /gradlew.bat
 /firebase-admin-key.json
 /gradlew
+
+/src/secrets/Passwords.kt

@@ -16,6 +16,7 @@ import keys.routes.keysAttach
 import keys.routes.keysValidate
 import keys.routes.master.keysMasterGenerate
 import keys.routes.master.keysMaterRequest
+import secrets.KEYS_MASTER_PASSWORD
 import version.routes.version
 import java.io.FileInputStream
 
@@ -71,7 +72,7 @@ fun Application.main() {
     install(Authentication) {
         basic {
             realm = "Master Authentication"
-            validate { if (it.name == "master" && it.password == "JRa5zHzyft4ikNAKGhAbAdStp7HzX97qomzSPDdo") UserIdPrincipal("master") else null }
+            validate { if (it.name == "master" && it.password == KEYS_MASTER_PASSWORD) UserIdPrincipal("master") else null }
         }
     }
 
