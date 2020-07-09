@@ -4,6 +4,7 @@ import com.google.cloud.firestore.Firestore
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
 import com.google.firebase.cloud.FirestoreClient
+import input.InputListener
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.features.*
@@ -15,6 +16,7 @@ import keys.routes.keysAttach
 import keys.routes.keysValidate
 import keys.routes.master.keysMasterGenerate
 import keys.routes.master.keysMaterRequest
+import version.routes.version
 import java.io.FileInputStream
 
 /**
@@ -52,6 +54,7 @@ object DragonflyBackend {
 @Suppress("unused") // will be called by ktor
 fun Application.main() {
     DragonflyBackend.initializeFirestore()
+    InputListener.startListening()
 
     install(ContentNegotiation) {
         jackson {
@@ -85,5 +88,7 @@ fun Application.main() {
         keysMaterRequest()
         keysAttach()
         keysValidate()
+
+        version()
     }
 }
