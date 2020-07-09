@@ -34,12 +34,19 @@ object VersionManager {
      */
     fun reloadJsonObject() {
         jsonObject = readFile()
+        println("Reloaded JSON object!")
     }
 
     /**
      * Reads the [file] and parses its content to a json object.
      */
     private fun readFile(): JsonObject = file.reader().use { JsonParser().parse(it) }.asJsonObject
+
+    init {
+        println("Initialized version manager with:")
+        println("stable = $stable")
+        println("earlyAccess = $earlyAccess")
+    }
 }
 
 /**

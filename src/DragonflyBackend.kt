@@ -1,4 +1,3 @@
-import com.fasterxml.jackson.databind.SerializationFeature
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.cloud.firestore.Firestore
 import com.google.firebase.FirebaseApp
@@ -8,8 +7,8 @@ import input.InputListener
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.features.*
+import io.ktor.gson.*
 import io.ktor.http.*
-import io.ktor.jackson.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import keys.routes.keysAttach
@@ -19,6 +18,7 @@ import keys.routes.master.keysMaterRequest
 import secrets.KEYS_MASTER_PASSWORD
 import version.routes.version
 import java.io.FileInputStream
+import java.text.DateFormat
 
 /**
  * The main class of the Dragonfly backend server.
@@ -58,8 +58,9 @@ fun Application.main() {
     InputListener.startListening()
 
     install(ContentNegotiation) {
-        jackson {
-            enable(SerializationFeature.INDENT_OUTPUT)
+        gson {
+            setDateFormat(DateFormat.LONG)
+            setPrettyPrinting()
         }
     }
 

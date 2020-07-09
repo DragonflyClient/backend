@@ -1,5 +1,6 @@
 package version.routes
 
+import com.google.gson.JsonObject
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
@@ -16,14 +17,24 @@ fun Routing.version() {
             val channel = UpdateChannel.getByIdentifier(call.parameters["channel"]!!)
 
             if (channel == null) {
-                call.respond(mapOf("error" to "Invalid channel type '${call.parameters["channel"]}"))
+                call.respond(mapOf("error" to "Invalid channel type '${call.parameters["channel"]}'"))
                 return@get
             } else if (channel == UpdateChannel.EARLY_ACCESS_PROGRAM) {
-                call.respond(VersionManager.earlyAccess)
+                call.respond(VersionManager.earlyAccess.asJsonObject.toMap())
                 return@get
             }
         }
 
-        call.respond(VersionManager.stable)
+        call.respond(VersionManager.stable.asJsonObject.toMap())
     }
+}
+
+/**
+ * Converts the given json object to a simple map of strings and objects.
+ */
+private fun JsonObject.toMap(): Map<String, Any> {
+    val map = mutableMapOf<String, Any>()
+    for ((key, value) in entrySet())
+        map[key] = value as Any
+    return map
 }

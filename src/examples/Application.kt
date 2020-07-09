@@ -3,18 +3,15 @@ package examples
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import io.ktor.application.*
-import io.ktor.response.*
-import io.ktor.request.*
-import io.ktor.features.*
-import io.ktor.routing.*
-import io.ktor.http.*
 import io.ktor.auth.*
-import com.fasterxml.jackson.databind.*
-import io.ktor.auth.jwt.jwt
-import io.ktor.jackson.*
+import io.ktor.auth.jwt.*
+import io.ktor.features.*
+import io.ktor.http.*
+import io.ktor.request.*
+import io.ktor.response.*
+import io.ktor.routing.*
 import kotlinx.css.*
 import kotlinx.html.*
-import java.lang.RuntimeException
 import java.util.*
 
 data class PostSnippet(val snippet: Text) {
@@ -50,12 +47,6 @@ val users = Collections.synchronizedMap(
 )
 
 fun Application.module() {
-    install(ContentNegotiation) {
-        jackson {
-            enable(SerializationFeature.INDENT_OUTPUT)
-        }
-    }
-
     val simpleJwt = SimpleJWT("my-super-secret-jwt-token")
     install(Authentication) {
         jwt {
