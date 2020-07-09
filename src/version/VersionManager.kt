@@ -22,12 +22,14 @@ object VersionManager {
     /**
      * Json content for the stable channel.
      */
-    val stable by jsonObject
+    val stable: JsonObject
+        get() = jsonObject["stable"].asJsonObject
 
     /**
      * Json content for the early access channel.
      */
-    val earlyAccess by jsonObject
+    val earlyAccess: JsonObject
+        get() = jsonObject["earlyAccess"].asJsonObject
 
     /**
      * Reloads the [jsonObject] from the [file].
@@ -41,12 +43,6 @@ object VersionManager {
      * Reads the [file] and parses its content to a json object.
      */
     private fun readFile(): JsonObject = file.reader().use { JsonParser().parse(it) }.asJsonObject
-
-    init {
-        println("Initialized version manager with:")
-        println("stable = $stable")
-        println("earlyAccess = $earlyAccess")
-    }
 }
 
 /**
