@@ -18,24 +18,16 @@ fun Routing.update() {
             val since = Version.of(call.parameters["since"]!!) ?: return@get
 
             val history = UpdateHistory.getUpdateHistorySince(channel, since)
-            val latest = history.firstOrNull()
+            val latest = history.firstOrNull() ?: UpdateHistory.getUpdateHistory(channel).first()
 
-            if (latest != null) {
-                call.respond(
-                    mapOf(
-                        "version" to latest.version,
-                        "patchNotes" to latest.patchNotes,
-                        "requiresInstaller" to history.any { it.requiresInstaller == true },
-                        "releaseDate" to latest.releaseDate
-                    )
+            call.respond(
+                mapOf(
+                    "version" to latest.version,
+                    "patchNotes" to latest.patchNotes,
+                    "requiresInstaller" to history.any { it.requiresInstaller == true },
+                    "releaseDate" to latest.releaseDate
                 )
-            } else {
-                call.respond(
-                    mapOf(
-                        "upToDate" to true
-                    )
-                )
-            }
+            )
         } else call.respond(mapOf(
             "error" to "Missing parameters"
         ))
