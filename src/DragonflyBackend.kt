@@ -100,6 +100,7 @@ fun Application.main() {
         version()
         update()
         updatesHistory()
+        publish()
     }
 }
 

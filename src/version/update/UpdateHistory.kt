@@ -34,15 +34,6 @@ object UpdateHistory {
         get() = jsonObject["earlyAccess"].asJsonArray
 
     /**
-     * Returns the update history for the given [channel] from the json file.
-     */
-    fun getUpdateHistory(channel: UpdateChannel): List<Update> {
-        val array = if (channel == UpdateChannel.STABLE) stable else earlyAccess
-        val gson = Gson()
-        return array.map { gson.fromJson(it.asJsonObject, Update::class.java) }
-    }
-
-    /**
      * Returns the update history since the given [version].
      */
     fun getUpdateHistorySince(channel: UpdateChannel, version: Version): List<Update> =
@@ -52,6 +43,40 @@ object UpdateHistory {
                 version
             ) == 1
         }
+
+    /**
+     * Publishes an update by appending it to the top of the specified channel stack.
+     */
+    fun publishUpdate(channel: UpdateChannel, update: Update) {
+        val array = if (channel == UpdateChannel.STABLE) stable else earlyAccess
+        val newArray = JsonArray().apply {
+            add(Gson().toJsonTree(update))
+            addAll(array)
+        }
+
+        val key = if (channel == UpdateChannel.STABLE) "stable" else "earlyAccess"
+
+        jsonObject.remove(key)
+        jsonObject.add(key, newArray)
+        file.writeText(
+            Gson().newBuilder()
+                .setPrettyPrinting()
+                .create()
+                .toJson(jsonObject)
+        )
+
+
+        reloadJsonObject()
+    }
+
+    /**
+     * Returns the update history for the given [channel] from the json file.
+     */
+    private fun getUpdateHistory(channel: UpdateChannel): List<Update> {
+        val array = if (channel == UpdateChannel.STABLE) stable else earlyAccess
+        val gson = Gson()
+        return array.map { gson.fromJson(it.asJsonObject, Update::class.java) }
+    }
 
     /**
      * Reloads the [jsonObject] from the [file].
