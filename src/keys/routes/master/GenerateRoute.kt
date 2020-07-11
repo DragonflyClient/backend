@@ -22,7 +22,7 @@ import kotlinx.coroutines.withContext
 fun Routing.keysMasterGenerate() {
     authenticate {
         get("/keys/generate") {
-            val key = KeyGenerator.generateKey()
+            val key = KeyGenerator.generateSafeKey()
             val collection = DragonflyBackend.firestore.collection("keys")
             val document = collection.document(key)
             val timestamp = Timestamp.now()
