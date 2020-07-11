@@ -1,4 +1,4 @@
-package version
+package version.update
 
 /**
  * Represents the two available update channels 'stable' and 'eap'.

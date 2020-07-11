@@ -4,8 +4,8 @@ import com.google.gson.JsonObject
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import version.UpdateChannel
 import version.VersionManager
+import version.update.UpdateChannel
 
 /**
  * Enables a route that the client or installer can send request to to get information about the
@@ -15,17 +15,15 @@ fun Routing.version() {
     get("/version") {
         if (call.parameters.contains("channel")) {
             val channel = UpdateChannel.getByIdentifier(call.parameters["channel"]!!)
-
-            if (channel == null) {
-                call.respond(mapOf("error" to "Invalid channel type '${call.parameters["channel"]}'"))
-                return@get
-            } else if (channel == UpdateChannel.EARLY_ACCESS_PROGRAM) {
-                call.respond(VersionManager.earlyAccess.asJsonObject.toMap())
-                return@get
-            }
+            call.respond((
+                    if (channel == UpdateChannel.STABLE)
+                        VersionManager.stable
+                    else
+                        VersionManager.earlyAccess)
+                .asJsonObject.toMap())
+        } else {
+            call.respond(mapOf("error" to "Missing information"))
         }
-
-        call.respond(VersionManager.stable.asJsonObject.toMap())
     }
 }
 

@@ -1,8 +1,8 @@
 package version
 
-import com.google.gson.*
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import java.io.File
-import kotlin.reflect.KProperty
 
 /**
  * Reads the version from the dragonfly-version.json file in the running directory.
@@ -43,11 +43,4 @@ object VersionManager {
      * Reads the [file] and parses its content to a json object.
      */
     private fun readFile(): JsonObject = file.reader().use { JsonParser().parse(it) }.asJsonObject
-}
-
-/**
- * A simple property delegation function to retrieve values of the json object.
- */
-private operator fun JsonObject.getValue(thisRef: Any?, property: KProperty<*>): JsonElement {
-    return get(property.name).asJsonObject
 }

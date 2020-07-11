@@ -16,9 +16,11 @@ import keys.routes.keysValidate
 import keys.routes.master.keysMasterGenerate
 import keys.routes.master.keysMaterRequest
 import secrets.KEYS_MASTER_PASSWORD
-import version.routes.version
+import version.routes.*
 import java.io.FileInputStream
 import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * The main class of the Dragonfly backend server.
@@ -73,7 +75,11 @@ fun Application.main() {
     install(Authentication) {
         basic {
             realm = "Master Authentication"
-            validate { if (it.name == "master" && it.password == KEYS_MASTER_PASSWORD) UserIdPrincipal("master") else null }
+            validate {
+                if (it.name == "master" && it.password == KEYS_MASTER_PASSWORD)
+                    UserIdPrincipal("master")
+                else null
+            }
         }
     }
 
@@ -92,5 +98,16 @@ fun Application.main() {
         keysValidate()
 
         version()
+        update()
+        updatesHistory()
     }
 }
+
+/**
+ * Logs the given [message] with some additional information to the console.
+ */
+fun log(message: String) = println(
+    "[${SimpleDateFormat("HH:mm:ss.SSS").format(Date())}] " +
+            "[${Thread.currentThread().name}: " +
+            message
+)

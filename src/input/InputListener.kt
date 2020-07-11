@@ -1,6 +1,7 @@
 package input
 
 import version.VersionManager
+import version.update.UpdateHistory
 import java.util.*
 import kotlin.concurrent.thread
 
@@ -34,7 +35,10 @@ object InputListener {
      */
     private fun handleInput(input: String) {
         when (input) {
-            "publish" -> VersionManager.reloadJsonObject()
+            "publish" -> {
+                VersionManager.reloadJsonObject()
+                UpdateHistory.reloadJsonObject()
+            }
         }
     }
 }

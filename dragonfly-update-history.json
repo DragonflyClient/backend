@@ -1,0 +1,18 @@
+{
+   "stable": [
+      {
+         "version": "1.0.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://inceptioncloud.net/dragonfly",
+         "releaseDate": 1594495241503
+      }
+   ],
+   "earlyAccess": [
+      {
+         "version": "1.0.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://inceptioncloud.net/dragonfly",
+         "releaseDate": 1594495241503
+      }
+   ]
+}
