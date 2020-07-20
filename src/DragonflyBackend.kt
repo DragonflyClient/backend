@@ -13,10 +13,7 @@ import io.ktor.gson.*
 import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import keys.routes.master.routeKeysGenerate
-import keys.routes.master.routeKeysRequest
-import keys.routes.routeKeysAttach
-import keys.routes.routeKeysValidate
+import keys.routes.*
 import secrets.KEYS_MASTER_PASSWORD
 import version.routes.*
 import java.io.FileInputStream

@@ -1,4 +1,4 @@
-package keys.routes.master
+package keys.routes
 
 import DragonflyBackend
 import com.google.cloud.Timestamp
