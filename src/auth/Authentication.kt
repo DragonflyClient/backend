@@ -31,7 +31,7 @@ object Authentication {
     suspend fun register(username: String, password: String) {
         validateInput(username, password)
         if (getByUsername(username) != null)
-            throw IllegalStateException("An account with the given username ('$username') does already exist!")
+            throw IllegalArgumentException("An account with the given username ('$username') does already exist!")
 
         val encryptedPassword = BCrypt.withDefaults().hashToString(12, password.toCharArray())
         val account = Account(
