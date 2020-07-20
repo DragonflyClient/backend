@@ -73,7 +73,7 @@ fun Application.main() {
     }
 
     install(Authentication) {
-        basic {
+        basic(name = "master") {
             realm = "Master Authentication"
             validate {
                 if (it.name == "master" && it.password == KEYS_MASTER_PASSWORD)

@@ -11,7 +11,7 @@ import version.update.*
  * Adds a route allowing the user to publish updates.
  */
 fun Routing.publish() {
-    authenticate {
+    authenticate("master") {
         post("/publish/eap") {
             val update = call.receive<Update>()
             UpdateHistory.publishUpdate(UpdateChannel.EARLY_ACCESS_PROGRAM, update)

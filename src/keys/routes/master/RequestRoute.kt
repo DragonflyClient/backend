@@ -17,7 +17,7 @@ import kotlinx.coroutines.withContext
  * device it was attached to. The response will be in JSON format.
  */
 fun Routing.keysMaterRequest() {
-    authenticate {
+    authenticate("master") {
         get("/keys/request") {
             val key = call.parameters["key"] ?: call.receiveText()
             val documentReference = DragonflyBackend.firestore.collection("keys").document(key)
