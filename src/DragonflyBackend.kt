@@ -1,4 +1,5 @@
 import auth.JwtConfig
+import auth.routes.routeAuth
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.cloud.firestore.Firestore
 import com.google.firebase.FirebaseApp
@@ -87,7 +88,7 @@ fun Application.main() {
                     ?.let { account -> UserIdPrincipal(account.username) }
             }
         }
-        jwt {
+        jwt(name = "jwt") {
             verifier(JwtConfig.verifier)
             realm = "inceptioncloud.net"
             validate {
@@ -115,6 +116,8 @@ fun Application.main() {
         routeVersionUpdates()
         routeVersionUpdatesHistory()
         routeVersionPublish()
+
+        routeAuth()
     }
 }
 
