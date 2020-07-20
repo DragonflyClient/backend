@@ -18,14 +18,14 @@ object Authentication {
     /** The Dragonfly database */
     private val database = client.getDatabase("dragonfly")
 
-    /** The collection in which the [accounts][DragonflyAccount] are stored */
-    private val collection = database.getCollection<DragonflyAccount>("accounts")
+    /** The collection in which the [accounts][Account] are stored */
+    private val collection = database.getCollection<Account>("accounts")
 
     /**
      * Registers a new account with the [username] and [password].
      *
      * This function checks if the [username] is already in use and encrypts the password using
-     * a hash function with a randomized salt and inserts the created [DragonflyAccount] into
+     * a hash function with a randomized salt and inserts the created [Account] into
      * the [database].
      */
     suspend fun register(username: String, password: String) {
@@ -34,7 +34,7 @@ object Authentication {
             throw IllegalStateException("An account with the given username ('$username') does already exist!")
 
         val encryptedPassword = BCrypt.withDefaults().hashToString(12, password.toCharArray())
-        val account = DragonflyAccount(
+        val account = Account(
             identifier = username.toLowerCase(),
             username = username,
             password = encryptedPassword,
@@ -48,10 +48,10 @@ object Authentication {
     /**
      * Verifies the [username] and [password] credentials.
      *
-     * Returns a [DragonflyAccount] from the [database] to which the credentials apply if found or
+     * Returns a [Account] from the [database] to which the credentials apply if found or
      * null if the username or password isn't correct.
      */
-    suspend fun verify(username: String, password: String): DragonflyAccount? {
+    suspend fun verify(username: String, password: String): Account? {
         val account = getByUsername(username)?.takeIf { it.username.equals(username, ignoreCase = false) } ?: return null
         val verified = BCrypt.verifyer().verify(password.toCharArray(), account.password).verified
 
@@ -69,8 +69,8 @@ object Authentication {
     }
 
     /**
-     * Returns a [DragonflyAccount] from the [database] by its username.
+     * Returns a [Account] from the [database] by its username.
      */
     suspend fun getByUsername(username: String) =
-        collection.findOne(DragonflyAccount::identifier eq username.toLowerCase())
+        collection.findOne(Account::identifier eq username.toLowerCase())
 }

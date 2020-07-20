@@ -20,7 +20,7 @@ object JwtConfig {
     /**
      * Produce a token for this combination of User and Account
      */
-    fun makeToken(account: DragonflyAccount): String = JWT.create()
+    fun makeToken(account: Account): String = JWT.create()
         .withSubject("Authentication")
         .withIssuer(issuer)
         .withClaim("identifier", account.identifier)

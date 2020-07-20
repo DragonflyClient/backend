@@ -11,7 +11,7 @@ import io.ktor.auth.*
  * @param creationDate the date on which the account was created (milliseconds since January 1, 1970 UTC)
  * @param permissionLevel the level of permissions that the account has (see [PermissionLevel])
  */
-data class DragonflyAccount(
+data class Account(
     val identifier: String,
     val username: String,
     val password: String,
