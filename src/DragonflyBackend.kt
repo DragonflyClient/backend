@@ -81,6 +81,13 @@ fun Application.main() {
                 else null
             }
         }
+        basic(name = "dragonfly-account") {
+            realm = "Dragonfly Account Authentication"
+            validate {
+                auth.Authentication.verify(it.name, it.password)
+                    ?.let { account -> UserIdPrincipal(account.username) }
+            }
+        }
     }
 
     routing {

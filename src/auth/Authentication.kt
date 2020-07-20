@@ -29,12 +29,13 @@ object Authentication {
      * the [database].
      */
     suspend fun register(username: String, password: String) {
-        validateCredentials(username, password)
+        validateInput(username, password)
         if (getByUsername(username) != null)
             throw IllegalStateException("An account with the given username ('$username') does already exist!")
 
         val encryptedPassword = BCrypt.withDefaults().hashToString(12, password.toCharArray())
         val account = DragonflyAccount(
+            identifier = username.toLowerCase(),
             username = username,
             password = encryptedPassword,
             creationDate = System.currentTimeMillis(),
@@ -51,7 +52,7 @@ object Authentication {
      * null if the username or password isn't correct.
      */
     suspend fun verify(username: String, password: String): DragonflyAccount? {
-        val account = getByUsername(username) ?: return null
+        val account = getByUsername(username)?.takeIf { it.username.equals(username, ignoreCase = false) } ?: return null
         val verified = BCrypt.verifyer().verify(password.toCharArray(), account.password).verified
 
         return account.takeIf { verified }
@@ -60,7 +61,9 @@ object Authentication {
     /**
      * Validates the length of the [username] and [password].
      */
-    fun validateCredentials(username: String, password: String) {
+    fun validateInput(username: String, password: String) {
+        require(username.matches(Regex("[a-zA-Z0-9]*"))) { "Username must only contain numbers and letters" }
+        require(!username.equals("master", ignoreCase = true)) { "Username is not valid!" }
         require(username.length in 4..16) { "The username must have between 4 and 16 characters" }
         require(password.length in 10..30) { "The password must have between 10 and 30 characters" }
     }
@@ -69,6 +72,5 @@ object Authentication {
      * Returns a [DragonflyAccount] from the [database] by its username.
      */
     private suspend fun getByUsername(username: String) =
-        collection.findOne(DragonflyAccount::username eq username)
-
+        collection.findOne(DragonflyAccount::identifier eq username.toLowerCase())
 }
