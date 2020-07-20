@@ -16,7 +16,7 @@ import kotlinx.coroutines.withContext
  * This will check for the existence of the key, whether it is attached and the machine identifier of the
  * device it was attached to. The response will be in JSON format.
  */
-fun Routing.keysMaterRequest() {
+fun Routing.routeKeysRequest() {
     authenticate("master") {
         get("/keys/request") {
             val key = call.parameters["key"] ?: call.receiveText()

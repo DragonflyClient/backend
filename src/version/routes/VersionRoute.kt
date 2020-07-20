@@ -11,7 +11,7 @@ import version.update.UpdateChannel
  * Enables a route that the client or installer can send request to to get information about the
  * latest Dragonfly version.
  */
-fun Routing.version() {
+fun Routing.routeVersion() {
     get("/version") {
         if (call.parameters.contains("channel")) {
             val channel = UpdateChannel.getByIdentifier(call.parameters["channel"]!!)

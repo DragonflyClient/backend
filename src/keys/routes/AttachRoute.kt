@@ -16,7 +16,7 @@ import keys.tryReceiveKeyMachineParameters
  * will hold a `success` boolean set to true, otherwise, an additional message will be provided
  * that can be displayed in the client.
  */
-fun Routing.keysAttach() {
+fun Routing.routeKeysAttach() {
     post("/keys/attach") {
         tryReceiveKeyMachineParameters()?.run {
             if (documentSnapshot!!.getBoolean("attached") == true) {

@@ -10,7 +10,7 @@ import version.update.*
 /**
  * Adds a route allowing the user to publish updates.
  */
-fun Routing.publish() {
+fun Routing.routeVersionPublish() {
     authenticate("master") {
         post("/publish/eap") {
             val update = call.receive<Update>()

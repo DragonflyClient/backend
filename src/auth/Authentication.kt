@@ -71,6 +71,6 @@ object Authentication {
     /**
      * Returns a [DragonflyAccount] from the [database] by its username.
      */
-    private suspend fun getByUsername(username: String) =
+    suspend fun getByUsername(username: String) =
         collection.findOne(DragonflyAccount::identifier eq username.toLowerCase())
 }

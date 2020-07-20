@@ -11,7 +11,7 @@ import version.update.UpdateHistory
  * Adds a more advanced route of checking for updates by saving the complete update history of
  * Dragonfly. This also fixes an issue with the `requireInstaller` property.
  */
-fun Routing.update() {
+fun Routing.routeVersionUpdates() {
     get("/updates") {
         if (call.parameters.contains("channel") && call.parameters.contains("since")) {
             val channel = UpdateChannel.getByIdentifier(call.parameters["channel"]!!) ?: return@get

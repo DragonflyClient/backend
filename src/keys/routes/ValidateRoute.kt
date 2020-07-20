@@ -10,11 +10,11 @@ import keys.tryReceiveKeyMachineParameters
  * Provides the `/keys/validate` route that is called on every client startup to validate
  * the currently saved key by comparing the machine identifiers.
  *
- * Just like [Routing.keysAttach], this function has to provide the [KeyMachineParameters] in
+ * Just like [Routing.routeKeysAttach], this function has to provide the [KeyMachineParameters] in
  * JSON format. It will then check if the key is still valid and compare the current machine id
  * to the stored one.
  */
-fun Routing.keysValidate() {
+fun Routing.routeKeysValidate() {
     post("/keys/validate") {
         tryReceiveKeyMachineParameters()?.run {
             if (documentSnapshot!!.getBoolean("attached") != true) {

@@ -1,3 +1,4 @@
+import auth.JwtConfig
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.cloud.firestore.Firestore
 import com.google.firebase.FirebaseApp
@@ -6,15 +7,16 @@ import com.google.firebase.cloud.FirestoreClient
 import input.InputListener
 import io.ktor.application.*
 import io.ktor.auth.*
+import io.ktor.auth.jwt.*
 import io.ktor.features.*
 import io.ktor.gson.*
 import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import keys.routes.keysAttach
-import keys.routes.keysValidate
-import keys.routes.master.keysMasterGenerate
-import keys.routes.master.keysMaterRequest
+import keys.routes.master.routeKeysGenerate
+import keys.routes.master.routeKeysRequest
+import keys.routes.routeKeysAttach
+import keys.routes.routeKeysValidate
 import secrets.KEYS_MASTER_PASSWORD
 import version.routes.*
 import java.io.FileInputStream
@@ -88,6 +90,14 @@ fun Application.main() {
                     ?.let { account -> UserIdPrincipal(account.username) }
             }
         }
+        jwt {
+            verifier(JwtConfig.verifier)
+            realm = "inceptioncloud.net"
+            validate {
+                it.payload.getClaim("identifier").asString()
+                    ?.let { identifier -> auth.Authentication.getByUsername(identifier) }
+            }
+        }
     }
 
     routing {
@@ -99,15 +109,15 @@ fun Application.main() {
             )
         }
 
-        keysMasterGenerate()
-        keysMaterRequest()
-        keysAttach()
-        keysValidate()
+        routeKeysGenerate()
+        routeKeysRequest()
+        routeKeysAttach()
+        routeKeysValidate()
 
-        version()
-        update()
-        updatesHistory()
-        publish()
+        routeVersion()
+        routeVersionUpdates()
+        routeVersionUpdatesHistory()
+        routeVersionPublish()
     }
 }
 
@@ -116,6 +126,5 @@ fun Application.main() {
  */
 fun log(message: String) = println(
     "[${SimpleDateFormat("HH:mm:ss.SSS").format(Date())}] " +
-            "[${Thread.currentThread().name}: " +
-            message
+            "[${Thread.currentThread().name}: " + message
 )

@@ -10,7 +10,7 @@ import version.update.UpdateHistory
 /**
  * Adds a route to view the complete update history since a specific version.
  */
-fun Routing.updatesHistory() {
+fun Routing.routeVersionUpdatesHistory() {
     get("updates/history/") {
         if (call.parameters.contains("channel")) {
             val channel = UpdateChannel.getByIdentifier(call.parameters["channel"]!!) ?: return@get

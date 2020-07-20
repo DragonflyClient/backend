@@ -19,7 +19,7 @@ import kotlinx.coroutines.withContext
  * if they aren't already set. If the authentication succeeded, it will respond with JSON content
  * that contains the newly generated key and a success boolean.
  */
-fun Routing.keysMasterGenerate() {
+fun Routing.routeKeysGenerate() {
     authenticate("master") {
         get("/keys/generate") {
             val key = KeyGenerator.generateSafeKey()

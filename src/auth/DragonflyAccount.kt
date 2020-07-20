@@ -1,5 +1,7 @@
 package auth
 
+import io.ktor.auth.*
+
 /**
  * A Dragonfly account that is stored in the database and applies to all Dragonfly products.
  *
@@ -15,4 +17,4 @@ data class DragonflyAccount(
     val password: String,
     val creationDate: Long,
     val permissionLevel: Int
-)
+) : Principal
