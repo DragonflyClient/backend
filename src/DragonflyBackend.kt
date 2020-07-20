@@ -101,11 +101,9 @@ fun Application.main() {
 
     routing {
         get {
-            call.respond(
-                mapOf(
-                    "available" to true
-                )
-            )
+            call.respond(mapOf(
+                "available" to true
+            ))
         }
 
         routeKeysGenerate()

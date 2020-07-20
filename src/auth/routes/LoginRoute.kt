@@ -13,7 +13,7 @@ import io.ktor.routing.*
  * with the account.
  */
 fun Routing.routeAuthLogin() {
-    post("login") {
+    post("/login") {
         val credentials = call.receive<UserPasswordCredential>()
         val account = Authentication.verify(credentials.name, credentials.password)
             ?: return@post call.respond(mapOf(

@@ -8,11 +8,10 @@ import io.ktor.response.*
 import io.ktor.routing.*
 
 /**
- * Creates a /login route that verifies the credentials and returns a JWT for authenticating
- * with the account.
+ * Creates a /register route to create new accounts.
  */
 fun Routing.routeAuthRegister() {
-    post("register") {
+    post("/register") {
         val credentials = call.receive<UserPasswordCredential>()
         try {
             Authentication.register(credentials.name, credentials.password)
