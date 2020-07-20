@@ -8,8 +8,8 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 
-fun Routing.routeAuth() {
-    post("auth") {
+fun Routing.routeAuthLogin() {
+    post("login") {
         val credentials = call.receive<UserPasswordCredential>()
         val account = Authentication.verify(credentials.name, credentials.password)
             ?: return@post call.respond(mapOf(
@@ -18,6 +18,10 @@ fun Routing.routeAuth() {
             ))
         val token = JwtConfig.makeToken(account)
         call.respond(mapOf(
+            "identifier" to account.identifier,
+            "username" to account.username,
+            "creationDate" to account.creationDate,
+            "permissionLevel" to account.permissionLevel,
             "token" to token
         ))
     }

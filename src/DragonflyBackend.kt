@@ -1,5 +1,5 @@
 import auth.JwtConfig
-import auth.routes.routeAuth
+import auth.routes.routeAuthLogin
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.cloud.firestore.Firestore
 import com.google.firebase.FirebaseApp
@@ -117,7 +117,7 @@ fun Application.main() {
         routeVersionUpdatesHistory()
         routeVersionPublish()
 
-        routeAuth()
+        routeAuthLogin()
     }
 }
 
