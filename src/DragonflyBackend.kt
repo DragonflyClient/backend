@@ -59,6 +59,21 @@ fun Application.main() {
     DragonflyBackend.initializeFirestore()
     InputListener.startListening()
 
+    install(CORS) {
+        method(HttpMethod.Options)
+        method(HttpMethod.Get)
+        method(HttpMethod.Post)
+        method(HttpMethod.Put)
+        method(HttpMethod.Delete)
+        method(HttpMethod.Patch)
+        header(HttpHeaders.AccessControlAllowHeaders)
+        header(HttpHeaders.ContentType)
+        header(HttpHeaders.AccessControlAllowOrigin)
+        allowCredentials = true
+        anyHost()
+        header("Authorization")
+    }
+
     install(ContentNegotiation) {
         gson {
             setDateFormat(DateFormat.LONG)
@@ -68,7 +83,11 @@ fun Application.main() {
 
     install(StatusPages) {
         exception<Throwable> {
-            call.respond(HttpStatusCode.InternalServerError)
+            it.printStackTrace()
+            call.respond(mapOf(
+                "success" to false,
+                "error" to it.message
+            ))
         }
     }
 
@@ -92,6 +111,7 @@ fun Application.main() {
             verifier(JwtConfig.verifier)
             realm = "inceptioncloud.net"
             validate {
+                println(it.payload)
                 it.payload.getClaim("identifier").asString()
                     ?.let { identifier -> auth.Authentication.getByUsername(identifier) }
             }

@@ -10,15 +10,24 @@ import io.ktor.routing.*
  * Creates a /auth root to validate JWTs.
  */
 fun Routing.routeAuth() {
-    authenticate("jwt") {
+    authenticate("jwt", optional = true) {
         post("/auth") {
-            val account = call.authentication.principal<Account>()!!
-            call.respond(mapOf(
-                "identifier" to account.identifier,
-                "username" to account.username,
-                "creationDate" to account.creationDate,
-                "permissionLevel" to account.permissionLevel
-            ))
+            val account = call.authentication.principal<Account>()
+
+            if (account == null) {
+                call.respond(mapOf(
+                    "success" to false,
+                    "error" to "Unauthenticated"
+                ))
+            } else {
+                call.respond(mapOf(
+                    "success" to true,
+                    "identifier" to account.identifier,
+                    "username" to account.username,
+                    "creationDate" to account.creationDate,
+                    "permissionLevel" to account.permissionLevel
+                ))
+            }
         }
     }
 }

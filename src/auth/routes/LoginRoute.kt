@@ -22,6 +22,7 @@ fun Routing.routeAuthLogin() {
             ))
         val token = JwtConfig.makeToken(account)
         call.respond(mapOf(
+            "success" to true,
             "identifier" to account.identifier,
             "username" to account.username,
             "creationDate" to account.creationDate,

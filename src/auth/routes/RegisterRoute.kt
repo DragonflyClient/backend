@@ -2,7 +2,7 @@ package auth.routes
 
 import auth.Authentication
 import io.ktor.application.*
-import io.ktor.http.*
+import io.ktor.auth.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
@@ -13,12 +13,13 @@ import io.ktor.routing.*
 fun Routing.routeAuthRegister() {
     post("/register") {
         try {
-            val credentials = call.receive<Parameters>()
-            Authentication.register(credentials["name"]!!, credentials["password"]!!)
+            val credentials = call.receive<UserPasswordCredential>()
+            Authentication.register(credentials.name, credentials.password)
             call.respond(mapOf(
                 "success" to true
             ))
         } catch (e: Exception) {
+            e.printStackTrace()
             call.respond(mapOf(
                 "success" to false,
                 "error" to e.message
