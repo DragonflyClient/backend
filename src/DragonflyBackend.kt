@@ -131,6 +131,7 @@ fun Application.main() {
         routeKeysValidate()
 
         routeVersion()
+        routeVersionInstaller()
         routeVersionUpdates()
         routeVersionUpdatesHistory()
         routeVersionPublish()

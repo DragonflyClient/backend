@@ -10,29 +10,35 @@ import java.io.File
 object VersionManager {
 
     /**
-     * The file that contains the information about the Dragonfly version in JSON format.
+     * The file that contains the information about the Dragonfly version in JSON format
      */
     private val file = File("dragonfly-version.json")
 
     /**
-     * The json object parsed from the content of the [file].
+     * The json object parsed from the content of the [file]
      */
     private var jsonObject = readFile()
 
     /**
-     * Json content for the stable channel.
+     * Json content for the stable channel
      */
     val stable: JsonObject
         get() = jsonObject["stable"].asJsonObject
 
     /**
-     * Json content for the early access channel.
+     * Json content for the early access channel
      */
     val earlyAccess: JsonObject
         get() = jsonObject["earlyAccess"].asJsonObject
 
     /**
-     * Reloads the [jsonObject] from the [file].
+     * The version of the Dragonfly Installer
+     */
+    val installer: String
+        get() = jsonObject["installer"].asString
+
+    /**
+     * Reloads the [jsonObject] from the [file]
      */
     fun reloadJsonObject() {
         jsonObject = readFile()
@@ -40,7 +46,7 @@ object VersionManager {
     }
 
     /**
-     * Reads the [file] and parses its content to a json object.
+     * Reads the [file] and parses its content to a json object
      */
     private fun readFile(): JsonObject = file.reader().use { JsonParser().parse(it) }.asJsonObject
 }
