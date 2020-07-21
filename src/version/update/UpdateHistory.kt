@@ -34,6 +34,12 @@ object UpdateHistory {
         get() = jsonObject["earlyAccess"].asJsonArray
 
     /**
+     * The version of the Dragonfly Installer
+     */
+    val installer: String
+        get() = jsonObject["installer"].asString
+
+    /**
      * Returns the update history since the given [version].
      */
     fun getUpdateHistorySince(channel: UpdateChannel, version: Version): List<Update> =

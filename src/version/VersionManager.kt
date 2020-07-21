@@ -32,12 +32,6 @@ object VersionManager {
         get() = jsonObject["earlyAccess"].asJsonObject
 
     /**
-     * The version of the Dragonfly Installer
-     */
-    val installer: String
-        get() = jsonObject["installer"].asString
-
-    /**
      * Reloads the [jsonObject] from the [file]
      */
     fun reloadJsonObject() {
