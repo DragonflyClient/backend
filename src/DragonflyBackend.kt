@@ -1,5 +1,3 @@
-import auth.JwtConfig
-import auth.routes.*
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.cloud.firestore.Firestore
 import com.google.firebase.FirebaseApp
@@ -14,9 +12,11 @@ import io.ktor.gson.*
 import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import keys.routes.*
+import modules.auth.JwtConfig
+import modules.auth.routes.*
+import modules.keys.routes.*
+import modules.version.routes.*
 import secrets.KEYS_MASTER_PASSWORD
-import version.routes.*
 import java.io.FileInputStream
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -103,7 +103,7 @@ fun Application.main() {
         basic(name = "dragonfly-account") {
             realm = "Dragonfly Account Authentication"
             validate {
-                auth.Authentication.verify(it.name, it.password)
+                modules.auth.Authentication.verify(it.name, it.password)
                     ?.let { account -> UserIdPrincipal(account.username) }
             }
         }
@@ -113,7 +113,7 @@ fun Application.main() {
             validate {
                 println(it.payload)
                 it.payload.getClaim("identifier").asString()
-                    ?.let { identifier -> auth.Authentication.getByUsername(identifier) }
+                    ?.let { identifier -> modules.auth.Authentication.getByUsername(identifier) }
             }
         }
     }

@@ -1,17 +1,17 @@
-package auth.routes
+package modules.auth.routes
 
-import auth.Account
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import modules.auth.Account
 
 /**
  * Creates a /auth root to validate JWTs.
  */
 fun Routing.routeAuth() {
     authenticate("jwt", optional = true) {
-        post("/auth") {
+        post("/modules/auth") {
             val account = call.authentication.principal<Account>()
 
             if (account == null) {

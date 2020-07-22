@@ -1,4 +1,4 @@
-package version
+package modules.version
 
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser

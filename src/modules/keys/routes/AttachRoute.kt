@@ -1,11 +1,11 @@
-package keys.routes
+package modules.keys.routes
 
 import com.google.cloud.firestore.SetOptions
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import keys.KeyMachineParameters
-import keys.tryReceiveKeyMachineParameters
+import modules.keys.KeyMachineParameters
+import modules.keys.tryReceiveKeyMachineParameters
 
 /**
  * Creates the `/keys/attach` route that will attach a specific device to a key and thus
@@ -17,7 +17,7 @@ import keys.tryReceiveKeyMachineParameters
  * that can be displayed in the client.
  */
 fun Routing.routeKeysAttach() {
-    post("/keys/attach") {
+    post("/modules/keys/attach") {
         tryReceiveKeyMachineParameters()?.run {
             if (documentSnapshot!!.getBoolean("attached") == true) {
                 return@post call.respond(mapOf(

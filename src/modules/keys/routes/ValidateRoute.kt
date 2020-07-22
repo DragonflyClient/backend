@@ -1,10 +1,10 @@
-package keys.routes
+package modules.keys.routes
 
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import keys.KeyMachineParameters
-import keys.tryReceiveKeyMachineParameters
+import modules.keys.KeyMachineParameters
+import modules.keys.tryReceiveKeyMachineParameters
 
 /**
  * Provides the `/keys/validate` route that is called on every client startup to validate
@@ -15,7 +15,7 @@ import keys.tryReceiveKeyMachineParameters
  * to the stored one.
  */
 fun Routing.routeKeysValidate() {
-    post("/keys/validate") {
+    post("/modules/keys/validate") {
         tryReceiveKeyMachineParameters()?.run {
             if (documentSnapshot!!.getBoolean("attached") != true) {
                 return@post call.respond(mapOf(

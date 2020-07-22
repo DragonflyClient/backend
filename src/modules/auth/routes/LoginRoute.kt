@@ -1,12 +1,12 @@
-package auth.routes
+package modules.auth.routes
 
-import auth.Authentication
-import auth.JwtConfig
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import modules.auth.Authentication
+import modules.auth.JwtConfig
 
 /**
  * Creates a /login route that verifies the credentials and returns a JWT for authenticating

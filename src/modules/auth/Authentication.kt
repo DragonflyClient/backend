@@ -1,4 +1,4 @@
-package auth
+package modules.auth
 
 import at.favre.lib.crypto.bcrypt.BCrypt
 import org.litote.kmongo.coroutine.coroutine

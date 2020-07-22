@@ -1,8 +1,8 @@
-package version.update
+package modules.version.update
 
 import com.google.gson.*
 import log
-import version.Version
+import modules.version.Version
 import java.io.File
 
 /**

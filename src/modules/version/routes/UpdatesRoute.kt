@@ -1,11 +1,11 @@
-package version.routes
+package modules.version.routes
 
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import version.Version
-import version.update.UpdateChannel
-import version.update.UpdateHistory
+import modules.version.Version
+import modules.version.update.UpdateChannel
+import modules.version.update.UpdateHistory
 
 /**
  * Adds a more advanced route of checking for updates by saving the complete update history of
@@ -22,7 +22,7 @@ fun Routing.routeVersionUpdates() {
 
             call.respond(
                 mapOf(
-                    "version" to latest.version,
+                    "modules/version" to latest.version,
                     "patchNotes" to latest.patchNotes,
                     "requiresInstaller" to history.any { it.requiresInstaller == true },
                     "releaseDate" to latest.releaseDate

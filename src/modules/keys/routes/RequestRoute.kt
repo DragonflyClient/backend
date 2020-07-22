@@ -1,4 +1,4 @@
-package keys.routes
+package modules.keys.routes
 
 import DragonflyBackend
 import io.ktor.application.*
@@ -18,9 +18,9 @@ import kotlinx.coroutines.withContext
  */
 fun Routing.routeKeysRequest() {
     authenticate("master") {
-        get("/keys/request") {
+        get("/modules/keys/request") {
             val key = call.parameters["key"] ?: call.receiveText()
-            val documentReference = DragonflyBackend.firestore.collection("keys").document(key)
+            val documentReference = DragonflyBackend.firestore.collection("modules/keys").document(key)
             val document = withContext(Dispatchers.IO) { documentReference.get().get() }
 
             val isExisting = document.exists()

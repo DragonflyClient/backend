@@ -1,7 +1,7 @@
 package input
 
-import version.VersionManager
-import version.update.UpdateHistory
+import modules.version.VersionManager
+import modules.version.update.UpdateHistory
 import java.util.*
 import kotlin.concurrent.thread
 

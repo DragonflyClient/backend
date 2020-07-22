@@ -1,11 +1,11 @@
-package auth.routes
+package modules.auth.routes
 
-import auth.Authentication
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import modules.auth.Authentication
 
 /**
  * Creates a /register route to create new accounts.

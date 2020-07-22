@@ -10,3 +10,4 @@
 /gradlew
 
 /src/secrets/Passwords.kt
+/src/secrets/MongoDatabase.kt

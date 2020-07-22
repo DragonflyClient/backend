@@ -1,11 +1,11 @@
-package version.routes
+package modules.version.routes
 
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import version.Version
-import version.update.UpdateChannel
-import version.update.UpdateHistory
+import modules.version.Version
+import modules.version.update.UpdateChannel
+import modules.version.update.UpdateHistory
 
 /**
  * Adds a route to view the complete update history since a specific version.

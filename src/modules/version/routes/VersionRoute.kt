@@ -1,18 +1,18 @@
-package version.routes
+package modules.version.routes
 
 import com.google.gson.JsonObject
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import version.VersionManager
-import version.update.UpdateChannel
+import modules.version.VersionManager
+import modules.version.update.UpdateChannel
 
 /**
  * Enables a route that the client or installer can send request to to get information about the
  * latest Dragonfly version.
  */
 fun Routing.routeVersion() {
-    get("/version") {
+    get("/modules/version") {
         if (call.parameters.contains("channel")) {
             val channel = UpdateChannel.getByIdentifier(call.parameters["channel"]!!)
             call.respond((

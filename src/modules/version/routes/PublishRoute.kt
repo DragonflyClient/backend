@@ -1,11 +1,11 @@
-package version.routes
+package modules.version.routes
 
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import version.update.*
+import modules.version.update.*
 
 /**
  * Adds a route allowing the user to publish updates.
