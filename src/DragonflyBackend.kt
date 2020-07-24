@@ -16,6 +16,7 @@ import modules.auth.JwtConfig
 import modules.auth.routes.*
 import modules.keys.routes.*
 import modules.version.routes.*
+import org.slf4j.event.Level
 import secrets.KEYS_MASTER_PASSWORD
 import java.io.FileInputStream
 import java.text.DateFormat
@@ -59,6 +60,10 @@ fun Application.main() {
     DragonflyBackend.initializeFirestore()
     InputListener.startListening()
 
+    install(CallLogging) {
+        level = Level.INFO
+    }
+
     install(CORS) {
         method(HttpMethod.Options)
         method(HttpMethod.Get)
@@ -70,7 +75,7 @@ fun Application.main() {
         header(HttpHeaders.ContentType)
         header(HttpHeaders.AccessControlAllowOrigin)
         allowCredentials = true
-        anyHost()
+        host("inceptioncloud.net", schemes = listOf("https"))
         header("Authorization")
     }
 
@@ -111,7 +116,6 @@ fun Application.main() {
             verifier(JwtConfig.verifier)
             realm = "inceptioncloud.net"
             validate {
-                println(it.payload)
                 it.payload.getClaim("identifier").asString()
                     ?.let { identifier -> modules.auth.Authentication.getByUsername(identifier) }
             }
@@ -139,6 +143,8 @@ fun Application.main() {
         routeAuth()
         routeAuthLogin()
         routeAuthRegister()
+        routeAuthCookie()
+        routeAuthCookieLogin()
     }
 }
 

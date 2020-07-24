@@ -12,7 +12,7 @@ import modules.version.update.UpdateChannel
  * latest Dragonfly version.
  */
 fun Routing.routeVersion() {
-    get("/modules/version") {
+    get("/version") {
         if (call.parameters.contains("channel")) {
             val channel = UpdateChannel.getByIdentifier(call.parameters["channel"]!!)
             call.respond((

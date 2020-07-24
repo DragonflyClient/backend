@@ -11,7 +11,7 @@ import modules.auth.Account
  */
 fun Routing.routeAuth() {
     authenticate("jwt", optional = true) {
-        post("/modules/auth") {
+        post("/auth") {
             val account = call.authentication.principal<Account>()
 
             if (account == null) {

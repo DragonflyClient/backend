@@ -17,7 +17,7 @@ import modules.keys.tryReceiveKeyMachineParameters
  * that can be displayed in the client.
  */
 fun Routing.routeKeysAttach() {
-    post("/modules/keys/attach") {
+    post("/keys/attach") {
         tryReceiveKeyMachineParameters()?.run {
             if (documentSnapshot!!.getBoolean("attached") == true) {
                 return@post call.respond(mapOf(

@@ -29,7 +29,7 @@ object KeyGenerator {
     fun generateSafeKey(): String {
         var key = generateKey()
 
-        while (DragonflyBackend.firestore.collection("modules/keys").document(key).get().get().exists()) {
+        while (DragonflyBackend.firestore.collection("keys").document(key).get().get().exists()) {
             key = generateKey()
         }
 

@@ -22,7 +22,7 @@ fun Routing.routeVersionUpdates() {
 
             call.respond(
                 mapOf(
-                    "modules/version" to latest.version,
+                    "version" to latest.version,
                     "patchNotes" to latest.patchNotes,
                     "requiresInstaller" to history.any { it.requiresInstaller == true },
                     "releaseDate" to latest.releaseDate

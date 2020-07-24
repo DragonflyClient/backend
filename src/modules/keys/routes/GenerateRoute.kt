@@ -21,9 +21,9 @@ import modules.keys.KeyGenerator
  */
 fun Routing.routeKeysGenerate() {
     authenticate("master") {
-        get("/modules/keys/generate") {
+        get("/keys/generate") {
             val key = KeyGenerator.generateSafeKey()
-            val collection = DragonflyBackend.firestore.collection("modules/keys")
+            val collection = DragonflyBackend.firestore.collection("keys")
             val document = collection.document(key)
             val timestamp = Timestamp.now()
 

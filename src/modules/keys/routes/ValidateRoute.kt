@@ -15,7 +15,7 @@ import modules.keys.tryReceiveKeyMachineParameters
  * to the stored one.
  */
 fun Routing.routeKeysValidate() {
-    post("/modules/keys/validate") {
+    post("/keys/validate") {
         tryReceiveKeyMachineParameters()?.run {
             if (documentSnapshot!!.getBoolean("attached") != true) {
                 return@post call.respond(mapOf(

@@ -42,7 +42,7 @@ suspend fun PipelineContext<Unit, ApplicationCall>.tryReceiveKeyMachineParameter
         return null
     }
 
-    val documentReference = DragonflyBackend.firestore.collection("modules/keys").document(parameters.key)
+    val documentReference = DragonflyBackend.firestore.collection("keys").document(parameters.key)
     val document = withContext(Dispatchers.IO) { documentReference.get().get() }
 
     if (!document.exists()) {

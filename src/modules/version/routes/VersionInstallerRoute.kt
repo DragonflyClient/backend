@@ -10,9 +10,9 @@ import modules.version.update.UpdateHistory
  * latest Dragonfly version.
  */
 fun Routing.routeVersionInstaller() {
-    get("/modules/version/installer") {
+    get("/version/installer") {
         call.respond(mapOf(
-            "modules/version" to UpdateHistory.installer
+            "version" to UpdateHistory.installer
         ))
     }
 }
