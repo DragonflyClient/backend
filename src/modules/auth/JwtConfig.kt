@@ -9,7 +9,7 @@ object JwtConfig {
 
     private const val secret = "aA6e66hNodNBmQQMzjLskLfeaJb43LKD9oh8GdJ3"
     private const val issuer = "inceptioncloud.net"
-    private const val validityInMs = 1000 * 60 * 60 * 24 // 24 hours
+    private const val validityInMs = 1000 * 60 * 60 * 24 * 30L // 30 days
     private val algorithm = Algorithm.HMAC512(secret)
 
     val verifier: JWTVerifier = JWT

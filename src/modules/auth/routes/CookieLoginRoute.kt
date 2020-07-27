@@ -23,7 +23,6 @@ fun Routing.routeAuthCookieLogin() {
                 "error" to "Invalid username or password"
             ))
         val token = JwtConfig.makeToken(account)
-        println("token = $token")
 
         call.response.cookies.append(Cookie(
             name = "dragonfly-token",
@@ -31,6 +30,8 @@ fun Routing.routeAuthCookieLogin() {
             httpOnly = true,
             secure = true,
             expires = GMTDate(System.currentTimeMillis() + (1000 * 60 * 60 * 24 * 30L)), // 30 days
+            domain = "inceptioncloud.net",
+            path = "/",
             extensions = mapOf(
                 "SameSite" to "Strict"
             )
