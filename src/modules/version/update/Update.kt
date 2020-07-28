@@ -23,5 +23,10 @@ data class Update(
     /**
      * The date of the release in milliseconds.
      */
-    val releaseDate: Long
+    val releaseDate: Long,
+
+    /**
+     * The title of the release.
+     */
+    val title: String?
 )

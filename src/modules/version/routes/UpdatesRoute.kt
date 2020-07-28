@@ -25,7 +25,8 @@ fun Routing.routeVersionUpdates() {
                     "version" to latest.version,
                     "patchNotes" to latest.patchNotes,
                     "requiresInstaller" to history.any { it.requiresInstaller == true },
-                    "releaseDate" to latest.releaseDate
+                    "releaseDate" to latest.releaseDate,
+                    "title" to latest.title
                 )
             )
         } else call.respond(mapOf(
