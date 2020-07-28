@@ -30,7 +30,7 @@ fun Routing.routeAuthCookieLogin() {
             httpOnly = true,
             secure = true,
             expires = GMTDate(System.currentTimeMillis() + (1000 * 60 * 60 * 24 * 30L)), // 30 days
-            domain = "inceptioncloud.net",
+            domain = "playdragonfly.net",
             path = "/",
             extensions = mapOf(
                 "SameSite" to "Strict"

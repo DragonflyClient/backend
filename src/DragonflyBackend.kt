@@ -72,6 +72,7 @@ fun Application.main() {
         header(HttpHeaders.ContentType)
 
         host("inceptioncloud.net", schemes = listOf("https"))
+        host("ideas.playdragonfly.net", schemes = listOf("https"))
         hosts.add("null")
 
         header("Authorization")
