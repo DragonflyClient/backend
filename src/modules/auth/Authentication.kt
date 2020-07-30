@@ -28,7 +28,7 @@ object Authentication {
      * a hash function with a randomized salt and inserts the created [Account] into
      * the [database].
      */
-    suspend fun register(username: String, password: String) {
+    suspend fun register(username: String, password: String): Account {
         validateInput(username, password)
         if (getByUsername(username) != null)
             throw IllegalArgumentException("An account with the given username ('$username') does already exist!")
@@ -43,6 +43,7 @@ object Authentication {
         )
 
         collection.insertOne(account)
+        return account
     }
 
     /**

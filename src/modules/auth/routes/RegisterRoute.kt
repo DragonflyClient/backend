@@ -6,6 +6,7 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import modules.auth.Authentication
+import modules.auth.JwtConfig
 
 /**
  * Creates a /register route to create new accounts.
@@ -14,9 +15,16 @@ fun Routing.routeAuthRegister() {
     post("/register") {
         try {
             val credentials = call.receive<UserPasswordCredential>()
-            Authentication.register(credentials.name, credentials.password)
+            val account = Authentication.register(credentials.name, credentials.password)
+            val token = JwtConfig.makeToken(account)
+
             call.respond(mapOf(
-                "success" to true
+                "success" to true,
+                "token" to token,
+                "identifier" to account.identifier,
+                "username" to account.username,
+                "creationDate" to account.creationDate,
+                "permissionLevel" to account.permissionLevel
             ))
         } catch (e: Exception) {
             e.printStackTrace()
