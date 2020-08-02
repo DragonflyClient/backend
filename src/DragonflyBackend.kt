@@ -1,8 +1,3 @@
-import com.google.auth.oauth2.GoogleCredentials
-import com.google.cloud.firestore.Firestore
-import com.google.firebase.FirebaseApp
-import com.google.firebase.FirebaseOptions
-import com.google.firebase.cloud.FirestoreClient
 import input.InputListener
 import io.ktor.application.*
 import io.ktor.auth.*
@@ -21,7 +16,6 @@ import org.litote.kmongo.reactivestreams.KMongo
 import org.slf4j.event.Level
 import secrets.CONNECTION_STRING
 import secrets.KEYS_MASTER_PASSWORD
-import java.io.FileInputStream
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -32,28 +26,9 @@ import java.util.*
 object DragonflyBackend {
 
     /**
-     * The Firestore instance that is used as a database for the backend.
-     */
-    lateinit var firestore: Firestore
-
-    /**
      * A coroutine-based KMongo client to connect to the database
      */
     val mongo = KMongo.createClient(CONNECTION_STRING).coroutine
-
-    /**
-     * Initializes the Cloud Firestore instance by authorizing using the admin key and
-     * initializing the [FirebaseApp].
-     */
-    fun initializeFirestore() {
-        val serviceAccount = FileInputStream("firebase-admin-key.json")
-        val options = FirebaseOptions.Builder()
-            .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-            .build()
-
-        FirebaseApp.initializeApp(options)
-        firestore = FirestoreClient.getFirestore()
-    }
 }
 
 
@@ -65,7 +40,6 @@ object DragonflyBackend {
  */
 @Suppress("unused") // will be called by ktor
 fun Application.main() {
-    DragonflyBackend.initializeFirestore()
     InputListener.startListening()
 
     install(CallLogging) {
