@@ -3,8 +3,7 @@ package modules.keys.routes
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import modules.keys.KeyMachineParameters
-import modules.keys.tryReceiveKeyMachineParameters
+import modules.keys.*
 
 /**
  * Provides the `/keys/validate` route that is called on every client startup to validate
@@ -16,25 +15,27 @@ import modules.keys.tryReceiveKeyMachineParameters
  */
 fun Routing.routeKeysValidate() {
     post("/keys/validate") {
-        tryReceiveKeyMachineParameters()?.run {
-            if (!keyDocument!!.attached) {
-                return@post call.respond(mapOf(
-                    "success" to false,
-                    "message" to "The provided key isn't attached to any device!"
-                ))
-            }
+        val parameters = receiveParameters()
+        val machineIdentifier = parameters.machineIdentifier
+        val keyDocument = getKeyDocument(parameters)
 
-            if (keyDocument!!.machineIdentifier != machineIdentifier) {
-                return@post call.respond(mapOf(
-                    "success" to false,
-                    "message" to "The provided key is attached to another device!"
-                ))
-            }
-
-            call.respond(mapOf(
-                "success" to true,
-                "message" to "success"
+        if (!keyDocument.attached) {
+            return@post call.respond(mapOf(
+                "success" to false,
+                "message" to "The provided key isn't attached to any device!"
             ))
         }
+
+        if (keyDocument.machineIdentifier != machineIdentifier) {
+            return@post call.respond(mapOf(
+                "success" to false,
+                "message" to "The provided key is attached to another device!"
+            ))
+        }
+
+        call.respond(mapOf(
+            "success" to true,
+            "message" to "success"
+        ))
     }
 }
