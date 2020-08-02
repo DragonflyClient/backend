@@ -1,10 +1,8 @@
 package modules.auth
 
+import DragonflyBackend
 import at.favre.lib.crypto.bcrypt.BCrypt
-import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.eq
-import org.litote.kmongo.reactivestreams.KMongo
-import secrets.CONNECTION_STRING
 
 /**
  * The base authentication class connects to the database and manages the accounts that
@@ -12,11 +10,8 @@ import secrets.CONNECTION_STRING
  */
 object Authentication {
 
-    /** A coroutine-based KMongo client to connect to the database */
-    private val client = KMongo.createClient(CONNECTION_STRING).coroutine
-
     /** The Dragonfly database */
-    private val database = client.getDatabase("dragonfly")
+    private val database = DragonflyBackend.mongo.getDatabase("dragonfly")
 
     /** The collection in which the [accounts][Account] are stored */
     private val collection = database.getCollection<Account>("accounts")

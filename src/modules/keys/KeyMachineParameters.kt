@@ -1,30 +1,24 @@
 package modules.keys
 
-import DragonflyBackend
-import com.google.cloud.firestore.DocumentReference
-import com.google.cloud.firestore.DocumentSnapshot
 import io.ktor.application.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.util.pipeline.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import org.litote.kmongo.eq
 
 /**
  * A simple data class containing parameters representing a key and the corresponding machine.
  *
- * Additionally, when using the [tryReceiveKeyMachineParameters] function, the [documentSnapshot] and
- * [documentReference] for the Cloud Firestore database will be loaded.
+ * Additionally, when using the [tryReceiveKeyMachineParameters] function, the [keyDocument]
+ * will be loaded from the database.
  *
  * @param key the key, mostly generated via [KeyGenerator.generateKey]
  * @param machineIdentifier a string clearly identifying the machine
  *
- * @property documentReference the reference to the Firestore document (used for setting values)
- * @property documentSnapshot the snapshot of the Firestore document (used for getting values)
+ * @property keyDocument the document that represents the key in the database
  */
 data class KeyMachineParameters(val key: String, val machineIdentifier: String) {
-    var documentReference: DocumentReference? = null
-    var documentSnapshot: DocumentSnapshot? = null
+    var keyDocument: KeyDocument? = null
 }
 
 /**
@@ -42,19 +36,13 @@ suspend fun PipelineContext<Unit, ApplicationCall>.tryReceiveKeyMachineParameter
         return null
     }
 
-    val documentReference = DragonflyBackend.firestore.collection("keys").document(parameters.key)
-    val document = withContext(Dispatchers.IO) { documentReference.get().get() }
-
-    if (!document.exists()) {
-        call.respond(mapOf(
+    val keyDocument = KeyGenerator.collection.findOne(KeyDocument::key eq parameters.key)
+        ?: return call.respond(mapOf(
             "success" to false,
             "message" to "The provided key does not exist!"
-        ))
-        return null
-    }
+        )).run { null }
 
     return parameters.also {
-        it.documentSnapshot = document
-        it.documentReference = documentReference
+        it.keyDocument = keyDocument
     }
 }

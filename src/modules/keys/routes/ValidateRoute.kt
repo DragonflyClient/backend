@@ -17,14 +17,14 @@ import modules.keys.tryReceiveKeyMachineParameters
 fun Routing.routeKeysValidate() {
     post("/keys/validate") {
         tryReceiveKeyMachineParameters()?.run {
-            if (documentSnapshot!!.getBoolean("attached") != true) {
+            if (!keyDocument!!.attached) {
                 return@post call.respond(mapOf(
                     "success" to false,
                     "message" to "The provided key isn't attached to any device!"
                 ))
             }
 
-            if (documentSnapshot!!.getString("machineIdentifier") != machineIdentifier) {
+            if (keyDocument!!.machineIdentifier != machineIdentifier) {
                 return@post call.respond(mapOf(
                     "success" to false,
                     "message" to "The provided key is attached to another device!"

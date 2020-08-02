@@ -1,9 +1,18 @@
 package modules.keys
 
+import DragonflyBackend
+import log
+import org.litote.kmongo.eq
+
 /**
  * A simple utility object to generate keys in the required format.
  */
 object KeyGenerator {
+
+    /**
+     * The mongodb collection in which the keys are stored.
+     */
+    val collection = DragonflyBackend.mongo.getDatabase("dragonfly").getCollection<KeyDocument>("keys")
 
     /**
      * All characters that are available for generating the key.
@@ -26,10 +35,11 @@ object KeyGenerator {
      * Uses a safe method to generate the key by searching and avoiding duplicates
      * which can potentially break the key system.
      */
-    fun generateSafeKey(): String {
+    suspend fun generateSafeKey(): String {
         var key = generateKey()
 
-        while (DragonflyBackend.firestore.collection("keys").document(key).get().get().exists()) {
+        while (collection.findOne(KeyDocument::key eq key) != null) {
+            log("Key $key is already used. Generating new one...")
             key = generateKey()
         }
 

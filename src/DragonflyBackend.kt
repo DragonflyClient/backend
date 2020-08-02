@@ -16,7 +16,10 @@ import modules.auth.JwtConfig
 import modules.auth.routes.*
 import modules.keys.routes.*
 import modules.version.routes.*
+import org.litote.kmongo.coroutine.coroutine
+import org.litote.kmongo.reactivestreams.KMongo
 import org.slf4j.event.Level
+import secrets.CONNECTION_STRING
 import secrets.KEYS_MASTER_PASSWORD
 import java.io.FileInputStream
 import java.text.DateFormat
@@ -32,6 +35,11 @@ object DragonflyBackend {
      * The Firestore instance that is used as a database for the backend.
      */
     lateinit var firestore: Firestore
+
+    /**
+     * A coroutine-based KMongo client to connect to the database
+     */
+    val mongo = KMongo.createClient(CONNECTION_STRING).coroutine
 
     /**
      * Initializes the Cloud Firestore instance by authorizing using the admin key and

@@ -1,11 +1,10 @@
 package modules.keys.routes
 
-import com.google.cloud.firestore.SetOptions
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import modules.keys.KeyMachineParameters
-import modules.keys.tryReceiveKeyMachineParameters
+import modules.keys.*
+import org.litote.kmongo.coroutine.updateOne
 
 /**
  * Creates the `/keys/attach` route that will attach a specific device to a key and thus
@@ -19,19 +18,17 @@ import modules.keys.tryReceiveKeyMachineParameters
 fun Routing.routeKeysAttach() {
     post("/keys/attach") {
         tryReceiveKeyMachineParameters()?.run {
-            if (documentSnapshot!!.getBoolean("attached") == true) {
+            if (keyDocument!!.attached) {
                 return@post call.respond(mapOf(
                     "success" to false,
                     "message" to "The provided key is already attached to a device!"
                 ))
             }
 
-            documentReference!!.set(
-                mapOf(
-                    "attached" to true,
-                    "machineIdentifier" to machineIdentifier
-                ), SetOptions.merge()
-            )
+            keyDocument!!.attached = true
+            keyDocument!!.machineIdentifier = machineIdentifier
+
+            KeyGenerator.collection.updateOne(keyDocument!!)
 
             call.respond(mapOf(
                 "success" to true,

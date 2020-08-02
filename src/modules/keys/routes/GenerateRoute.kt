@@ -1,15 +1,12 @@
 package modules.keys.routes
 
-import DragonflyBackend
-import com.google.cloud.Timestamp
-import com.google.cloud.firestore.SetOptions
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import modules.keys.KeyDocument
 import modules.keys.KeyGenerator
+import java.util.*
 
 /**
  * Registers the `/keys/generate` route which allows an authenticated master to generate new
@@ -22,25 +19,19 @@ import modules.keys.KeyGenerator
 fun Routing.routeKeysGenerate() {
     authenticate("master") {
         get("/keys/generate") {
+            val date = Date()
             val key = KeyGenerator.generateSafeKey()
-            val collection = DragonflyBackend.firestore.collection("keys")
-            val document = collection.document(key)
-            val timestamp = Timestamp.now()
+            val keyDocument = KeyDocument(
+                key, false, date.time, null
+            )
 
-            withContext(Dispatchers.IO) {
-                document.set(
-                    mapOf(
-                        "attached" to false,
-                        "createdOn" to timestamp
-                    ), SetOptions.merge()
-                ).get()
-            }
+            KeyGenerator.collection.insertOne(keyDocument)
 
             call.respond(
                 mapOf(
                     "success" to true,
                     "key" to key,
-                    "createdOn" to timestamp.toString()
+                    "createdOn" to date.toLocaleString()
                 )
             )
         }
