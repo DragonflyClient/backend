@@ -1,5 +1,6 @@
 package input
 
+import log
 import modules.version.VersionManager
 import modules.version.update.UpdateHistory
 import java.util.*
@@ -20,11 +21,11 @@ object InputListener {
                     val line = scanner.nextLine()
                     handleInput(line)
                 } catch (e: Exception) {
-                    println("Could not parse input from console scanner: ${e.message}")
+                    log("Could not parse input from console scanner: ${e.message}")
                 }
             }
         } catch (e: Exception) {
-            println("Console scanner stopped listening: ${e.message}")
+            log("Console scanner stopped listening: ${e.message}")
             e.printStackTrace()
         }
     }

@@ -17,8 +17,6 @@ import org.slf4j.event.Level
 import secrets.CONNECTION_STRING
 import secrets.KEYS_MASTER_PASSWORD
 import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
 
 /**
  * The main class of the Dragonfly backend server.
@@ -29,8 +27,25 @@ object DragonflyBackend {
      * A coroutine-based KMongo client to connect to the database
      */
     val mongo = KMongo.createClient(CONNECTION_STRING).coroutine
+
+    /**
+     * The instance of the ktor application
+     */
+    lateinit var application: Application
 }
 
+/**
+ * Logs the given [message] with some additional information to the console.
+ */
+fun log(message: String, level: Level = Level.INFO) = with(DragonflyBackend.application.log) {
+    when (level) {
+        Level.ERROR -> error(message)
+        Level.WARN -> warn(message)
+        Level.INFO -> info(message)
+        Level.DEBUG -> debug(message)
+        Level.TRACE -> trace(message)
+    }
+}
 
 /**
  * The main module of the application.
@@ -40,6 +55,7 @@ object DragonflyBackend {
  */
 @Suppress("unused") // will be called by ktor
 fun Application.main() {
+    DragonflyBackend.application = this
     InputListener.startListening()
 
     install(CallLogging) {
@@ -130,11 +146,3 @@ fun Application.main() {
         routeAuthCookieRegister()
     }
 }
-
-/**
- * Logs the given [message] with some additional information to the console.
- */
-fun log(message: String) = println(
-    "[${SimpleDateFormat("HH:mm:ss.SSS").format(Date())}] " +
-            "[${Thread.currentThread().name}: " + message
-)

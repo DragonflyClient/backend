@@ -2,6 +2,7 @@ package modules.version
 
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
+import log
 import java.io.File
 
 /**
@@ -36,7 +37,7 @@ object VersionManager {
      */
     fun reloadJsonObject() {
         jsonObject = readFile()
-        println("Reloaded JSON object!")
+        log("Reloaded JSON object!")
     }
 
     /**
