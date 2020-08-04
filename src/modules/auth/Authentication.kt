@@ -2,7 +2,9 @@ package modules.auth
 
 import DragonflyBackend
 import at.favre.lib.crypto.bcrypt.BCrypt
+import log
 import org.litote.kmongo.eq
+import java.util.*
 
 /**
  * The base authentication class connects to the database and manages the accounts that
@@ -14,7 +16,10 @@ object Authentication {
     private val database = DragonflyBackend.mongo.getDatabase("dragonfly")
 
     /** The collection in which the [accounts][Account] are stored */
-    private val collection = database.getCollection<Account>("accounts")
+    private val accountsCollection = database.getCollection<Account>("accounts")
+
+    /** The collection that manages the uuids */
+    private val uuidsCollection = database.getCollection<UUIDs>("uuids")
 
     /**
      * Registers a new account with the [username] and [password].
@@ -31,13 +36,16 @@ object Authentication {
         val encryptedPassword = BCrypt.withDefaults().hashToString(12, password.toCharArray())
         val account = Account(
             identifier = username.toLowerCase(),
+            uuid = generateUUID(),
             username = username,
             password = encryptedPassword,
             creationDate = System.currentTimeMillis(),
             permissionLevel = PermissionLevel.USER.value
         )
 
-        collection.insertOne(account)
+        log("Created account $account")
+
+        accountsCollection.insertOne(account)
         return account
     }
 
@@ -55,9 +63,21 @@ object Authentication {
     }
 
     /**
+     * Returns a [Account] from the [database] by its [username][Account.username].
+     */
+    suspend fun getByUsername(username: String) =
+        accountsCollection.findOne(Account::identifier eq username.toLowerCase())
+
+    /**
+     * Returns a [Account] from the [database] by its [uuid][Account.uuid].
+     */
+    suspend fun getByUUID(uuid: String) =
+        accountsCollection.findOne(Account::uuid eq uuid)
+
+    /**
      * Validates the length of the [username] and [password].
      */
-    fun validateInput(username: String, password: String) {
+    private fun validateInput(username: String, password: String) {
         require(username.matches(Regex("[a-zA-Z0-9]*"))) { "Username must only contain numbers and letters" }
         require(!username.equals("master", ignoreCase = true)) { "Username is not valid!" }
         require(username.length in 4..16) { "The username must have between 4 and 16 characters" }
@@ -65,8 +85,23 @@ object Authentication {
     }
 
     /**
-     * Returns a [Account] from the [database] by its username.
+     * Generates a random unused UUID and adds it to the used-uuids array.
      */
-    suspend fun getByUsername(username: String) =
-        collection.findOne(Account::identifier eq username.toLowerCase())
+    private suspend fun generateUUID(): String {
+        var uuid = UUID.randomUUID().toString()
+        val uuids = uuidsCollection.findOne()
+
+        while (uuids?.used?.contains(uuid) == true) {
+            log("UUID $uuid is already in use!")
+            uuid = UUID.randomUUID().toString()
+        }
+
+        return uuid.also {
+            val new = UUIDs(
+                uuids?.used?.toMutableList()?.apply { add(uuid) } ?: listOf(uuid)
+            )
+            uuidsCollection.deleteOne()
+            uuidsCollection.insertOne(new)
+        }
+    }
 }

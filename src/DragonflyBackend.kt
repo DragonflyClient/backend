@@ -70,6 +70,7 @@ fun Application.main() {
         header(HttpHeaders.ContentType)
 
         host("inceptioncloud.net", schemes = listOf("https"))
+        host("playdragonfly.net", schemes = listOf("https"))
         host("ideas.playdragonfly.net", schemes = listOf("https"))
         hosts.add("null")
 
@@ -86,7 +87,6 @@ fun Application.main() {
 
     install(StatusPages) {
         exception<Throwable> {
-            it.printStackTrace()
             call.respond(mapOf(
                 "success" to false,
                 "error" to it.message
@@ -114,8 +114,7 @@ fun Application.main() {
             verifier(JwtConfig.verifier)
             realm = "inceptioncloud.net"
             validate {
-                it.payload.getClaim("identifier").asString()
-                    ?.let { identifier -> modules.auth.Authentication.getByUsername(identifier) }
+                it.payload.getClaim("uuid").asString().let { uuid -> modules.auth.Authentication.getByUUID(uuid) }
             }
         }
     }

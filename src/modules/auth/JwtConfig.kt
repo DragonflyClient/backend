@@ -23,7 +23,7 @@ object JwtConfig {
     fun makeToken(account: Account): String = JWT.create()
         .withSubject("Authentication")
         .withIssuer(issuer)
-        .withClaim("identifier", account.identifier)
+        .withClaim("uuid", account.uuid)
         .withExpiresAt(getExpiration())
         .sign(algorithm)
 
