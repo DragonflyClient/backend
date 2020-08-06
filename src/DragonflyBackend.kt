@@ -7,6 +7,7 @@ import io.ktor.gson.*
 import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import io.ktor.util.pipeline.*
 import modules.auth.JwtConfig
 import modules.auth.routes.*
 import modules.keys.routes.*
@@ -145,3 +146,5 @@ fun Application.main() {
         routeAuthCookieRegister()
     }
 }
+
+suspend fun PipelineContext<Unit, ApplicationCall>.success() = call.respond(mapOf("success" to true))

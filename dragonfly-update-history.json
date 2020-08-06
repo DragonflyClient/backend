@@ -1,6 +1,483 @@
 {
    "stable": [
       {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.3.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.3.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.3.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.3.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.3.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.3.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.3.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.3.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.3.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.3.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.3.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.3.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.3.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.3.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.3.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.3.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.3.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.3.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.3.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.2.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.1.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.1.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.1.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.2.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.3.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.3.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.3.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.3.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch LOL ROFL"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.2.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch LOL ROFL"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v0.0.1.0-dev",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch LOL ROFL"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch LOL ROFL"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch LOL ROFL"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch LOL ROFL"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch LOL ROFL"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch LOL ROFL"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch LOL ROFL"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch LOL ROFL"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch LOL ROFL"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch LOL ROFL"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch LOL ROFL"
+      },
+      {
          "version": "1.0.0.0",
          "requiresInstaller": false,
          "patchNotes": "https://inceptioncloud.net/dragonfly",
@@ -8,6 +485,79 @@
       }
    ],
    "earlyAccess": [
+      {
+         "version": "1.1.1.0",
+         "releaseDate": 7236543544724
+      },
+      {
+         "version": "1.1.1.0",
+         "releaseDate": 7236543544724
+      },
+      {
+         "version": "1.1.1.0",
+         "releaseDate": 7236543544724
+      },
+      {
+         "version": "1.1.1.0",
+         "releaseDate": 7236543544724,
+         "title": "Custom Loading Screen Update"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch aaaa"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch LOL ROFL"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch LOL ROFL"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch LOL ROFL"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch LOL ROFL"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch LOL ROFL"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch LOL ROFL"
+      },
+      {
+         "version": "2.3.0.0",
+         "requiresInstaller": false,
+         "patchNotes": "https://playdragonfly.net/releasenotes/release/v1.1.0.0",
+         "releaseDate": 72364724,
+         "title": "Test Release Update Patch LOL ROFL"
+      },
       {
          "version": "1.0.0.0",
          "requiresInstaller": false,

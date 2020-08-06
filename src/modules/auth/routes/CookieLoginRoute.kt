@@ -18,10 +18,7 @@ fun Routing.routeAuthCookieLogin() {
     post("/cookie/login") {
         val credentials = call.receive<UserPasswordCredential>()
         val account = Authentication.verify(credentials.name, credentials.password)
-            ?: return@post call.respond(mapOf(
-                "success" to false,
-                "error" to "Invalid username or password"
-            ))
+            ?: error("Invalid username or password")
         val token = JwtConfig.makeToken(account)
 
         call.response.cookies.append(Cookie(
