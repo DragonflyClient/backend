@@ -144,6 +144,7 @@ fun Application.main() {
         routeAuthCookie()
         routeAuthCookieLogin()
         routeAuthCookieRegister()
+        routeAuthCookieLogout()
     }
 }
 
