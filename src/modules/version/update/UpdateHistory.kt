@@ -63,6 +63,7 @@ object UpdateHistory {
      * Publishes an update by appending it to the top of the specified channel stack.
      */
     fun publishUpdate(channel: UpdateChannel, update: Update) {
+        log("Publishing update $update to channel $channel...")
         val array = if (channel == UpdateChannel.STABLE) stable else earlyAccess
         val newArray = JsonArray().apply {
             add(Gson().toJsonTree(update))
