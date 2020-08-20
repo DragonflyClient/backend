@@ -1,3 +1,4 @@
+import core.enable
 import input.InputListener
 import io.ktor.application.*
 import io.ktor.auth.*
@@ -8,10 +9,10 @@ import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.util.pipeline.*
+import modules.auth.AuthModule
 import modules.auth.JwtConfig
-import modules.auth.routes.*
-import modules.keys.routes.*
-import modules.version.routes.*
+import modules.keys.KeysModule
+import modules.version.VersionModule
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.reactivestreams.KMongo
 import org.slf4j.event.Level
@@ -128,24 +129,9 @@ fun Application.main() {
             ))
         }
 
-        routeKeysGenerate()
-        routeKeysRequest()
-        routeKeysAttach()
-        routeKeysValidate()
-
-        routeVersion()
-        routeVersionInstaller()
-        routeVersionUpdates()
-        routeVersionUpdatesHistory()
-        routeVersionPublish()
-
-        routeAuth()
-        routeAuthLogin()
-        routeAuthRegister()
-        routeAuthCookie()
-        routeAuthCookieLogin()
-        routeAuthCookieRegister()
-        routeAuthCookieLogout()
+        enable(AuthModule)
+        enable(KeysModule)
+        enable(VersionModule)
     }
 }
 
