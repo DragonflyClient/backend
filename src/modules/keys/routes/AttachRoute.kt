@@ -41,4 +41,6 @@ object AttachRoute : ModuleRoute("attach", HttpMethod.Post) {
             "message" * "success"
         }
     }
+
+    override fun legacyRoute() = "keys/attach"
 }

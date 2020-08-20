@@ -20,4 +20,6 @@ object CookieTokenRoute : ModuleRoute("cookie/token", HttpMethod.Post) {
 
         respondAccount(account)
     }
+
+    override fun legacyRoute() = "cookie/auth"
 }

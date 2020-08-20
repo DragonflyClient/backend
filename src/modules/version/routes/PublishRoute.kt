@@ -30,4 +30,6 @@ object PublishRoute : ModuleRoute("publish", HttpMethod.Get, "master") {
         RMIClient.invokePublishUpdate(update, earlyAccess, stable)
         success()
     }
+
+    override fun legacyRoute() = "publish"
 }

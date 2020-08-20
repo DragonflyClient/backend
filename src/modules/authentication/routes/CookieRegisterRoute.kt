@@ -21,4 +21,6 @@ object CookieRegisterRoute : ModuleRoute("cookie/register", HttpMethod.Post) {
 
         respondToken(account)
     }
+
+    override fun legacyRoute() = "cookie/register"
 }

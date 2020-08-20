@@ -17,7 +17,7 @@ import java.util.*
  * This will check for the existence of the key, whether it is attached and the machine identifier of the
  * device it was attached to. The response will be in JSON format.
  */
-object RequestRoute : ModuleRoute("request", HttpMethod.Get, "master") {
+object RequestRoute : ModuleRoute("find", HttpMethod.Get, "master") {
 
     override suspend fun PipelineContext<Unit, ApplicationCall>.handleCall() {
         val key = call.parameters["key"] ?: error("Missing URL parameter 'key'")
@@ -38,4 +38,6 @@ object RequestRoute : ModuleRoute("request", HttpMethod.Get, "master") {
             }
         }
     }
+
+    override fun legacyRoute() = "keys/request"
 }

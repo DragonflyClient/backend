@@ -38,4 +38,6 @@ object RegisterRoute : ModuleRoute("register", HttpMethod.Post) {
             ))
         }
     }
+
+    override fun legacyRoute() = "register"
 }

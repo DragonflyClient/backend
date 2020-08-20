@@ -32,4 +32,6 @@ object GenerateRoute : ModuleRoute("generate", HttpMethod.Get, "master") {
             "createdOn" * date.toLocaleString()
         }
     }
+
+    override fun legacyRoute() = "keys/generate"
 }

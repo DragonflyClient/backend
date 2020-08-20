@@ -15,4 +15,6 @@ object TokenRoute : ModuleRoute("token", HttpMethod.Post, "jwt", true) {
 
         respondAccount(account)
     }
+
+    override fun legacyRoute() = "auth"
 }

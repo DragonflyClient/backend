@@ -22,4 +22,6 @@ object CookieLoginRoute : ModuleRoute("cookie/login", HttpMethod.Post) {
 
         respondToken(account)
     }
+
+    override fun legacyRoute() = "cookie/login"
 }

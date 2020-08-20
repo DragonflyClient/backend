@@ -35,4 +35,6 @@ object LoginRoute : ModuleRoute("login", HttpMethod.Post) {
             "token" * token
         }
     }
+
+    override fun legacyRoute() = "login"
 }

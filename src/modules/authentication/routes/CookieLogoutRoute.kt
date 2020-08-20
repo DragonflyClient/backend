@@ -28,4 +28,6 @@ object CookieLogoutRoute : ModuleRoute("cookie/logout", HttpMethod.Post) {
 
         success()
     }
+
+    override fun legacyRoute() = "cookie/logout"
 }
