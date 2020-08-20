@@ -1,9 +1,8 @@
 package modules.keys.routes
 
 import core.ModuleRoute
-import io.ktor.application.*
+import core.json
 import io.ktor.auth.*
-import io.ktor.response.*
 import io.ktor.routing.*
 import modules.keys.util.KeyDocument
 import modules.keys.util.KeyGenerator
@@ -24,19 +23,15 @@ object GenerateRoute : ModuleRoute {
             get("/keys/generate") {
                 val date = Date()
                 val key = KeyGenerator.generateSafeKey()
-                val keyDocument = KeyDocument(
-                    key, false, date.time, null
-                )
+                val keyDocument = KeyDocument(key, false, date.time, null)
 
                 KeyGenerator.collection.insertOne(keyDocument)
 
-                call.respond(
-                    mapOf(
-                        "success" to true,
-                        "key" to key,
-                        "createdOn" to date.toLocaleString()
-                    )
-                )
+                json {
+                    "success" * true
+                    "key" * key
+                    "createdOn" * date.toLocaleString()
+                }
             }
         }
     }

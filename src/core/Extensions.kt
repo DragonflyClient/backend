@@ -64,9 +64,9 @@ suspend fun RouteContext.respondToken(account: Account) {
 }
 
 class JsonBuilder {
-    val map = mutableMapOf<String, Any>()
+    val map = mutableMapOf<String, Any?>()
 
-    operator fun String.times(value: Any): Int {
+    operator fun String.times(value: Any?): Int {
         map[this] = value
         return Random.nextInt()
     }

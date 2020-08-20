@@ -1,9 +1,9 @@
 package modules.keys.routes
 
 import core.ModuleRoute
+import core.json
 import io.ktor.application.*
 import io.ktor.auth.*
-import io.ktor.response.*
 import io.ktor.routing.*
 import modules.keys.util.KeyDocument
 import modules.keys.util.KeyGenerator
@@ -26,19 +26,19 @@ object RequestRoute : ModuleRoute {
                 val keyDocument = KeyGenerator.collection.findOne(KeyDocument::key eq key)
                 val machineIdentifier = keyDocument?.machineIdentifier
 
-                call.respond(mutableMapOf<String, Any?>().apply {
-                    set("success", true)
-                    set("exists", keyDocument != null)
+                json {
+                    "success" * true
+                    "exists" * (keyDocument != null)
 
                     if (keyDocument != null) {
-                        set("attached", keyDocument.attached)
-                        set("createdOn", Date(keyDocument.createdOn).toLocaleString())
+                        "attached" * keyDocument.attached
+                        "createdOn" * Date(keyDocument.createdOn).toLocaleString()
 
                         if (keyDocument.attached) {
-                            set("machineIdentifier", machineIdentifier)
+                            "machineIdentifier" * machineIdentifier
                         }
                     }
-                })
+                }
             }
         }
     }

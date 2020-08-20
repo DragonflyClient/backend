@@ -1,8 +1,7 @@
 package modules.keys.routes
 
 import core.ModuleRoute
-import io.ktor.application.*
-import io.ktor.response.*
+import core.json
 import io.ktor.routing.*
 import modules.keys.util.*
 import org.litote.kmongo.coroutine.updateOne
@@ -25,10 +24,10 @@ object AttachRoute : ModuleRoute {
             val keyDocument = getKeyDocument(parameters)
 
             if (keyDocument.attached) {
-                return@post call.respond(mapOf(
-                    "success" to false,
-                    "message" to "The provided key is already attached to a device!"
-                ))
+                return@post json {
+                    "success" * false
+                    "message" * "The provided key is already attached to a device!"
+                }
             }
 
             keyDocument.attached = true
@@ -36,10 +35,10 @@ object AttachRoute : ModuleRoute {
 
             KeyGenerator.collection.updateOne(keyDocument)
 
-            call.respond(mapOf(
-                "success" to true,
-                "message" to "success"
-            ))
+            json {
+                "success" * true
+                "message" * "success"
+            }
         }
     }
 }

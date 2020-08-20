@@ -1,8 +1,7 @@
 package modules.keys.routes
 
 import core.ModuleRoute
-import io.ktor.application.*
-import io.ktor.response.*
+import core.json
 import io.ktor.routing.*
 import modules.keys.util.getKeyDocument
 import modules.keys.util.receiveParameters
@@ -24,23 +23,23 @@ object ValidateRoute : ModuleRoute {
             val keyDocument = getKeyDocument(parameters)
 
             if (!keyDocument.attached) {
-                return@post call.respond(mapOf(
-                    "success" to false,
-                    "message" to "The provided key isn't attached to any device!"
-                ))
+                return@post json {
+                    "success" * false
+                    "message" * "The provided key isn't attached to any device!"
+                }
             }
 
             if (keyDocument.machineIdentifier != machineIdentifier) {
-                return@post call.respond(mapOf(
-                    "success" to false,
-                    "message" to "The provided key is attached to another device!"
-                ))
+                return@post json {
+                    "success" * false
+                    "message" * "The provided key is attached to another device!"
+                }
             }
 
-            call.respond(mapOf(
-                "success" to true,
-                "message" to "success"
-            ))
+            json {
+                "success" * true
+                "message" * "success"
+            }
         }
     }
 }
