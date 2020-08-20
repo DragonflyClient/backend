@@ -1,11 +1,13 @@
 package core
 
 import io.ktor.routing.*
-import modules.authentication.AuthModule.provideRouting
 
-abstract class Module {
+open class Module(val name: String, vararg val routes: ModuleRoute)
 
-    abstract fun Routing.provideRouting()
+fun Routing.enable(module: Module) {
+    module.routes.forEach {
+        with(it) {
+            provideRoute()
+        }
+    }
 }
-
-fun Routing.enable(module: Module) = with(this) { provideRouting() }
