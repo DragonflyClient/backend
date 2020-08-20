@@ -24,7 +24,7 @@ object VersionRoute : ModuleRoute {
 
                 call.respond(jsonObject.toMap())
             } else {
-                call.respond(mapOf("error" to "Missing information"))
+                error("Missing information")
             }
         }
     }

@@ -17,8 +17,8 @@ object UpdatesRoute : ModuleRoute {
     override fun Routing.provideRoute() {
         get("/updates") {
             if (call.parameters.contains("channel") && call.parameters.contains("since")) {
-                val channel = UpdateChannel.getByIdentifier(call.parameters["channel"]!!) ?: return@get
-                val since = Version.of(call.parameters["since"]!!) ?: return@get
+                val channel = UpdateChannel.getByIdentifier(call.parameters["channel"]!!) ?: error("Invalid channel identifier")
+                val since = Version.of(call.parameters["since"]!!) ?: error("Invalid 'since' parameter")
 
                 val history = UpdateHistory.getUpdateHistorySince(channel, since)
                 val latest = history.firstOrNull() ?: UpdateHistory.getUpdateHistory(channel).first()
@@ -32,9 +32,7 @@ object UpdatesRoute : ModuleRoute {
                         "title" to latest.title
                     )
                 )
-            } else call.respond(mapOf(
-                "error" to "Missing parameters"
-            ))
+            } else error("Missing 'channel' or 'since' parameter")
         }
     }
 }
