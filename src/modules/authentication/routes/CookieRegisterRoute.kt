@@ -5,7 +5,7 @@ import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.http.*
 import io.ktor.request.*
-import modules.authentication.util.Authentication
+import modules.authentication.util.AuthenticationManager
 
 /**
  * Creates a /login route that verifies the credentials and returns a JWT for authenticating
@@ -15,7 +15,7 @@ object CookieRegisterRoute : ModuleRoute("cookie/register", HttpMethod.Post) {
 
     override suspend fun Call.handleCall() {
         val credentials = call.receive<UserPasswordCredential>()
-        val account = Authentication.register(credentials.name, credentials.password)
+        val account = AuthenticationManager.register(credentials.name, credentials.password)
 
         respondToken(account)
     }

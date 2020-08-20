@@ -10,7 +10,7 @@ import java.util.*
  * The base authentication class connects to the database and manages the accounts that
  * are stored in it.
  */
-object Authentication {
+object AuthenticationManager {
 
     /** The Dragonfly database */
     private val database = DragonflyBackend.mongo.getDatabase("dragonfly")

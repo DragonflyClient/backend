@@ -6,7 +6,7 @@ import io.ktor.auth.*
 import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
-import modules.authentication.util.Authentication
+import modules.authentication.util.AuthenticationManager
 import modules.authentication.util.JwtConfig
 
 /**
@@ -17,7 +17,7 @@ object RegisterRoute : ModuleRoute("register", HttpMethod.Post) {
     override suspend fun Call.handleCall() {
         try {
             val credentials = call.receive<UserPasswordCredential>()
-            val account = Authentication.register(credentials.name, credentials.password)
+            val account = AuthenticationManager.register(credentials.name, credentials.password)
             val token = JwtConfig.makeToken(account)
 
             json {

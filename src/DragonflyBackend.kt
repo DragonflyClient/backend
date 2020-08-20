@@ -9,9 +9,10 @@ import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import modules.authentication.AuthenticationModule
+import modules.authentication.util.AuthenticationManager
 import modules.authentication.util.JwtConfig
 import modules.keys.KeysModule
-import modules.mojang.MojangModule
+import modules.minecraft.MinecraftModule
 import modules.version.VersionModule
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.reactivestreams.KMongo
@@ -106,18 +107,11 @@ fun Application.main() {
                 else null
             }
         }
-        basic(name = "dragonfly-account") {
-            realm = "Dragonfly Account Authentication"
-            validate {
-                modules.authentication.util.Authentication.verify(it.name, it.password)
-                    ?.let { account -> UserIdPrincipal(account.username) }
-            }
-        }
         jwt(name = "jwt") {
             verifier(JwtConfig.verifier)
             realm = "inceptioncloud.net"
             validate {
-                it.payload.getClaim("uuid").asString().let { uuid -> modules.authentication.util.Authentication.getByUUID(uuid) }
+                it.payload.getClaim("uuid").asString().let { uuid -> AuthenticationManager.getByUUID(uuid) }
             }
         }
     }
@@ -132,6 +126,6 @@ fun Application.main() {
         enable(AuthenticationModule)
         enable(KeysModule)
         enable(VersionModule)
-        enable(MojangModule)
+        enable(MinecraftModule)
     }
 }

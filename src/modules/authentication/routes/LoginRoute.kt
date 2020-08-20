@@ -6,7 +6,7 @@ import io.ktor.auth.*
 import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
-import modules.authentication.util.Authentication
+import modules.authentication.util.AuthenticationManager
 import modules.authentication.util.JwtConfig
 
 /**
@@ -17,7 +17,7 @@ object LoginRoute : ModuleRoute("login", HttpMethod.Post) {
 
     override suspend fun Call.handleCall() {
         val credentials = call.receive<UserPasswordCredential>()
-        val account = Authentication.verify(credentials.name, credentials.password)
+        val account = AuthenticationManager.verify(credentials.name, credentials.password)
             ?: return call.respond(mapOf(
                 "success" to false,
                 "error" to "Invalid username or password"

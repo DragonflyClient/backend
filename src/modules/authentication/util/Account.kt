@@ -18,5 +18,6 @@ data class Account(
     val username: String,
     val password: String,
     val creationDate: Long,
-    val permissionLevel: Int
+    val permissionLevel: Int,
+    var linkedMojangAccounts: List<String>? = null
 ) : Principal
