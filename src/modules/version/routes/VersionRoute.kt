@@ -30,14 +30,14 @@ object VersionRoute : ModuleRoute("/", HttpMethod.Get) {
             error("Missing information")
         }
     }
-}
 
-/**
- * Converts the given json object to a simple map of strings and objects.
- */
-private fun JsonObject.toMap(): Map<String, Any> {
-    val map = mutableMapOf<String, Any>()
-    for ((key, value) in entrySet())
-        map[key] = value as Any
-    return map
+    /**
+     * Converts the given json object to a simple map of strings and objects.
+     */
+    private fun JsonObject.toMap(): Map<String, Any> {
+        val map = mutableMapOf<String, Any>()
+        for ((key, value) in entrySet())
+            map[key] = value as Any
+        return map
+    }
 }
