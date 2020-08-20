@@ -4,7 +4,7 @@ import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import modules.auth.Account
+import modules.auth.util.Account
 
 /**
  * Creates a /auth root to validate JWTs.

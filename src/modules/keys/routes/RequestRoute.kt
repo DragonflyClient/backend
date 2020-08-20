@@ -4,8 +4,8 @@ import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import modules.keys.KeyDocument
-import modules.keys.KeyGenerator
+import modules.keys.util.KeyDocument
+import modules.keys.util.KeyGenerator
 import org.litote.kmongo.eq
 import java.util.*
 

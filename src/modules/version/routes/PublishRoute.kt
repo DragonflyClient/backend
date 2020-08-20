@@ -5,7 +5,7 @@ import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.request.*
 import io.ktor.routing.*
-import modules.version.update.*
+import modules.version.util.update.*
 import success
 
 /**

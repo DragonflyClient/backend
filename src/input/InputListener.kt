@@ -1,8 +1,8 @@
 package input
 
 import log
-import modules.version.VersionManager
-import modules.version.update.UpdateHistory
+import modules.version.util.VersionManager
+import modules.version.util.update.UpdateHistory
 import java.util.*
 import kotlin.concurrent.thread
 

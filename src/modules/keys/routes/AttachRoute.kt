@@ -3,7 +3,7 @@ package modules.keys.routes
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import modules.keys.*
+import modules.keys.util.*
 import org.litote.kmongo.coroutine.updateOne
 
 /**

@@ -4,8 +4,8 @@ import com.google.gson.JsonObject
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import modules.version.VersionManager
-import modules.version.update.UpdateChannel
+import modules.version.util.VersionManager
+import modules.version.util.update.UpdateChannel
 
 /**
  * Enables a route that the client or installer can send request to to get information about the

@@ -1,4 +1,4 @@
-package modules.auth
+package modules.auth.util
 
 /**
  * The default permission levels that are provided for Dragonfly accounts.

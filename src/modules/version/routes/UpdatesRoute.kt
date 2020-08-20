@@ -3,9 +3,9 @@ package modules.version.routes
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import modules.version.Version
-import modules.version.update.UpdateChannel
-import modules.version.update.UpdateHistory
+import modules.version.util.Version
+import modules.version.util.update.UpdateChannel
+import modules.version.util.update.UpdateHistory
 
 /**
  * Adds a more advanced route of checking for updates by saving the complete update history of

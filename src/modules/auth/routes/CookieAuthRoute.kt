@@ -3,7 +3,8 @@ package modules.auth.routes
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import modules.auth.JwtConfig
+import modules.auth.util.Authentication
+import modules.auth.util.JwtConfig
 
 /**
  * Creates a /auth root to validate JWTs.
@@ -13,7 +14,7 @@ fun Routing.routeAuthCookie() {
         val cookie = call.request.cookies["dragonfly-token"] ?: error("No token cookie found")
         val token = JwtConfig.verifier.verify(cookie)
         val account = token.getClaim("uuid").asString()
-            ?.let { uuid -> modules.auth.Authentication.getByUUID(uuid) }
+            ?.let { uuid -> Authentication.getByUUID(uuid) }
 
         if (account == null) {
             call.respond(mapOf(

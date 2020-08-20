@@ -2,7 +2,7 @@ package dragonfly.updates.rmi
 
 import kotlinx.coroutines.*
 import log
-import modules.version.update.Update
+import modules.version.util.update.Update
 import secrets.KEYS_MASTER_PASSWORD
 import java.rmi.registry.LocateRegistry
 

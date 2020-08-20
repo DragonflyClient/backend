@@ -10,7 +10,7 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.util.pipeline.*
 import modules.auth.AuthModule
-import modules.auth.JwtConfig
+import modules.auth.util.JwtConfig
 import modules.keys.KeysModule
 import modules.version.VersionModule
 import org.litote.kmongo.coroutine.coroutine
@@ -109,7 +109,7 @@ fun Application.main() {
         basic(name = "dragonfly-account") {
             realm = "Dragonfly Account Authentication"
             validate {
-                modules.auth.Authentication.verify(it.name, it.password)
+                modules.auth.util.Authentication.verify(it.name, it.password)
                     ?.let { account -> UserIdPrincipal(account.username) }
             }
         }
@@ -117,7 +117,7 @@ fun Application.main() {
             verifier(JwtConfig.verifier)
             realm = "inceptioncloud.net"
             validate {
-                it.payload.getClaim("uuid").asString().let { uuid -> modules.auth.Authentication.getByUUID(uuid) }
+                it.payload.getClaim("uuid").asString().let { uuid -> modules.auth.util.Authentication.getByUUID(uuid) }
             }
         }
     }

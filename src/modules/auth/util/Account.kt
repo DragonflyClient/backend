@@ -1,4 +1,4 @@
-package modules.auth
+package modules.auth.util
 
 import io.ktor.auth.*
 

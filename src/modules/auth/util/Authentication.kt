@@ -1,4 +1,4 @@
-package modules.auth
+package modules.auth.util
 
 import DragonflyBackend
 import at.favre.lib.crypto.bcrypt.BCrypt

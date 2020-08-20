@@ -1,4 +1,4 @@
-package modules.version.update
+package modules.version.util.update
 
 /**
  * Represents an update of the Dragonfly client published to the backend.

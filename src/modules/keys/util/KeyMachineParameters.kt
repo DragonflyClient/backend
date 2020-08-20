@@ -1,4 +1,4 @@
-package modules.keys
+package modules.keys.util
 
 import io.ktor.application.*
 import io.ktor.request.*

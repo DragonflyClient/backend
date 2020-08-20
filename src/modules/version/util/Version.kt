@@ -1,4 +1,4 @@
-package modules.version
+package modules.version.util
 
 /**
  * Represents a version of the Dragonfly client using the default versioning scheme.

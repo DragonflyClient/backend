@@ -3,7 +3,8 @@ package modules.keys.routes
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import modules.keys.*
+import modules.keys.util.getKeyDocument
+import modules.keys.util.receiveParameters
 
 /**
  * Provides the `/keys/validate` route that is called on every client startup to validate

@@ -1,4 +1,4 @@
-package modules.version.update
+package modules.version.util.update
 
 /**
  * Represents the two available update channels 'stable' and 'eap'.

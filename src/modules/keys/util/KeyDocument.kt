@@ -1,4 +1,4 @@
-package modules.keys
+package modules.keys.util
 
 import org.bson.types.ObjectId
 
