@@ -1,4 +1,4 @@
-package modules.auth.routes
+package modules.authentication.routes
 
 import io.ktor.application.*
 import io.ktor.http.*

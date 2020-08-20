@@ -1,7 +1,7 @@
 package core
 
 import io.ktor.routing.*
-import modules.auth.AuthModule.provideRouting
+import modules.authentication.AuthModule.provideRouting
 
 abstract class Module {
 

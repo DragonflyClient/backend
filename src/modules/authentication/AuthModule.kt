@@ -1,8 +1,8 @@
-package modules.auth
+package modules.authentication
 
 import core.Module
 import io.ktor.routing.*
-import modules.auth.routes.*
+import modules.authentication.routes.*
 
 object AuthModule : Module() {
 

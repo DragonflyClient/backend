@@ -1,10 +1,10 @@
-package modules.auth.routes
+package modules.authentication.routes
 
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import modules.auth.util.Account
+import modules.authentication.util.Account
 
 /**
  * Creates a /auth root to validate JWTs.

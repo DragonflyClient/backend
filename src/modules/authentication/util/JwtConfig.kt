@@ -1,4 +1,4 @@
-package modules.auth.util
+package modules.authentication.util
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
