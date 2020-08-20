@@ -3,12 +3,12 @@ package modules.authentication
 import core.Module
 import modules.authentication.routes.*
 
-object AuthModule : Module(
-    "Auth",
-    AuthRoute,
+object AuthenticationModule : Module(
+    "Authentication",
+    TokenRoute,
     LoginRoute,
     RegisterRoute,
-    CookieAuthRoute,
+    CookieTokenRoute,
     CookieLoginRoute,
     CookieLogoutRoute,
     CookieRegisterRoute

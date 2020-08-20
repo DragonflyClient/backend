@@ -2,8 +2,9 @@ package modules.keys.routes
 
 import core.ModuleRoute
 import core.json
-import io.ktor.auth.*
-import io.ktor.routing.*
+import io.ktor.application.*
+import io.ktor.http.*
+import io.ktor.util.pipeline.*
 import modules.keys.util.KeyDocument
 import modules.keys.util.KeyGenerator
 import java.util.*
@@ -16,23 +17,19 @@ import java.util.*
  * if they aren't already set. If the authentication succeeded, it will respond with JSON content
  * that contains the newly generated key and a success boolean.
  */
-object GenerateRoute : ModuleRoute {
+object GenerateRoute : ModuleRoute("generate", HttpMethod.Get, "master") {
 
-    override fun Routing.provideRoute() {
-        authenticate("master") {
-            get("/keys/generate") {
-                val date = Date()
-                val key = KeyGenerator.generateSafeKey()
-                val keyDocument = KeyDocument(key, false, date.time, null)
+    override suspend fun PipelineContext<Unit, ApplicationCall>.handleCall() {
+        val date = Date()
+        val key = KeyGenerator.generateSafeKey()
+        val keyDocument = KeyDocument(key, false, date.time, null)
 
-                KeyGenerator.collection.insertOne(keyDocument)
+        KeyGenerator.collection.insertOne(keyDocument)
 
-                json {
-                    "success" * true
-                    "key" * key
-                    "createdOn" * date.toLocaleString()
-                }
-            }
+        json {
+            "success" * true
+            "key" * key
+            "createdOn" * date.toLocaleString()
         }
     }
 }

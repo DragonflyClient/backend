@@ -2,7 +2,10 @@ package modules.keys.routes
 
 import core.ModuleRoute
 import core.json
+import io.ktor.application.*
+import io.ktor.http.*
 import io.ktor.routing.*
+import io.ktor.util.pipeline.*
 import modules.keys.util.getKeyDocument
 import modules.keys.util.receiveParameters
 
@@ -14,32 +17,30 @@ import modules.keys.util.receiveParameters
  * JSON format. It will then check if the key is still valid and compare the current machine id
  * to the stored one.
  */
-object ValidateRoute : ModuleRoute {
+object ValidateRoute : ModuleRoute("validate", HttpMethod.Post) {
 
-    override fun Routing.provideRoute() {
-        post("/keys/validate") {
-            val parameters = receiveParameters()
-            val machineIdentifier = parameters.machineIdentifier
-            val keyDocument = getKeyDocument(parameters)
+    override suspend fun PipelineContext<Unit, ApplicationCall>.handleCall() {
+        val parameters = receiveParameters()
+        val machineIdentifier = parameters.machineIdentifier
+        val keyDocument = getKeyDocument(parameters)
 
-            if (!keyDocument.attached) {
-                return@post json {
-                    "success" * false
-                    "message" * "The provided key isn't attached to any device!"
-                }
+        if (!keyDocument.attached) {
+            return json {
+                "success" * false
+                "message" * "The provided key isn't attached to any device!"
             }
+        }
 
-            if (keyDocument.machineIdentifier != machineIdentifier) {
-                return@post json {
-                    "success" * false
-                    "message" * "The provided key is attached to another device!"
-                }
+        if (keyDocument.machineIdentifier != machineIdentifier) {
+            return json {
+                "success" * false
+                "message" * "The provided key is attached to another device!"
             }
+        }
 
-            json {
-                "success" * true
-                "message" * "success"
-            }
+        json {
+            "success" * true
+            "message" * "success"
         }
     }
 }

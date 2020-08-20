@@ -8,7 +8,7 @@ import io.ktor.gson.*
 import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import modules.authentication.AuthModule
+import modules.authentication.AuthenticationModule
 import modules.authentication.util.JwtConfig
 import modules.keys.KeysModule
 import modules.version.VersionModule
@@ -128,7 +128,7 @@ fun Application.main() {
             ))
         }
 
-        enable(AuthModule)
+        enable(AuthenticationModule)
         enable(KeysModule)
         enable(VersionModule)
     }

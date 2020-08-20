@@ -2,7 +2,9 @@ package modules.keys.routes
 
 import core.ModuleRoute
 import core.json
-import io.ktor.routing.*
+import io.ktor.application.*
+import io.ktor.http.*
+import io.ktor.util.pipeline.*
 import modules.keys.util.*
 import org.litote.kmongo.coroutine.updateOne
 
@@ -15,30 +17,28 @@ import org.litote.kmongo.coroutine.updateOne
  * will hold a `success` boolean set to true, otherwise, an additional message will be provided
  * that can be displayed in the client.
  */
-object AttachRoute : ModuleRoute {
+object AttachRoute : ModuleRoute("attach", HttpMethod.Post) {
 
-    override fun Routing.provideRoute() {
-        post("/keys/attach") {
-            val parameters = receiveParameters()
-            val machineIdentifier = parameters.machineIdentifier
-            val keyDocument = getKeyDocument(parameters)
+    override suspend fun PipelineContext<Unit, ApplicationCall>.handleCall() {
+        val parameters = receiveParameters()
+        val machineIdentifier = parameters.machineIdentifier
+        val keyDocument = getKeyDocument(parameters)
 
-            if (keyDocument.attached) {
-                return@post json {
-                    "success" * false
-                    "message" * "The provided key is already attached to a device!"
-                }
+        if (keyDocument.attached) {
+            return json {
+                "success" * false
+                "message" * "The provided key is already attached to a device!"
             }
+        }
 
-            keyDocument.attached = true
-            keyDocument.machineIdentifier = machineIdentifier
+        keyDocument.attached = true
+        keyDocument.machineIdentifier = machineIdentifier
 
-            KeyGenerator.collection.updateOne(keyDocument)
+        KeyGenerator.collection.updateOne(keyDocument)
 
-            json {
-                "success" * true
-                "message" * "success"
-            }
+        json {
+            "success" * true
+            "message" * "success"
         }
     }
 }
