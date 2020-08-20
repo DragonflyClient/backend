@@ -1,5 +1,6 @@
 package modules.keys.routes
 
+import core.ModuleRoute
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
@@ -14,29 +15,32 @@ import modules.keys.util.receiveParameters
  * JSON format. It will then check if the key is still valid and compare the current machine id
  * to the stored one.
  */
-fun Routing.routeKeysValidate() {
-    post("/keys/validate") {
-        val parameters = receiveParameters()
-        val machineIdentifier = parameters.machineIdentifier
-        val keyDocument = getKeyDocument(parameters)
+object ValidateRoute : ModuleRoute {
 
-        if (!keyDocument.attached) {
-            return@post call.respond(mapOf(
-                "success" to false,
-                "message" to "The provided key isn't attached to any device!"
+    override fun Routing.provideRoute() {
+        post("/keys/validate") {
+            val parameters = receiveParameters()
+            val machineIdentifier = parameters.machineIdentifier
+            val keyDocument = getKeyDocument(parameters)
+
+            if (!keyDocument.attached) {
+                return@post call.respond(mapOf(
+                    "success" to false,
+                    "message" to "The provided key isn't attached to any device!"
+                ))
+            }
+
+            if (keyDocument.machineIdentifier != machineIdentifier) {
+                return@post call.respond(mapOf(
+                    "success" to false,
+                    "message" to "The provided key is attached to another device!"
+                ))
+            }
+
+            call.respond(mapOf(
+                "success" to true,
+                "message" to "success"
             ))
         }
-
-        if (keyDocument.machineIdentifier != machineIdentifier) {
-            return@post call.respond(mapOf(
-                "success" to false,
-                "message" to "The provided key is attached to another device!"
-            ))
-        }
-
-        call.respond(mapOf(
-            "success" to true,
-            "message" to "success"
-        ))
     }
 }
