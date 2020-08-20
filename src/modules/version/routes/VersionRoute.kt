@@ -1,28 +1,31 @@
 package modules.version.routes
 
 import com.google.gson.JsonObject
+import core.ModuleRoute
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import modules.version.util.VersionManager
+import modules.version.util.VersionManager.earlyAccess
+import modules.version.util.VersionManager.stable
 import modules.version.util.update.UpdateChannel
+import modules.version.util.update.UpdateChannel.STABLE
 
 /**
  * Enables a route that the client or installer can send request to to get information about the
  * latest Dragonfly version.
  */
-fun Routing.routeVersion() {
-    get("/version") {
-        if (call.parameters.contains("channel")) {
-            val channel = UpdateChannel.getByIdentifier(call.parameters["channel"]!!)
-            call.respond((
-                    if (channel == UpdateChannel.STABLE)
-                        VersionManager.stable
-                    else
-                        VersionManager.earlyAccess)
-                .asJsonObject.toMap())
-        } else {
-            call.respond(mapOf("error" to "Missing information"))
+object VersionRoute : ModuleRoute {
+
+    override fun Routing.provideRoute() {
+        get("/version") {
+            if (call.parameters.contains("channel")) {
+                val channel = UpdateChannel.getByIdentifier(call.parameters["channel"]!!)
+                val jsonObject = if (channel == STABLE) stable else earlyAccess
+
+                call.respond(jsonObject.toMap())
+            } else {
+                call.respond(mapOf("error" to "Missing information"))
+            }
         }
     }
 }
