@@ -1,8 +1,6 @@
 package core
 
-import io.ktor.application.*
 import io.ktor.http.*
-import io.ktor.util.pipeline.*
 
 abstract class ModuleRoute(
     val route: String,
@@ -10,7 +8,7 @@ abstract class ModuleRoute(
     val authentication: String? = null,
     val optional: Boolean = false
 ) {
-    abstract suspend fun PipelineContext<Unit, ApplicationCall>.handleCall()
+    abstract suspend fun Call.handleCall()
 
     open fun legacyRoute(): String? = null
 

@@ -1,10 +1,8 @@
 package modules.keys.routes
 
-import core.ModuleRoute
-import core.json
+import core.*
 import io.ktor.application.*
 import io.ktor.http.*
-import io.ktor.util.pipeline.*
 import modules.keys.util.KeyDocument
 import modules.keys.util.KeyGenerator
 import org.litote.kmongo.eq
@@ -19,7 +17,7 @@ import java.util.*
  */
 object RequestRoute : ModuleRoute("find", HttpMethod.Get, "master") {
 
-    override suspend fun PipelineContext<Unit, ApplicationCall>.handleCall() {
+    override suspend fun Call.handleCall() {
         val key = call.parameters["key"] ?: error("Missing URL parameter 'key'")
         val keyDocument = KeyGenerator.collection.findOne(KeyDocument::key eq key)
         val machineIdentifier = keyDocument?.machineIdentifier

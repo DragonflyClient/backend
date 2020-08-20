@@ -1,10 +1,7 @@
 package modules.keys.routes
 
-import core.ModuleRoute
-import core.json
-import io.ktor.application.*
+import core.*
 import io.ktor.http.*
-import io.ktor.util.pipeline.*
 import modules.keys.util.*
 import org.litote.kmongo.coroutine.updateOne
 
@@ -19,7 +16,7 @@ import org.litote.kmongo.coroutine.updateOne
  */
 object AttachRoute : ModuleRoute("attach", HttpMethod.Post) {
 
-    override suspend fun PipelineContext<Unit, ApplicationCall>.handleCall() {
+    override suspend fun Call.handleCall() {
         val parameters = receiveParameters()
         val machineIdentifier = parameters.machineIdentifier
         val keyDocument = getKeyDocument(parameters)

@@ -1,11 +1,11 @@
 package modules.version.routes
 
 import com.google.gson.JsonObject
+import core.Call
 import core.ModuleRoute
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.response.*
-import io.ktor.util.pipeline.*
 import modules.version.util.VersionManager.earlyAccess
 import modules.version.util.VersionManager.stable
 import modules.version.util.update.UpdateChannel
@@ -20,7 +20,7 @@ import kotlin.collections.set
  */
 object VersionRoute : ModuleRoute("/", HttpMethod.Get) {
 
-    override suspend fun PipelineContext<Unit, ApplicationCall>.handleCall() {
+    override suspend fun Call.handleCall() {
         if (call.parameters.contains("channel")) {
             val channel = UpdateChannel.getByIdentifier(call.parameters["channel"]!!)
             val jsonObject = if (channel == STABLE) stable else earlyAccess

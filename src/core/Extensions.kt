@@ -9,19 +9,19 @@ import modules.authentication.util.Account
 import modules.authentication.util.JwtConfig
 import kotlin.random.Random
 
-typealias RouteContext = PipelineContext<Unit, ApplicationCall>
+typealias Call = PipelineContext<Unit, ApplicationCall>
 
-suspend fun RouteContext.success() = json("success" to true)
+suspend fun Call.success() = json("success" to true)
 
-suspend fun <K, V> RouteContext.json(vararg pairs: Pair<K, V>) = call.respond(mapOf(*pairs))
+suspend fun <K, V> Call.json(vararg pairs: Pair<K, V>) = call.respond(mapOf(*pairs))
 
-suspend fun RouteContext.json(block: JsonBuilder.() -> Unit) {
+suspend fun Call.json(block: JsonBuilder.() -> Unit) {
     val builder = JsonBuilder()
     builder.block()
     call.respond(builder.map)
 }
 
-suspend fun RouteContext.respondAccount(account: Account?) {
+suspend fun Call.respondAccount(account: Account?) {
     if (account == null) {
         json {
             "success" * false
@@ -38,7 +38,7 @@ suspend fun RouteContext.respondAccount(account: Account?) {
     }
 }
 
-suspend fun RouteContext.respondToken(account: Account) {
+suspend fun Call.respondToken(account: Account) {
     val token = JwtConfig.makeToken(account)
 
     call.response.cookies.append(Cookie(

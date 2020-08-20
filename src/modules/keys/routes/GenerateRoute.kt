@@ -1,10 +1,7 @@
 package modules.keys.routes
 
-import core.ModuleRoute
-import core.json
-import io.ktor.application.*
+import core.*
 import io.ktor.http.*
-import io.ktor.util.pipeline.*
 import modules.keys.util.KeyDocument
 import modules.keys.util.KeyGenerator
 import java.util.*
@@ -19,7 +16,7 @@ import java.util.*
  */
 object GenerateRoute : ModuleRoute("generate", HttpMethod.Get, "master") {
 
-    override suspend fun PipelineContext<Unit, ApplicationCall>.handleCall() {
+    override suspend fun Call.handleCall() {
         val date = Date()
         val key = KeyGenerator.generateSafeKey()
         val keyDocument = KeyDocument(key, false, date.time, null)

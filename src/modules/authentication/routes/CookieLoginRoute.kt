@@ -1,12 +1,10 @@
 package modules.authentication.routes
 
-import core.ModuleRoute
-import core.respondToken
+import core.*
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.http.*
 import io.ktor.request.*
-import io.ktor.util.pipeline.*
 import modules.authentication.util.Authentication
 
 /**
@@ -15,7 +13,7 @@ import modules.authentication.util.Authentication
  */
 object CookieLoginRoute : ModuleRoute("cookie/login", HttpMethod.Post) {
 
-    override suspend fun PipelineContext<Unit, ApplicationCall>.handleCall() {
+    override suspend fun Call.handleCall() {
         val credentials = call.receive<UserPasswordCredential>()
         val account = Authentication.verify(credentials.name, credentials.password)
             ?: error("Invalid username or password")

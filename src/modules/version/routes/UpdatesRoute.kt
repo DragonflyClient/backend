@@ -1,10 +1,10 @@
 package modules.version.routes
 
+import core.Call
 import core.ModuleRoute
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.response.*
-import io.ktor.util.pipeline.*
 import modules.version.util.Version
 import modules.version.util.update.UpdateChannel
 import modules.version.util.update.UpdateHistory
@@ -15,7 +15,7 @@ import modules.version.util.update.UpdateHistory
  */
 object UpdatesRoute : ModuleRoute("updates", HttpMethod.Get) {
 
-    override suspend fun PipelineContext<Unit, ApplicationCall>.handleCall() {
+    override suspend fun Call.handleCall() {
         if (call.parameters.contains("channel") && call.parameters.contains("since")) {
             val channel = UpdateChannel.getByIdentifier(call.parameters["channel"]!!) ?: error("Invalid channel identifier")
             val since = Version.of(call.parameters["since"]!!) ?: error("Invalid 'since' parameter")

@@ -11,6 +11,7 @@ import io.ktor.routing.*
 import modules.authentication.AuthenticationModule
 import modules.authentication.util.JwtConfig
 import modules.keys.KeysModule
+import modules.mojang.MojangModule
 import modules.version.VersionModule
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.reactivestreams.KMongo
@@ -131,5 +132,6 @@ fun Application.main() {
         enable(AuthenticationModule)
         enable(KeysModule)
         enable(VersionModule)
+        enable(MojangModule)
     }
 }

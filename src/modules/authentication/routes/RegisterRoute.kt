@@ -1,13 +1,11 @@
 package modules.authentication.routes
 
-import core.ModuleRoute
-import core.json
+import core.*
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
-import io.ktor.util.pipeline.*
 import modules.authentication.util.Authentication
 import modules.authentication.util.JwtConfig
 
@@ -16,7 +14,7 @@ import modules.authentication.util.JwtConfig
  */
 object RegisterRoute : ModuleRoute("register", HttpMethod.Post) {
 
-    override suspend fun PipelineContext<Unit, ApplicationCall>.handleCall() {
+    override suspend fun Call.handleCall() {
         try {
             val credentials = call.receive<UserPasswordCredential>()
             val account = Authentication.register(credentials.name, credentials.password)

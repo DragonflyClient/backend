@@ -1,10 +1,7 @@
 package modules.version.routes
 
-import core.ModuleRoute
-import core.json
-import io.ktor.application.*
+import core.*
 import io.ktor.http.*
-import io.ktor.util.pipeline.*
 import modules.version.util.update.UpdateHistory
 
 /**
@@ -13,7 +10,7 @@ import modules.version.util.update.UpdateHistory
  */
 object VersionInstallerRoute : ModuleRoute("installer", HttpMethod.Get) {
 
-    override suspend fun PipelineContext<Unit, ApplicationCall>.handleCall() {
+    override suspend fun Call.handleCall() {
         json {
             "version" * UpdateHistory.installer
         }

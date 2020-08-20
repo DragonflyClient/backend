@@ -1,8 +1,8 @@
 package modules.keys.util
 
+import core.Call
 import io.ktor.application.*
 import io.ktor.request.*
-import io.ktor.util.pipeline.*
 import org.litote.kmongo.eq
 
 /**
@@ -17,7 +17,7 @@ data class KeyMachineParameters(val key: String, val machineIdentifier: String)
  * A convenient function to receive the [KeyMachineParameters] from the request body and send
  * custom error responses if they are invalid or if the key doesn't exist.
  */
-suspend fun PipelineContext<Unit, ApplicationCall>.receiveParameters(): KeyMachineParameters {
+suspend fun Call.receiveParameters(): KeyMachineParameters {
     return call.receive()
 }
 

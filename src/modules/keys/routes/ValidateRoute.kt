@@ -1,11 +1,8 @@
 package modules.keys.routes
 
-import core.ModuleRoute
-import core.json
-import io.ktor.application.*
+import core.*
 import io.ktor.http.*
 import io.ktor.routing.*
-import io.ktor.util.pipeline.*
 import modules.keys.util.getKeyDocument
 import modules.keys.util.receiveParameters
 
@@ -19,7 +16,7 @@ import modules.keys.util.receiveParameters
  */
 object ValidateRoute : ModuleRoute("validate", HttpMethod.Post) {
 
-    override suspend fun PipelineContext<Unit, ApplicationCall>.handleCall() {
+    override suspend fun Call.handleCall() {
         val parameters = receiveParameters()
         val machineIdentifier = parameters.machineIdentifier
         val keyDocument = getKeyDocument(parameters)
