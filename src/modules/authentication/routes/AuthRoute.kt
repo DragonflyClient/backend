@@ -1,32 +1,20 @@
 package modules.authentication.routes
 
+import core.ModuleRoute
+import core.respondAccount
 import io.ktor.application.*
 import io.ktor.auth.*
-import io.ktor.response.*
 import io.ktor.routing.*
 import modules.authentication.util.Account
 
-/**
- * Creates a /auth root to validate JWTs.
- */
-fun Routing.routeAuth() {
-    authenticate("jwt", optional = true) {
-        post("/auth") {
-            val account = call.authentication.principal<Account>()
+object AuthRoute : ModuleRoute {
 
-            if (account == null) {
-                call.respond(mapOf(
-                    "success" to false,
-                    "error" to "Unauthenticated"
-                ))
-            } else {
-                call.respond(mapOf(
-                    "success" to true,
-                    "identifier" to account.identifier,
-                    "username" to account.username,
-                    "creationDate" to account.creationDate,
-                    "permissionLevel" to account.permissionLevel
-                ))
+    override fun Routing.provideRoute() {
+        authenticate("jwt", optional = true) {
+            post("/auth") {
+                val account = call.authentication.principal<Account>()
+
+                respondAccount(account)
             }
         }
     }

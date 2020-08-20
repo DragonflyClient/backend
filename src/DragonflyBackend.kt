@@ -8,7 +8,6 @@ import io.ktor.gson.*
 import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import io.ktor.util.pipeline.*
 import modules.authentication.AuthModule
 import modules.authentication.util.JwtConfig
 import modules.keys.KeysModule
@@ -134,5 +133,3 @@ fun Application.main() {
         enable(VersionModule)
     }
 }
-
-suspend fun PipelineContext<Unit, ApplicationCall>.success() = call.respond(mapOf("success" to true))
