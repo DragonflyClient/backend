@@ -72,6 +72,7 @@ fun Application.main() {
 
         host("inceptioncloud.net", schemes = listOf("https"))
         host("playdragonfly.net", schemes = listOf("https"))
+        host("www.playdragonfly.net", schemes = listOf("https"))
         host("ideas.playdragonfly.net", schemes = listOf("https"))
         hosts.add("null")
 
