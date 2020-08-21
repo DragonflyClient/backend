@@ -66,7 +66,6 @@ class JsonBuilder {
         "identifier" * identifier
         "uuid" * uuid
         "username" * username
-        "password" * password
         "creationDate" * creationDate
         "permissionLevel" * permissionLevel
         "linkedMinecraftAccounts" * linkedMinecraftAccounts
