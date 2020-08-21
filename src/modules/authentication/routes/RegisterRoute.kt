@@ -23,11 +23,7 @@ object RegisterRoute : ModuleRoute("register", HttpMethod.Post) {
             json {
                 "success" * true
                 "token" * token
-                "identifier" * account.identifier
-                "username" * account.username
-                "creationDate" * account.creationDate
-                "permissionLevel" * account.permissionLevel
-                "linkedMinecraftAccounts" * account.linkedMinecraftAccounts
+                +account
             }
         } catch (e: Exception) {
             e.printStackTrace()

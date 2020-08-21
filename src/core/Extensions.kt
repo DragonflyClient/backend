@@ -30,11 +30,7 @@ suspend fun Call.respondAccount(account: Account?) {
     } else {
         json {
             "success" * true
-            "identifier" * account.identifier
-            "username" * account.username
-            "creationDate" * account.creationDate
-            "permissionLevel" * account.permissionLevel
-            "linkedMinecraftAccounts" * account.linkedMinecraftAccounts
+            +account
         }
     }
 }
@@ -64,5 +60,15 @@ class JsonBuilder {
     operator fun String.times(value: Any?): Int {
         map[this] = value
         return Random.nextInt()
+    }
+
+    operator fun Account.unaryPlus() {
+        "identifier" * identifier
+        "uuid" * uuid
+        "username" * username
+        "password" * password
+        "creationDate" * creationDate
+        "permissionLevel" * permissionLevel
+        "linkedMinecraftAccounts" * linkedMinecraftAccounts
     }
 }
