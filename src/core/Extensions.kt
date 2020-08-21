@@ -34,6 +34,7 @@ suspend fun Call.respondAccount(account: Account?) {
             "username" * account.username
             "creationDate" * account.creationDate
             "permissionLevel" * account.permissionLevel
+            "linkedMinecraftAccounts" * account.linkedMinecraftAccounts
         }
     }
 }
@@ -54,13 +55,7 @@ suspend fun Call.respondToken(account: Account) {
         )
     ))
 
-    call.respond(mapOf(
-        "success" to true,
-        "identifier" to account.identifier,
-        "username" to account.username,
-        "creationDate" to account.creationDate,
-        "permissionLevel" to account.permissionLevel
-    ))
+    respondAccount(account)
 }
 
 class JsonBuilder {

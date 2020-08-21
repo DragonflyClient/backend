@@ -27,6 +27,7 @@ object RegisterRoute : ModuleRoute("register", HttpMethod.Post) {
                 "username" * account.username
                 "creationDate" * account.creationDate
                 "permissionLevel" * account.permissionLevel
+                "linkedMinecraftAccounts" * account.linkedMinecraftAccounts
             }
         } catch (e: Exception) {
             e.printStackTrace()

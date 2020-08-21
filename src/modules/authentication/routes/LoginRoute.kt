@@ -30,6 +30,7 @@ object LoginRoute : ModuleRoute("login", HttpMethod.Post) {
             "username" * account.username
             "creationDate" * account.creationDate
             "permissionLevel" * account.permissionLevel
+            "linkedMinecraftAccounts" * account.linkedMinecraftAccounts
             "token" * token
         }
     }
