@@ -17,42 +17,55 @@ object MinecraftLinkManager {
     private val accountsCollection = database.getCollection<Account>("accounts")
 
     /** The collection that manages the uuids */
-    private val linksCollection = database.getCollection<MinecraftLink>("mojang-links")
+    private val linksCollection = database.getCollection<MinecraftLink>("minecraft-links")
 
-    fun verifyAccount(mojangToken: String): UUID? {
+    /**
+     * Verifies that the given [minecraftToken] is valid and returns the UUID associated with the token.
+     * Returns null if the token is invalid.
+     */
+    fun verifyAccount(minecraftToken: String): UUID? {
         val valid = khttp.post(
             url = "https://authserver.mojang.com/validate",
             json = mapOf(
-                "accessToken" to mojangToken
+                "accessToken" to minecraftToken
             )
         ).statusCode == 204
 
         return valid.takeIf { it }?.runCatching {
-            parseWithoutDashes(JWT.decode(mojangToken).getClaim("spr").asString())
+            parseWithoutDashes(JWT.decode(minecraftToken).getClaim("spr").asString())
         }?.getOrNull()
     }
 
-    suspend fun getByMojangUUID(uuid: UUID): Account? {
+    /**
+     * Tries to find a Dragonfly account by the Minecraft [uuid].
+     */
+    suspend fun getByMinecraftUUID(uuid: UUID): Account? {
         val dragonflyUUID = linksCollection.findOne(MinecraftLink::minecraft eq uuid.toString())
         return dragonflyUUID?.let { AuthenticationManager.getByUUID(it.dragonfly) }
     }
 
-    suspend fun link(account: Account, mojang: UUID) {
-        val linked = account.linkedMojangAccounts?.toMutableList() ?: mutableListOf()
-        linked.add(mojang.toString())
-        account.linkedMojangAccounts = linked
-        accountsCollection.updateOne(Account::uuid eq account.uuid, setValue(Account::linkedMojangAccounts, linked))
+    /**
+     * Links the given [minecraft] UUID to the Dragonfly [account].
+     */
+    suspend fun link(account: Account, minecraft: UUID) {
+        val linked = account.linkedMinecraftAccounts?.toMutableList() ?: mutableListOf()
+        linked.add(minecraft.toString())
+        account.linkedMinecraftAccounts = linked
+        accountsCollection.updateOne(Account::uuid eq account.uuid, setValue(Account::linkedMinecraftAccounts, linked))
 
-        val mojangLink = MinecraftLink(mojang.toString(), account.uuid)
-        linksCollection.insertOne(mojangLink)
+        val minecraftLink = MinecraftLink(minecraft.toString(), account.uuid)
+        linksCollection.insertOne(minecraftLink)
     }
 
-    suspend fun unlink(account: Account, mojang: UUID) {
-        val linked = account.linkedMojangAccounts?.toMutableList()?.also { it.remove(mojang.toString()) } ?: mutableListOf()
-        account.linkedMojangAccounts = linked
-        accountsCollection.updateOne(Account::uuid eq account.uuid, setValue(Account::linkedMojangAccounts, linked))
+    /**
+     * Removes the link from the Dragonfly [account] to the [minecraft] UUID.
+     */
+    suspend fun unlink(account: Account, minecraft: UUID) {
+        val linked = account.linkedMinecraftAccounts?.toMutableList()?.also { it.remove(minecraft.toString()) } ?: mutableListOf()
+        account.linkedMinecraftAccounts = linked
+        accountsCollection.updateOne(Account::uuid eq account.uuid, setValue(Account::linkedMinecraftAccounts, linked))
 
-        linksCollection.deleteOne(MinecraftLink::minecraft eq mojang.toString())
+        linksCollection.deleteOne(MinecraftLink::minecraft eq minecraft.toString())
     }
 
     private fun parseWithoutDashes(digits: String): UUID = UUID.fromString(
