@@ -65,7 +65,7 @@ object MinecraftLinkManager {
         account.linkedMinecraftAccounts = linked
         accountsCollection.updateOne(Account::uuid eq account.uuid, setValue(Account::linkedMinecraftAccounts, linked))
 
-        linksCollection.deleteOne(MinecraftLink::minecraft eq minecraft.toString())
+        linksCollection.deleteOne(MinecraftLink::minecraft eq minecraft.toString(), MinecraftLink::dragonfly eq account.uuid)
     }
 
     fun parseWithoutDashes(digits: String): UUID = UUID.fromString(

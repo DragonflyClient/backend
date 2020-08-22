@@ -15,7 +15,7 @@ object UnlinkRoute : ModuleRoute("unlink", HttpMethod.Post, "jwt") {
         val account = call.authentication.principal<Account>() ?: error("Not authenticated with Dragonfly")
         val uuid = MinecraftLinkManager.parseWithoutDashes(call.receiveText())
 
-        if (getByMinecraftUUID(uuid) != null) {
+        if (getByMinecraftUUID(uuid) == account) {
             MinecraftLinkManager.unlink(account, uuid)
             success()
         } else error("This account is not linked to a Dragonfly account")
