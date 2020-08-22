@@ -8,14 +8,12 @@ import io.ktor.request.*
 import modules.authentication.util.Account
 import modules.minecraft.util.MinecraftLinkManager
 import modules.minecraft.util.MinecraftLinkManager.getByMinecraftUUID
-import modules.minecraft.util.MinecraftLinkManager.verifyAccount
 
 object UnlinkRoute : ModuleRoute("unlink", HttpMethod.Post, "jwt") {
 
     override suspend fun Call.handleCall() {
         val account = call.authentication.principal<Account>() ?: error("Not authenticated with Dragonfly")
-        val token = call.receiveText()
-        val uuid = verifyAccount(token) ?: error("Invalid Minecraft access token")
+        val uuid = MinecraftLinkManager.parseWithoutDashes(call.receiveText())
 
         if (getByMinecraftUUID(uuid) != null) {
             MinecraftLinkManager.unlink(account, uuid)

@@ -68,7 +68,7 @@ object MinecraftLinkManager {
         linksCollection.deleteOne(MinecraftLink::minecraft eq minecraft.toString())
     }
 
-    private fun parseWithoutDashes(digits: String): UUID = UUID.fromString(
-        digits.replace("(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})".toRegex(), "$1-$2-$3-$4-$5")
+    fun parseWithoutDashes(digits: String): UUID = UUID.fromString(
+        if (digits.contains("-")) digits else digits.replace("(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})".toRegex(), "$1-$2-$3-$4-$5")
     )
 }
