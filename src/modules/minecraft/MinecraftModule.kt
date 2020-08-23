@@ -1,11 +1,11 @@
 package modules.minecraft
 
 import core.Module
-import modules.minecraft.routes.LinkRoute
-import modules.minecraft.routes.UnlinkRoute
+import modules.minecraft.routes.*
 
 object MinecraftModule : Module(
     "Minecraft",
     LinkRoute,
-    UnlinkRoute
+    UnlinkRoute,
+    CookieUnlinkRoute
 )
