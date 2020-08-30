@@ -13,6 +13,7 @@ import modules.authentication.util.AuthenticationManager
 import modules.authentication.util.JwtConfig
 import modules.keys.KeysModule
 import modules.minecraft.MinecraftModule
+import modules.store.StoreModule
 import modules.version.VersionModule
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.reactivestreams.KMongo
@@ -91,7 +92,7 @@ fun Application.main() {
 
     install(StatusPages) {
         exception<Throwable> {
-            call.respond(mapOf(
+            call.respond(HttpStatusCode.InternalServerError, mapOf(
                 "success" to false,
                 "error" to it.message
             ))
@@ -127,5 +128,6 @@ fun Application.main() {
         enable(KeysModule)
         enable(VersionModule)
         enable(MinecraftModule)
+        enable(StoreModule)
     }
 }

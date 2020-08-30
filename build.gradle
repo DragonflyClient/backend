@@ -59,6 +59,7 @@ dependencies {
     implementation "ch.qos.logback:logback-classic:$logback_version"
     implementation "at.favre.lib:bcrypt:0.9.0"
     implementation "khttp:khttp:1.0.0"
+    implementation "com.stripe:stripe-java:19.45.0"
     compile 'org.litote.kmongo:kmongo-coroutine:4.0.3'
 
     implementation "io.ktor:ktor-server-netty:$ktor_version"
