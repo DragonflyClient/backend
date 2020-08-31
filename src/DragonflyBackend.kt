@@ -94,7 +94,7 @@ fun Application.main() {
         exception<Throwable> {
             call.respond(HttpStatusCode.BadRequest, mapOf(
                 "success" to false,
-                "error" to it.message
+                "error" to it.message?.replace("\"", "'")
             ))
         }
     }
