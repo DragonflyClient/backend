@@ -2,6 +2,7 @@ package modules.cosmetics.util
 
 import DragonflyBackend
 import modules.minecraft.util.MinecraftLinkManager
+import org.bson.Document
 import org.bson.conversions.Bson
 import org.litote.kmongo.eq
 import org.litote.kmongo.setValue
@@ -11,6 +12,14 @@ object CosmeticsController {
     private val database = DragonflyBackend.mongo.getDatabase("dragonfly")
 
     private val collection = database.getCollection<CosmeticsDocument>("cosmetics")
+
+    private val available = database.getCollection<Document>("available-cosmetics")
+
+    /**
+     * Returns all items in the 'available-cosmetics' collection.
+     */
+    suspend fun getAvailable(): List<Document> = available.find().toList()
+        .map { it.apply { remove("_id") } }
 
     /**
      * Returns all cosmetics on the Dragonfly account specified by the [filter] and bound to the
