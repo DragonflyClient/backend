@@ -4,6 +4,8 @@ import DragonflyBackend
 import com.auth0.jwt.JWT
 import modules.authentication.util.Account
 import modules.authentication.util.AuthenticationManager
+import modules.cosmetics.util.CosmeticsController
+import modules.cosmetics.util.Filter
 import org.litote.kmongo.eq
 import org.litote.kmongo.setValue
 import java.util.*
@@ -39,8 +41,13 @@ object MinecraftLinkManager {
     /**
      * Tries to find a Dragonfly account by the Minecraft [uuid].
      */
-    suspend fun getByMinecraftUUID(uuid: UUID): Account? {
-        val dragonflyUUID = linksCollection.findOne(MinecraftLink::minecraft eq uuid.toString())
+    suspend fun getByMinecraftUUID(uuid: UUID): Account? = getByMinecraftUUID(uuid.toString())
+
+    /**
+     * Tries to find a Dragonfly account by the Minecraft [uuid].
+     */
+    suspend fun getByMinecraftUUID(uuid: String): Account? {
+        val dragonflyUUID = linksCollection.findOne(MinecraftLink::minecraft eq uuid)
         return dragonflyUUID?.let { AuthenticationManager.getByUUID(it.dragonfly) }
     }
 
@@ -61,6 +68,8 @@ object MinecraftLinkManager {
      * Removes the link from the Dragonfly [account] to the [minecraft] UUID.
      */
     suspend fun unlink(account: Account, minecraft: UUID) {
+        CosmeticsController.updateEach(Filter.new().minecraft(minecraft.toString())) { it.minecraft = null }
+
         val linked = account.linkedMinecraftAccounts?.toMutableList()?.also { it.remove(minecraft.toString()) } ?: mutableListOf()
         account.linkedMinecraftAccounts = linked
         accountsCollection.updateOne(Account::uuid eq account.uuid, setValue(Account::linkedMinecraftAccounts, linked))

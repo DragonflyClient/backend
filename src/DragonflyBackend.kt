@@ -11,9 +11,9 @@ import io.ktor.routing.*
 import modules.authentication.AuthenticationModule
 import modules.authentication.util.AuthenticationManager
 import modules.authentication.util.JwtConfig
+import modules.cosmetics.CosmeticsModule
 import modules.keys.KeysModule
 import modules.minecraft.MinecraftModule
-import modules.store.StoreModule
 import modules.version.VersionModule
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.reactivestreams.KMongo
@@ -128,6 +128,6 @@ fun Application.main() {
         enable(KeysModule)
         enable(VersionModule)
         enable(MinecraftModule)
-        enable(StoreModule)
+        enable(CosmeticsModule)
     }
 }
