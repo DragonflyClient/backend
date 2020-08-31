@@ -92,7 +92,7 @@ fun Application.main() {
 
     install(StatusPages) {
         exception<Throwable> {
-            call.respond(HttpStatusCode.BadRequest, mapOf(
+            call.respond(mapOf(
                 "success" to false,
                 "error" to it.message?.replace("\"", "'")
             ))

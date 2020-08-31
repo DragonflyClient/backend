@@ -8,18 +8,22 @@ import io.ktor.request.*
 import modules.cosmetics.util.CosmeticsController
 import modules.cosmetics.util.Filter
 
-object ToggleRoute : ModuleRoute("toggle", HttpMethod.Post, "jwt", true) {
+object BindRoute : ModuleRoute("bind", HttpMethod.Post, "jwt", true) {
 
     override suspend fun Call.handleCall() {
         val account = twoWayAuthentication()
         val body = call.receive<JsonObject>()
         val cosmeticQualifier = body["cosmeticQualifier"].asString
-        val enable = body["enable"].asBoolean
+        val minecraftUUID = if (body.has("unbind")) null else body["minecraftUUID"].asString
         var found = false
+
+        if (minecraftUUID != null && account.linkedMinecraftAccounts?.contains(minecraftUUID) != true) {
+            error("This Minecraft account is not linked to the Dragonfly account.")
+        }
 
         CosmeticsController.updateEach(Filter.new().dragonfly(account.uuid)) {
             if (it.cosmeticQualifier == cosmeticQualifier) {
-                it.enabled = enable
+                it.minecraft = minecraftUUID
                 found = true
             }
         }

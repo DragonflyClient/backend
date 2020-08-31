@@ -1,12 +1,12 @@
 package core
 
 import io.ktor.application.*
+import io.ktor.auth.*
 import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.util.date.*
 import io.ktor.util.pipeline.*
-import modules.authentication.util.Account
-import modules.authentication.util.JwtConfig
+import modules.authentication.util.*
 import kotlin.random.Random
 
 typealias Call = PipelineContext<Unit, ApplicationCall>
@@ -19,6 +19,19 @@ suspend fun Call.json(block: JsonBuilder.() -> Unit) {
     val builder = JsonBuilder()
     builder.block()
     call.respond(builder.map)
+}
+
+suspend fun Call.twoWayAuthentication(): Account {
+    var account = call.authentication.principal<Account>()
+
+    if (account == null) {
+        val cookie = call.request.cookies["dragonfly-token"] ?: error("Unauthenticated")
+        val token = JwtConfig.verifier.verify(cookie)
+        account = token.getClaim("uuid").asString()?.let { uuid -> AuthenticationManager.getByUUID(uuid) }
+    }
+
+    if (account == null) error("Unauthenticated")
+    return account
 }
 
 suspend fun Call.respondAccount(account: Account?) {
