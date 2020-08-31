@@ -12,7 +12,8 @@ object CosmeticsModule : Module(
     FindRoute,
     AvailableRoute,
     ToggleRoute,
-    BindRoute
+    BindRoute,
+    ConfigureRoute
 )
 
 fun main() = runBlocking {

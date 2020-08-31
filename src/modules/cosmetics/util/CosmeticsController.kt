@@ -1,6 +1,9 @@
 package modules.cosmetics.util
 
 import DragonflyBackend
+import com.google.gson.JsonParser
+import com.mongodb.client.model.Filters
+import modules.cosmetics.util.config.PropertiesSchema
 import modules.minecraft.util.MinecraftLinkManager
 import org.bson.Document
 import org.bson.conversions.Bson
@@ -20,6 +23,22 @@ object CosmeticsController {
      */
     suspend fun getAvailable(): List<Document> = available.find().toList()
         .map { it.apply { remove("_id") } }
+
+    /**
+     * Returns an available cosmetic item by its [cosmeticId].
+     */
+    suspend fun getAvailableById(cosmeticId: Int) = available.findOne(Filters.eq("cosmeticId", cosmeticId))
+
+    /**
+     * Generates a [PropertiesSchema] based on the available cosmetic specified by the [cosmeticId].
+     */
+    suspend fun getPropertiesSchema(cosmeticId: Int): PropertiesSchema {
+        val availableCosmetic = getAvailableById(cosmeticId) ?: error("Invalid cosmetic id")
+
+        val properties = availableCosmetic["properties"] as Document
+        val jsonObject = JsonParser.parseString(properties.toJson()).asJsonObject
+        return PropertiesSchema.create(jsonObject)
+    }
 
     /**
      * Returns all cosmetics on the Dragonfly account specified by the [filter] and bound to the
@@ -53,9 +72,10 @@ object CosmeticsController {
      * overwritten regardless of whether the [CosmeticItem] is bound to the Minecraft account specified
      * by the [filter].
      */
-    suspend fun update(filter: Filter, block: (MutableList<CosmeticItem>) -> Unit) {
+    suspend fun update(filter: Filter, block: suspend (MutableList<CosmeticItem>) -> Unit) {
         val existing = find(Filter.new().dragonfly(filter.getDragonflyUUID()))
-        val new = existing.toMutableList().apply(block)
+        val new = existing.toMutableList()
+        block(new)
 
         override(filter, new)
     }
@@ -67,10 +87,10 @@ object CosmeticsController {
      * specified by the filter. These cosmetics remain unchanged after the update is executed and the
      * old collection is [overwritten][override] by the updated one.
      */
-    suspend fun updateEach(filter: Filter, block: (CosmeticItem) -> Unit) =
+    suspend fun updateEach(filter: Filter, block: suspend (CosmeticItem) -> Unit) =
         update(filter) {
             it.filter { item -> filter.checkBound(item) }
-                .forEach(block)
+                .forEach { item -> block(item) }
         }
 
     /**
