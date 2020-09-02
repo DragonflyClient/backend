@@ -60,7 +60,7 @@ suspend fun Call.respondToken(account: Account) {
         domain = "playdragonfly.net",
         path = "/",
         extensions = mapOf(
-            "SameSite" to "Strict"
+            "SameSite" to "Lax"
         )
     ))
 
