@@ -60,7 +60,7 @@ object MinecraftLinkManager {
         account.linkedMinecraftAccounts = linked
         accountsCollection.updateOne(Account::uuid eq account.uuid, setValue(Account::linkedMinecraftAccounts, linked))
 
-        val minecraftLink = MinecraftLink(minecraft.toString(), account.uuid)
+        val minecraftLink = MinecraftLink(minecraft.toString(), account.uuid, System.currentTimeMillis())
         linksCollection.insertOne(minecraftLink)
     }
 
