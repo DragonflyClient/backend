@@ -12,6 +12,7 @@ import modules.authentication.AuthenticationModule
 import modules.authentication.util.AuthenticationManager
 import modules.authentication.util.JwtConfig
 import modules.cosmetics.CosmeticsModule
+import modules.diagnostics.DiagnosticsModule
 import modules.keys.KeysModule
 import modules.minecraft.MinecraftModule
 import modules.version.VersionModule
@@ -129,5 +130,6 @@ fun Application.main() {
         enable(VersionModule)
         enable(MinecraftModule)
         enable(CosmeticsModule)
+        enable(DiagnosticsModule)
     }
 }
