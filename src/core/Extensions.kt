@@ -13,6 +13,14 @@ typealias Call = PipelineContext<Unit, ApplicationCall>
 
 suspend fun Call.success() = json("success" to true)
 
+suspend fun Call.fatal(message: Any?): Nothing {
+    call.respond(HttpStatusCode.InternalServerError, mapOf(
+        "success" to false,
+        "error" to message
+    ))
+    throw Exception("Fatal error: $message")
+}
+
 suspend fun <K, V> Call.json(vararg pairs: Pair<K, V>) = call.respond(mapOf(*pairs))
 
 suspend fun Call.json(block: JsonBuilder.() -> Unit) {

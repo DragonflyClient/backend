@@ -15,6 +15,7 @@ import modules.cosmetics.CosmeticsModule
 import modules.diagnostics.DiagnosticsModule
 import modules.keys.KeysModule
 import modules.minecraft.MinecraftModule
+import modules.store.StoreModule
 import modules.version.VersionModule
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.reactivestreams.KMongo
@@ -131,5 +132,6 @@ fun Application.main() {
         enable(MinecraftModule)
         enable(CosmeticsModule)
         enable(DiagnosticsModule)
+        enable(StoreModule)
     }
 }

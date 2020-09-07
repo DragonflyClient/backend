@@ -1,53 +1,65 @@
 package modules.store.routes.stripe
 
 import DragonflyBackend
-import com.google.gson.Gson
-import com.stripe.model.*
+import com.google.gson.JsonObject
 import core.*
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.request.*
 import log
-import modules.authentication.util.*
-import modules.authentication.util.Account
+import modules.authentication.util.AuthenticationManager
+import modules.authentication.util.JwtConfig
+import modules.cosmetics.util.*
+import modules.store.util.Payment
+import modules.store.util.ShopItem
 import org.bson.Document
-import java.io.File
-import java.text.DecimalFormat
+import org.litote.kmongo.eq
+import java.util.*
 
-object PaymentIntentSucceededRoute : ModuleRoute("stripe/payment_intent_succeeded", HttpMethod.Post) {
+object PaymentIntentSucceededRoute : ModuleRoute("execute_payment", HttpMethod.Post) {
 
     private val database = DragonflyBackend.mongo.getDatabase("dragonfly")
 
-    /** The collection in which the [accounts][Account] are stored */
-    private val collection = database.getCollection<Document>("shop-items")
+    private val shopItems = database.getCollection<ShopItem>("shop-items")
+
+    private val payments = database.getCollection<Payment>("payments")
 
     override suspend fun Call.handleCall() {
-        val payload = call.receiveText()
-        val event = Gson().fromJson(payload, Event::class.java)
+        // parse request
+        val payload = call.receive<JsonObject>()
+        val paymentId = payload["paymentId"].asString
 
-        val dataObjectDeserializer = event.dataObjectDeserializer
-        val stripeObject: StripeObject
+        // load payment data
+        val payment = payments.findOne("{ paymentId: '$paymentId' }")
+            ?: fatal("Payment $paymentId not found")
 
-        if (dataObjectDeserializer.getObject().isPresent) {
-            stripeObject = dataObjectDeserializer.getObject().get()
-        } else {
-            error("Deserialization failed")
-        }
+        // validate payment state
+        if (payment.paymentState != "succeeded" && payment.paymentState != "approved")
+            fatal("Payment didn't succeed")
+        else if (payment.executed == true)
+            fatal("Payment has already been executed!")
 
-        val paymentIntent = stripeObject as? PaymentIntent ?: error("Invalid event type")
-        val metadata = paymentIntent.metadata
+        // load shop item
+        val payedItemId = payment.itemId
+        val shopItem = shopItems.findOne("{ id: '$payedItemId' }")
+            ?: fatal("Shop item $payedItemId not found")
 
-        val dragonflyToken = JwtConfig.verifier.verify(metadata["dragonfly_token"])
-        val account = dragonflyToken.getClaim("uuid").asString()?.let { uuid -> AuthenticationManager.getByUUID(uuid) }!!
+        // load Dragonfly account
+        val dragonflyToken = JwtConfig.verifier.verify(payment.dragonflyToken)
+        val account = dragonflyToken.getClaim("uuid").asString()?.let { uuid -> AuthenticationManager.getByUUID(uuid) }
+            ?: fatal("Account not found")
 
-        val itemId = metadata["item_id"]
-        val item = collection.findOne("{ sku: '$itemId' }")!!
-        val itemName = item.getString("name")!!
-        val price = DecimalFormat("0.00").format(item.getInteger("price") / 100.0) + item.getString("currency").toUpperCase()
+        // insert cosmetic
+        val cosmeticId = shopItem.cosmeticId
+            ?: fatal("Shop item doesn't contain cosmetic id!")
+        CosmeticsController.insert(
+            Filter.new().dragonfly(account.uuid),
+            CosmeticItem(cosmeticId, UUID.randomUUID().toString(), enabled = true, config = Document())
+        )
+        log("Inserted cosmetic #$cosmeticId for user ${account.username}.")
 
-        log("${account.username} bought $itemName for $price")
-
-        File("payment_intent.json").writeText(paymentIntent.toString())
+        payment.executed = true
+        payments.updateOne(Payment::paymentId eq paymentId, payment)
         success()
     }
 }
