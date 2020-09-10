@@ -94,6 +94,20 @@ object CosmeticsController {
         }
 
     /**
+     * Calls the [updateEach] function while additionally checking if the [cosmeticQualifier] matches.
+     */
+    suspend fun updateEach(filter: Filter, cosmeticQualifier: String, block: suspend (CosmeticItem) -> Unit): Boolean {
+        var found = false
+        updateEach(filter) {
+            if (it.cosmeticQualifier == cosmeticQualifier) {
+                block(it)
+                found = true
+            }
+        }
+        return found
+    }
+
+    /**
      * Inserts the new [cosmeticItem] into the cosmetics collection of the Dragonfly account specified
      * by the [filter].
      */

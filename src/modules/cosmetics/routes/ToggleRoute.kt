@@ -15,19 +15,11 @@ object ToggleRoute : ModuleRoute("toggle", HttpMethod.Post, "jwt", true) {
         val body = call.receive<JsonObject>()
         val cosmeticQualifier = body["cosmeticQualifier"].asString
         val enable = body["enable"].asBoolean
-        var found = false
 
-        CosmeticsController.updateEach(Filter.new().dragonfly(account.uuid)) {
-            if (it.cosmeticQualifier == cosmeticQualifier) {
-                it.enabled = enable
-                found = true
-            }
-        }
+        val updated = CosmeticsController.updateEach(
+            Filter.new().dragonfly(account.uuid), cosmeticQualifier
+        ) { it.enabled = enable }
 
-        if (found) {
-            success()
-        } else {
-            error("Invalid cosmetic qualifier")
-        }
+        if (updated) success() else fatal("Invalid cosmetic qualifier", HttpStatusCode.BadRequest)
     }
 }

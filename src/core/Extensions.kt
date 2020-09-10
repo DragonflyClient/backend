@@ -13,8 +13,8 @@ typealias Call = PipelineContext<Unit, ApplicationCall>
 
 suspend fun Call.success() = json("success" to true)
 
-suspend fun Call.fatal(message: Any?): Nothing {
-    call.respond(HttpStatusCode.InternalServerError, mapOf(
+suspend fun Call.fatal(message: Any?, code: HttpStatusCode = HttpStatusCode.InternalServerError): Nothing {
+    call.respond(code, mapOf(
         "success" to false,
         "error" to message
     ))
