@@ -1,7 +1,6 @@
 package modules.version.routes
 
-import core.Call
-import core.ModuleRoute
+import core.*
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.response.*
@@ -17,8 +16,8 @@ object UpdatesRoute : ModuleRoute("updates", HttpMethod.Get) {
 
     override suspend fun Call.handleCall() {
         if (call.parameters.contains("channel") && call.parameters.contains("since")) {
-            val channel = UpdateChannel.getByIdentifier(call.parameters["channel"]!!) ?: error("Invalid channel identifier")
-            val since = Version.of(call.parameters["since"]!!) ?: error("Invalid 'since' parameter")
+            val channel = UpdateChannel.getByIdentifier(call.parameters["channel"]!!) ?: fatal("Invalid channel identifier")
+            val since = Version.of(call.parameters["since"]!!) ?: fatal("Invalid 'since' parameter")
 
             val history = UpdateHistory.getUpdateHistorySince(channel, since)
             val latest = history.firstOrNull() ?: UpdateHistory.getUpdateHistory(channel).first()
@@ -32,7 +31,7 @@ object UpdatesRoute : ModuleRoute("updates", HttpMethod.Get) {
                     "title" to latest.title
                 )
             )
-        } else error("Missing 'channel' or 'since' parameter")
+        } else fatal("Missing 'channel' or 'since' parameter")
     }
 
     override fun legacyRoute() = "updates"

@@ -94,9 +94,10 @@ fun Application.main() {
 
     install(StatusPages) {
         exception<Throwable> {
-            call.respond(mapOf(
+            log(it.message.toString(), Level.ERROR)
+            call.respond(HttpStatusCode.InternalServerError, mapOf(
                 "success" to false,
-                "error" to it.message?.replace("\"", "'")
+                "error" to "Unhandled exception"
             ))
         }
     }

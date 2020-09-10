@@ -17,7 +17,7 @@ object BindRoute : ModuleRoute("bind", HttpMethod.Post, "jwt", true) {
         val minecraftUUID = if (body.has("unbind")) null else body["minecraftUUID"].asString
 
         if (minecraftUUID != null && account.linkedMinecraftAccounts?.contains(minecraftUUID) != true) {
-            error("This Minecraft account is not linked to the Dragonfly account.")
+            fatal("This Minecraft account is not linked to the Dragonfly account.")
         }
 
         val updated = CosmeticsController.updateEach(

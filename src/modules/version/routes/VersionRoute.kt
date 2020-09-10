@@ -1,8 +1,7 @@
 package modules.version.routes
 
 import com.google.gson.JsonObject
-import core.Call
-import core.ModuleRoute
+import core.*
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.response.*
@@ -27,7 +26,7 @@ object VersionRoute : ModuleRoute("/", HttpMethod.Get) {
 
             call.respond(jsonObject.toMap())
         } else {
-            error("Missing information")
+            fatal("Missing information")
         }
     }
 

@@ -53,7 +53,7 @@ object SubmitCrashReportRoute : ModuleRoute("submit_crash_report", HttpMethod.Po
             success()
         } catch (e: Exception) {
             e.printStackTrace()
-            error(e.message!!)
+            fatal(e.message!!)
         }
     }
 

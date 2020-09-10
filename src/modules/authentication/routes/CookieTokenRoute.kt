@@ -12,7 +12,7 @@ import modules.authentication.util.JwtConfig
 object CookieTokenRoute : ModuleRoute("cookie/token", HttpMethod.Post) {
 
     override suspend fun Call.handleCall() {
-        val cookie = call.request.cookies["dragonfly-token"] ?: error("No token cookie found")
+        val cookie = call.request.cookies["dragonfly-token"] ?: fatal("No token cookie found")
         val token = JwtConfig.verifier.verify(cookie)
         val account = token.getClaim("uuid").asString()?.let { uuid -> AuthenticationManager.getByUUID(uuid) }
 

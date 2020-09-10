@@ -16,7 +16,7 @@ object CookieLoginRoute : ModuleRoute("cookie/login", HttpMethod.Post) {
     override suspend fun Call.handleCall() {
         val credentials = call.receive<UserPasswordCredential>()
         val account = AuthenticationManager.verify(credentials.name, credentials.password)
-            ?: error("Invalid username or password")
+            ?: fatal("Invalid username or password")
 
         respondToken(account)
     }
