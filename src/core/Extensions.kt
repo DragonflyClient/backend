@@ -84,7 +84,7 @@ class JsonBuilder {
     }
 
     operator fun Account.unaryPlus() {
-        "identifier" * identifier
+        "email" * email
         "uuid" * uuid
         "username" * username
         "creationDate" * creationDate

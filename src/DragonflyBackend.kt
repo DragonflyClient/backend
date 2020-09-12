@@ -13,6 +13,7 @@ import modules.authentication.util.AuthenticationManager
 import modules.authentication.util.JwtConfig
 import modules.cosmetics.CosmeticsModule
 import modules.diagnostics.DiagnosticsModule
+import modules.emailverification.EmailVerificationModule
 import modules.keys.KeysModule
 import modules.minecraft.MinecraftModule
 import modules.store.StoreModule
@@ -33,6 +34,11 @@ object DragonflyBackend {
      * A coroutine-based KMongo client to connect to the database
      */
     val mongo = KMongo.createClient(CONNECTION_STRING).coroutine
+
+    /**
+     * The default Dragonfly database.
+     */
+    val database = mongo.getDatabase("dragonfly")
 
     /**
      * The instance of the ktor application
@@ -134,5 +140,6 @@ fun Application.main() {
         enable(CosmeticsModule)
         enable(DiagnosticsModule)
         enable(StoreModule)
+        enable(EmailVerificationModule)
     }
 }
