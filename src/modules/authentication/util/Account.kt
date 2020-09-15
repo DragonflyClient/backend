@@ -15,6 +15,7 @@ import io.ktor.auth.*
 data class Account(
     val identifier: String,
     val uuid: String,
+    val email: String = "<no email set>",
     val username: String,
     val password: String,
     val creationDate: Long,

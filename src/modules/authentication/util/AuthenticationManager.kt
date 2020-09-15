@@ -3,6 +3,7 @@ package modules.authentication.util
 import DragonflyBackend
 import at.favre.lib.crypto.bcrypt.BCrypt
 import log
+import org.litote.kmongo.coroutine.updateOne
 import org.litote.kmongo.eq
 import java.util.*
 
@@ -21,6 +22,8 @@ object AuthenticationManager {
     /** The collection that manages the uuids */
     private val uuidsCollection = database.getCollection<UUIDs>("uuids")
 
+    private val emailVerification = database.getCollection<EmailVerificationDocument>("email-verification")
+
     /**
      * Registers a new account with the [username] and [password].
      *
@@ -28,15 +31,19 @@ object AuthenticationManager {
      * a hash function with a randomized salt and inserts the created [Account] into
      * the [database].
      */
-    suspend fun register(username: String, password: String): Account {
+    suspend fun register(email: String, username: String, password: String): Account {
         validateInput(username, password)
-        if (getByUsername(username) != null)
-            throw IllegalArgumentException("An account with the given username ('$username') does already exist!")
+        if (getByUsername(username) != null) error("An account with the given username ('$username') does already exist!")
+        if (getByEmail(email) != null) error("An account with the given email ('$email') does already exist!")
 
+        val document = emailVerification.findOne(EmailVerificationDocument::email eq email)
+            ?.takeIf { it.state == "CONFIRMED" }
+            ?: error("No email verification document found!")
         val encryptedPassword = BCrypt.withDefaults().hashToString(12, password.toCharArray())
         val account = Account(
             identifier = username.toLowerCase(),
             uuid = generateUUID(),
+            email = email,
             username = username,
             password = encryptedPassword,
             creationDate = System.currentTimeMillis(),
@@ -44,8 +51,10 @@ object AuthenticationManager {
         )
 
         log("Created account $account")
-
         accountsCollection.insertOne(account)
+
+        document.state = "ACCOUNT_CREATED"
+        emailVerification.updateOne(document)
         return account
     }
 
@@ -63,16 +72,33 @@ object AuthenticationManager {
     }
 
     /**
+     * Verifies that the given [email] has been confirmed and that the [code] matches the
+     * confirmation code.
+     */
+    suspend fun verifyEmail(email: String?, code: String): Boolean {
+        if (email == null) return false
+        if (getByEmail(email) != null) return false
+
+        val document = emailVerification.findOne(EmailVerificationDocument::email eq email) ?: return false
+        if (document.code != code) return false
+        if (document.state != "CONFIRMED") return false
+        return true
+    }
+
+    /**
      * Returns a [Account] from the [database] by its [username][Account.username].
      */
-    suspend fun getByUsername(username: String) =
-        accountsCollection.findOne(Account::identifier eq username.toLowerCase())
+    suspend fun getByUsername(username: String) = accountsCollection.findOne(Account::identifier eq username.toLowerCase())
+
+    /**
+     * Returns a [Account] from the [database] by its [email][Account.email].
+     */
+    suspend fun getByEmail(email: String) = accountsCollection.findOne(Account::email eq email)
 
     /**
      * Returns a [Account] from the [database] by its [uuid][Account.uuid].
      */
-    suspend fun getByUUID(uuid: String) =
-        accountsCollection.findOne(Account::uuid eq uuid)
+    suspend fun getByUUID(uuid: String) = accountsCollection.findOne(Account::uuid eq uuid)
 
     /**
      * Validates the length of the [username] and [password].
