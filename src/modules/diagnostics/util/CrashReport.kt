@@ -1,6 +1,6 @@
 package modules.diagnostics.util
 
-data class SubmittedCrashReport(
+data class CrashReport(
     val cause: String,
     val comment: String,
     val user: String,

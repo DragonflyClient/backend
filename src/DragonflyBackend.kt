@@ -97,7 +97,7 @@ fun Application.main() {
             log(it.message.toString(), Level.ERROR)
             call.respond(HttpStatusCode.InternalServerError, mapOf(
                 "success" to false,
-                "error" to "Unhandled exception"
+                "error" to it.message
             ))
         }
     }
