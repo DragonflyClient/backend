@@ -5,7 +5,7 @@ import io.ktor.auth.*
 /**
  * A Dragonfly account that is stored in the database and applies to all Dragonfly products.
  *
- * @param email the email address that this account uses (must be all lowercase!)
+ * @param identifier unique identifier for the account (the username in lowercase)
  * @param uuid a unique identifier for the account that remains used after the account has been deleted
  * @param username the username of the account
  * @param password a hash representation of password of the account
@@ -13,7 +13,7 @@ import io.ktor.auth.*
  * @param permissionLevel the level of permissions that the account has (see [PermissionLevel])
  */
 data class Account(
-    val email: String = "<no email specified>",
+    val identifier: String,
     val uuid: String,
     val username: String,
     val password: String,

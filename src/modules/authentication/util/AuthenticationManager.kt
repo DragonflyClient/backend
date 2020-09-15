@@ -4,7 +4,6 @@ import DragonflyBackend
 import at.favre.lib.crypto.bcrypt.BCrypt
 import log
 import org.litote.kmongo.eq
-import org.litote.kmongo.regex
 import java.util.*
 
 /**
@@ -17,7 +16,7 @@ object AuthenticationManager {
     private val database = DragonflyBackend.mongo.getDatabase("dragonfly")
 
     /** The collection in which the [accounts][Account] are stored */
-    val accountsCollection = database.getCollection<Account>("accounts")
+    private val accountsCollection = database.getCollection<Account>("accounts")
 
     /** The collection that manages the uuids */
     private val uuidsCollection = database.getCollection<UUIDs>("uuids")
@@ -36,7 +35,7 @@ object AuthenticationManager {
 
         val encryptedPassword = BCrypt.withDefaults().hashToString(12, password.toCharArray())
         val account = Account(
-            email = "<no email specified>",
+            identifier = username.toLowerCase(),
             uuid = generateUUID(),
             username = username,
             password = encryptedPassword,
@@ -67,7 +66,7 @@ object AuthenticationManager {
      * Returns a [Account] from the [database] by its [username][Account.username].
      */
     suspend fun getByUsername(username: String) =
-        accountsCollection.findOne(Account::username regex username)
+        accountsCollection.findOne(Account::identifier eq username.toLowerCase())
 
     /**
      * Returns a [Account] from the [database] by its [uuid][Account.uuid].
