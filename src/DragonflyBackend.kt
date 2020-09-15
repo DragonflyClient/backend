@@ -1,3 +1,4 @@
+import core.FatalErrorException
 import core.enable
 import input.InputListener
 import io.ktor.application.*
@@ -94,11 +95,18 @@ fun Application.main() {
 
     install(StatusPages) {
         exception<Throwable> {
-            log(it.message.toString(), Level.ERROR)
-            call.respond(HttpStatusCode.InternalServerError, mapOf(
-                "success" to false,
-                "error" to it.message
-            ))
+            if (it is FatalErrorException) {
+                call.respond(it.statusCode, mapOf(
+                    "success" to false,
+                    "error" to it.message
+                ))
+            } else {
+                log(it.message.toString(), Level.ERROR)
+                call.respond(HttpStatusCode.InternalServerError, mapOf(
+                    "success" to false,
+                    "error" to "Unhandled exception"
+                ))
+            }
         }
     }
 

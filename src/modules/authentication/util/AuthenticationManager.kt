@@ -2,6 +2,7 @@ package modules.authentication.util
 
 import DragonflyBackend
 import at.favre.lib.crypto.bcrypt.BCrypt
+import core.fatal
 import log
 import org.litote.kmongo.coroutine.updateOne
 import org.litote.kmongo.eq
@@ -33,12 +34,12 @@ object AuthenticationManager {
      */
     suspend fun register(email: String, username: String, password: String): Account {
         validateInput(username, password)
-        if (getByUsername(username) != null) error("An account with the given username ('$username') does already exist!")
-        if (getByEmail(email) != null) error("An account with the given email ('$email') does already exist!")
+        if (getByUsername(username) != null) fatal("An account with the given username ('$username') does already exist!")
+        if (getByEmail(email) != null) fatal("An account with the given email ('$email') does already exist!")
 
         val document = emailVerification.findOne(EmailVerificationDocument::email eq email)
             ?.takeIf { it.state == "CONFIRMED" }
-            ?: error("No email verification document found!")
+            ?: fatal("No email verification document found!")
         val encryptedPassword = BCrypt.withDefaults().hashToString(12, password.toCharArray())
         val account = Account(
             identifier = username.toLowerCase(),
