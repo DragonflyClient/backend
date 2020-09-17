@@ -6,5 +6,5 @@ data class EmailVerificationDocument(
     val _id: ObjectId,
     val email: String,
     val code: String,
-    var state: String
+    var status: String
 )

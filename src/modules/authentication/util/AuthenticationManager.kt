@@ -38,7 +38,7 @@ object AuthenticationManager {
         if (getByEmail(email) != null) fatal("An account with the given email ('$email') does already exist!")
 
         val document = emailVerification.findOne(EmailVerificationDocument::email eq email)
-            ?.takeIf { it.state == "CONFIRMED" }
+            ?.takeIf { it.status == "confirmed" }
             ?: fatal("No email verification document found!")
         val encryptedPassword = BCrypt.withDefaults().hashToString(12, password.toCharArray())
         val account = Account(
@@ -54,7 +54,7 @@ object AuthenticationManager {
         log("Created account $account")
         accountsCollection.insertOne(account)
 
-        document.state = "ACCOUNT_CREATED"
+        document.status = "account_created"
         emailVerification.updateOne(document)
         return account
     }
@@ -82,7 +82,7 @@ object AuthenticationManager {
 
         val document = emailVerification.findOne(EmailVerificationDocument::email eq email) ?: return false
         if (document.code != code) return false
-        if (document.state != "CONFIRMED") return false
+        if (document.status != "confirmed") return false
         return true
     }
 
