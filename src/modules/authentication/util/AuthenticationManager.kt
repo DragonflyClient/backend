@@ -105,10 +105,10 @@ object AuthenticationManager {
      * Validates the length of the [username] and [password].
      */
     private fun validateInput(username: String, password: String) {
-        require(username.matches(Regex("[a-zA-Z0-9]*"))) { "Username must only contain numbers and letters" }
-        require(!username.equals("master", ignoreCase = true)) { "Username is not valid!" }
-        require(username.length in 4..16) { "The username must have between 4 and 16 characters" }
-        require(password.length in 10..30) { "The password must have between 10 and 30 characters" }
+        if (!username.matches(Regex("[a-zA-Z0-9]*"))) fatal("Username must only contain numbers and letters")
+        if (username.equals("master", ignoreCase = true)) fatal("Username is not valid!")
+        if (username.length !in 4..16) fatal("The username must have between 4 and 16 characters")
+        if (password.length !in 10..30) fatal("The password must have between 10 and 30 characters")
     }
 
     /**

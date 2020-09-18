@@ -95,13 +95,16 @@ fun Application.main() {
 
     install(StatusPages) {
         exception<Throwable> {
-            if (it is FatalErrorException) {
-                log("${it.statusCode.description}: ${it.message.toString()}", Level.ERROR)
+            suspend fun handleFatal(it: FatalErrorException) {
+                log("FATAL(${it.statusCode.description}): ${it.message.toString()}", Level.ERROR)
                 call.respond(it.statusCode, mapOf(
                     "success" to false,
                     "error" to it.message
                 ))
-            } else {
+            }
+
+            if (it is FatalErrorException) handleFatal(it)
+            else {
                 log(it.message.toString(), Level.ERROR)
                 call.respond(HttpStatusCode.InternalServerError, mapOf(
                     "success" to false,
