@@ -78,7 +78,7 @@ object AuthenticationManager {
      */
     suspend fun verifyEmail(email: String?, code: String): Boolean {
         if (email == null) return false
-        if (getByEmail(email) != null) return false
+        if (getByEmail(email) != null) fatal("An account with the given email ('$email') does already exist!")
 
         val document = emailVerification.findOne(EmailVerificationDocument::email eq email) ?: return false
         if (document.code != code) return false

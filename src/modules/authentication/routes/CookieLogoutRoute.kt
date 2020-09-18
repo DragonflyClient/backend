@@ -20,7 +20,7 @@ object CookieLogoutRoute : ModuleRoute("cookie/logout", HttpMethod.Post) {
             domain = "playdragonfly.net",
             path = "/",
             extensions = mapOf(
-                "SameSite" to "Strict"
+                "SameSite" to "Lax"
             )
         ))
 
