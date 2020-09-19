@@ -33,11 +33,11 @@ object CosmeticsController {
     /**
      * Generates a [PropertiesSchema] based on the available cosmetic specified by the [cosmeticId].
      */
-    suspend fun getPropertiesSchema(cosmeticId: Int): PropertiesSchema {
+    suspend fun getPropertiesSchema(cosmeticId: Int): PropertiesSchema? {
         val availableCosmetic = getAvailableById(cosmeticId) ?: fatal("Invalid cosmetic id")
 
-        val properties = availableCosmetic["properties"] as Document
-        val jsonObject = JsonParser.parseString(properties.toJson()).asJsonObject
+        val properties = availableCosmetic["properties"] as? Document?
+        val jsonObject = properties?.toJson()?.let { JsonParser.parseString(it) }?.asJsonObject
         return PropertiesSchema.create(jsonObject)
     }
 

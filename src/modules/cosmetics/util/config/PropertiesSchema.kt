@@ -17,7 +17,9 @@ class PropertiesSchema private constructor(
          * Creates a new properties schema by parsing the [obj] to the [properties] map
          * in the format `name: TYPE` where the type is an enum value of [EnumPropertyType].
          */
-        fun create(obj: JsonObject): PropertiesSchema {
+        fun create(obj: JsonObject?): PropertiesSchema? {
+            if (obj == null) return null
+
             val gson = Gson()
             val map = mutableMapOf<String, EnumPropertyType>()
             for ((property, typeName) in obj.entrySet()) {
