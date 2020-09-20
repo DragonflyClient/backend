@@ -60,15 +60,19 @@ object AuthenticationManager {
     }
 
     /**
-     * Verifies the [username] and [password] credentials.
+     * Verifies the [usernameOrEmail] and [password] credentials.
      *
      * Returns a [Account] from the [database] to which the credentials apply if found or
      * null if the username or password isn't correct.
      */
-    suspend fun verify(username: String, password: String): Account? {
-        val account = getByUsername(username)?.takeIf { it.username.equals(username, ignoreCase = false) } ?: return null
-        val verified = BCrypt.verifyer().verify(password.toCharArray(), account.password).verified
+    suspend fun verify(usernameOrEmail: String, password: String): Account? {
+        val account = if (usernameOrEmail.contains("@")) {
+            getByEmail(usernameOrEmail)
+        } else {
+            getByUsername(usernameOrEmail)?.takeIf { it.username.equals(usernameOrEmail, ignoreCase = false) }
+        } ?: return null
 
+        val verified = BCrypt.verifyer().verify(password.toCharArray(), account.password).verified
         return account.takeIf { verified }
     }
 
