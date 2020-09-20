@@ -1,4 +1,4 @@
-package modules.store.routes.stripe
+package modules.store.routes
 
 import DragonflyBackend
 import com.google.gson.JsonObject
@@ -16,7 +16,7 @@ import org.bson.Document
 import org.litote.kmongo.eq
 import java.util.*
 
-object PaymentIntentSucceededRoute : ModuleRoute("execute_payment", HttpMethod.Post) {
+object ExecutePaymentRoute : ModuleRoute("execute_payment", HttpMethod.Post) {
 
     private val database = DragonflyBackend.mongo.getDatabase("dragonfly")
 
@@ -31,27 +31,27 @@ object PaymentIntentSucceededRoute : ModuleRoute("execute_payment", HttpMethod.P
 
         // load payment data
         val payment = payments.findOne("{ paymentId: '$paymentId' }")
-            ?: fatal("Payment $paymentId not found")
+            ?: checkedError("Payment $paymentId not found")
 
         // validate payment state
         if (payment.paymentState != "succeeded" && payment.paymentState != "approved")
-            fatal("Payment didn't succeed")
+            checkedError("Payment didn't succeed")
         else if (payment.executed == true)
-            fatal("Payment has already been executed!")
+            checkedError("Payment has already been executed!")
 
         // load shop item
         val payedItemId = payment.itemId
         val shopItem = shopItems.findOne("{ id: '$payedItemId' }")
-            ?: fatal("Shop item $payedItemId not found")
+            ?: checkedError("Shop item $payedItemId not found")
 
         // load Dragonfly account
         val dragonflyToken = JwtConfig.verifier.verify(payment.dragonflyToken)
         val account = dragonflyToken.getClaim("uuid").asString()?.let { uuid -> AuthenticationManager.getByUUID(uuid) }
-            ?: fatal("Account not found")
+            ?: checkedError("Account not found")
 
         // insert cosmetic
         val cosmeticId = shopItem.cosmeticId
-            ?: fatal("Shop item doesn't contain cosmetic id!")
+            ?: checkedError("Shop item doesn't contain cosmetic id!")
         CosmeticsController.insert(
             Filter.new().dragonfly(account.uuid),
             CosmeticItem(cosmeticId, UUID.randomUUID().toString(), enabled = true, config = Document())

@@ -26,7 +26,7 @@ object VersionRoute : ModuleRoute("/", HttpMethod.Get) {
 
             call.respond(jsonObject.toMap())
         } else {
-            fatal("Missing information")
+            checkedError("Missing information")
         }
     }
 

@@ -15,12 +15,12 @@ object UpdatesHistoryRoute : ModuleRoute("updates/history", HttpMethod.Get) {
 
     override suspend fun Call.handleCall() {
         if (call.parameters.contains("channel")) {
-            val channel = UpdateChannel.getByIdentifier(call.parameters["channel"]!!) ?: fatal("Invalid channel identifier")
-            val since = Version.of(call.parameters["since"] ?: "0.0.0.0") ?: fatal("Invalid 'since' parameter")
+            val channel = UpdateChannel.getByIdentifier(call.parameters["channel"]!!) ?: checkedError("Invalid channel identifier")
+            val since = Version.of(call.parameters["since"] ?: "0.0.0.0") ?: checkedError("Invalid 'since' parameter")
             val history = UpdateHistory.getUpdateHistorySince(channel, since)
 
             call.respond(history)
-        } else fatal("Missing 'channel' parameter")
+        } else checkedError("Missing 'channel' parameter")
     }
 
     override fun legacyRoute() = "updates/history"

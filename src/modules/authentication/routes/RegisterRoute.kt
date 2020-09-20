@@ -15,7 +15,7 @@ object RegisterRoute : ModuleRoute("register", HttpMethod.Post) {
         val data = call.receive<RegistrationData>()
         val isVerified = AuthenticationManager.verifyEmail(data.email, data.code)
 
-        if (!isVerified) fatal("Email address isn't verified!", HttpStatusCode.BadRequest)
+        if (!isVerified) checkedError("Email address isn't verified!", HttpStatusCode.BadRequest)
 
         val account = AuthenticationManager.register(data.email, data.username, data.password)
         val token = JwtConfig.makeToken(account)

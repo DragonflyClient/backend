@@ -20,6 +20,6 @@ object ToggleRoute : ModuleRoute("toggle", HttpMethod.Post, "jwt", true) {
             Filter.new().dragonfly(account.uuid), cosmeticQualifier
         ) { it.enabled = enable }
 
-        if (updated) success() else fatal("Invalid cosmetic qualifier", HttpStatusCode.BadRequest)
+        if (updated) success() else checkedError("Invalid cosmetic qualifier", HttpStatusCode.BadRequest)
     }
 }

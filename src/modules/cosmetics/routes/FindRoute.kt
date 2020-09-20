@@ -12,7 +12,8 @@ object FindRoute : ModuleRoute("find", HttpMethod.Get) {
         val cosmetics: List<CosmeticItem> = if (dragonflyUUID != null) {
             CosmeticsController.find(Filter.new().dragonfly(dragonflyUUID))
         } else {
-            val minecraftUUID = (call.parameters["uuid"] ?: call.parameters["minecraft"]) ?: fatal("No UUID specified", HttpStatusCode.BadRequest)
+            val minecraftUUID =
+                (call.parameters["uuid"] ?: call.parameters["minecraft"]) ?: checkedError("No UUID specified", HttpStatusCode.BadRequest)
             CosmeticsController.find(Filter.new().minecraft(minecraftUUID))
         }
 

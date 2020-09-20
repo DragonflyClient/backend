@@ -21,20 +21,20 @@ suspend fun Call.json(block: JsonBuilder.() -> Unit) {
     call.respond(builder.map)
 }
 
-fun fatal(message: Any?, code: HttpStatusCode = HttpStatusCode.InternalServerError): Nothing {
-    throw FatalErrorException(message.toString(), code)
+fun checkedError(message: Any?, code: HttpStatusCode = HttpStatusCode.InternalServerError): Nothing {
+    throw CheckedErrorException(message.toString(), code)
 }
 
 suspend fun Call.twoWayAuthentication(): Account {
     var account = call.authentication.principal<Account>()
 
     if (account == null) {
-        val cookie = call.request.cookies["dragonfly-token"] ?: fatal("Unauthenticated")
+        val cookie = call.request.cookies["dragonfly-token"] ?: checkedError("Unauthenticated")
         val token = JwtConfig.verifier.verify(cookie)
         account = token.getClaim("uuid").asString()?.let { uuid -> AuthenticationManager.getByUUID(uuid) }
     }
 
-    if (account == null) fatal("Unauthenticated")
+    if (account == null) checkedError("Unauthenticated")
     return account
 }
 

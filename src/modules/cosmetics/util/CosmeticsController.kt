@@ -3,7 +3,8 @@ package modules.cosmetics.util
 import DragonflyBackend
 import com.google.gson.JsonParser
 import com.mongodb.client.model.Filters
-import core.fatal
+import core.checkedError
+import io.ktor.http.*
 import modules.cosmetics.util.config.PropertiesSchema
 import modules.minecraft.util.MinecraftLinkManager
 import org.bson.Document
@@ -34,7 +35,7 @@ object CosmeticsController {
      * Generates a [PropertiesSchema] based on the available cosmetic specified by the [cosmeticId].
      */
     suspend fun getPropertiesSchema(cosmeticId: Int): PropertiesSchema? {
-        val availableCosmetic = getAvailableById(cosmeticId) ?: fatal("Invalid cosmetic id")
+        val availableCosmetic = getAvailableById(cosmeticId) ?: checkedError("Invalid cosmetic id")
 
         val properties = availableCosmetic["properties"] as? Document?
         val jsonObject = properties?.toJson()?.let { JsonParser.parseString(it) }?.asJsonObject
@@ -191,7 +192,7 @@ class Filter private constructor() {
             if (account != null) {
                 return account.uuid.also { computedDragonflyUUID = it }
             } else {
-                fatal("The given Minecraft UUID is not linked to a Dragonfly account!")
+                checkedError("The given Minecraft UUID is not linked to a Dragonfly account!", HttpStatusCode.NotImplemented)
             }
         }
 

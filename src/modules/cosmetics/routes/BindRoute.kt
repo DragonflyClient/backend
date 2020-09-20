@@ -17,7 +17,7 @@ object BindRoute : ModuleRoute("bind", HttpMethod.Post, "jwt", true) {
         val minecraftUUID = if (body.has("unbind")) null else body["minecraftUUID"].asString
 
         if (minecraftUUID != null && account.linkedMinecraftAccounts?.contains(minecraftUUID) != true) {
-            fatal("This Minecraft account is not linked to the Dragonfly account.")
+            checkedError("This Minecraft account is not linked to the Dragonfly account.")
         }
 
         val updated = CosmeticsController.updateEach(
@@ -25,6 +25,6 @@ object BindRoute : ModuleRoute("bind", HttpMethod.Post, "jwt", true) {
             cosmeticQualifier
         ) { it.minecraft = minecraftUUID }
 
-        if (updated) success() else fatal("Invalid cosmetic qualifier", HttpStatusCode.BadRequest)
+        if (updated) success() else checkedError("Invalid cosmetic qualifier", HttpStatusCode.BadRequest)
     }
 }

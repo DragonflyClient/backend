@@ -1,4 +1,4 @@
-import core.FatalErrorException
+import core.CheckedErrorException
 import core.enable
 import input.InputListener
 import io.ktor.application.*
@@ -95,21 +95,18 @@ fun Application.main() {
 
     install(StatusPages) {
         exception<Throwable> {
-            suspend fun handleFatal(it: FatalErrorException) {
-                log("FATAL(${it.statusCode.description}): ${it.message.toString()}", Level.ERROR)
+            if (it is CheckedErrorException) {
                 call.respond(it.statusCode, mapOf(
                     "success" to false,
                     "error" to it.message
                 ))
-            }
-
-            if (it is FatalErrorException) handleFatal(it)
-            else {
-                log(it.message.toString(), Level.ERROR)
+                log("Checked: \"${it.message.toString()}\"", Level.WARN)
+            } else {
                 call.respond(HttpStatusCode.InternalServerError, mapOf(
                     "success" to false,
                     "error" to "Unhandled exception"
                 ))
+                log("Exception: \"${it.message.toString()}\"", Level.ERROR)
             }
         }
     }

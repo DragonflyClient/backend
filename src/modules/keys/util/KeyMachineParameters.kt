@@ -1,7 +1,7 @@
 package modules.keys.util
 
 import core.Call
-import core.fatal
+import core.checkedError
 import io.ktor.application.*
 import io.ktor.request.*
 import org.litote.kmongo.eq
@@ -27,4 +27,4 @@ suspend fun Call.receiveParameters(): KeyMachineParameters {
  */
 suspend fun getKeyDocument(parameters: KeyMachineParameters): KeyDocument =
     KeyGenerator.collection.findOne(KeyDocument::key eq parameters.key)
-        ?: fatal("The provided key does not exist!")
+        ?: checkedError("The provided key does not exist!")

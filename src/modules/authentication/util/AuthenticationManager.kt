@@ -2,7 +2,7 @@ package modules.authentication.util
 
 import DragonflyBackend
 import at.favre.lib.crypto.bcrypt.BCrypt
-import core.fatal
+import core.checkedError
 import log
 import org.litote.kmongo.coroutine.updateOne
 import org.litote.kmongo.eq
@@ -34,12 +34,12 @@ object AuthenticationManager {
      */
     suspend fun register(email: String, username: String, password: String): Account {
         validateInput(username, password)
-        if (getByUsername(username) != null) fatal("An account with the given username ('$username') does already exist!")
-        if (getByEmail(email) != null) fatal("An account with the given email ('$email') does already exist!")
+        if (getByUsername(username) != null) checkedError("An account with the given username ('$username') does already exist!")
+        if (getByEmail(email) != null) checkedError("An account with the given email ('$email') does already exist!")
 
         val document = emailVerification.findOne(EmailVerificationDocument::email eq email)
             ?.takeIf { it.status == "confirmed" }
-            ?: fatal("No email verification document found!")
+            ?: checkedError("No email verification document found!")
         val encryptedPassword = BCrypt.withDefaults().hashToString(12, password.toCharArray())
         val account = Account(
             identifier = username.toLowerCase(),
@@ -82,7 +82,7 @@ object AuthenticationManager {
      */
     suspend fun verifyEmail(email: String?, code: String): Boolean {
         if (email == null) return false
-        if (getByEmail(email) != null) fatal("An account with the given email ('$email') does already exist!")
+        if (getByEmail(email) != null) checkedError("An account with the given email ('$email') does already exist!")
 
         val document = emailVerification.findOne(EmailVerificationDocument::email eq email) ?: return false
         if (document.code != code) return false
@@ -109,10 +109,10 @@ object AuthenticationManager {
      * Validates the length of the [username] and [password].
      */
     private fun validateInput(username: String, password: String) {
-        if (!username.matches(Regex("[a-zA-Z0-9]*"))) fatal("Username must only contain numbers and letters")
-        if (username.equals("master", ignoreCase = true)) fatal("Username is not valid!")
-        if (username.length !in 4..16) fatal("The username must have between 4 and 16 characters")
-        if (password.length !in 10..30) fatal("The password must have between 10 and 30 characters")
+        if (!username.matches(Regex("[a-zA-Z0-9]*"))) checkedError("Username must only contain numbers and letters")
+        if (username.equals("master", ignoreCase = true)) checkedError("Username is not valid!")
+        if (username.length !in 4..16) checkedError("The username must have between 4 and 16 characters")
+        if (password.length !in 10..30) checkedError("The password must have between 10 and 30 characters")
     }
 
     /**

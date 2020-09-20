@@ -1,9 +1,9 @@
 package modules.store
 
 import core.Module
-import modules.store.routes.stripe.PaymentIntentSucceededRoute
+import modules.store.routes.ExecutePaymentRoute
 
 object StoreModule : Module(
     "Store",
-    PaymentIntentSucceededRoute
+    ExecutePaymentRoute
 )

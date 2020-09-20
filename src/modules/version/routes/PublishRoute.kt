@@ -14,8 +14,8 @@ object PublishRoute : ModuleRoute("publish", HttpMethod.Get, "master") {
 
     override suspend fun Call.handleCall() {
         val update = call.receive<Update>()
-        val earlyAccess = call.parameters["eap"]?.toBoolean() ?: fatal("Missing parameter 'eap' of type boolean")
-        val stable = call.parameters["stable"]?.toBoolean() ?: fatal("Missing parameter 'stable' of type boolean")
+        val earlyAccess = call.parameters["eap"]?.toBoolean() ?: checkedError("Missing parameter 'eap' of type boolean")
+        val stable = call.parameters["stable"]?.toBoolean() ?: checkedError("Missing parameter 'stable' of type boolean")
 
         if (earlyAccess) {
             UpdateHistory.publishUpdate(UpdateChannel.EARLY_ACCESS_PROGRAM, update)

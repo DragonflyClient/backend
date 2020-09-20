@@ -2,7 +2,7 @@ package core
 
 import io.ktor.http.*
 
-class FatalErrorException(
+class CheckedErrorException(
     message: String,
     val statusCode: HttpStatusCode = HttpStatusCode.InternalServerError
 ) : Exception(message)
