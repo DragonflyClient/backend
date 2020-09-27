@@ -81,6 +81,7 @@ fun Application.main() {
         host("www.playdragonfly.net", schemes = listOf("https"))
         host("ideas.playdragonfly.net", schemes = listOf("https"))
         host("store.playdragonfly.net", schemes = listOf("https"))
+        host("dashboard.playdragonfly.net", schemes = listOf("https"))
 
         header("Authorization")
         allowCredentials = true
