@@ -9,6 +9,7 @@ import io.ktor.gson.*
 import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import modules.analytics.AnalyticsModule
 import modules.authentication.AuthenticationModule
 import modules.authentication.util.AuthenticationManager
 import modules.authentication.util.JwtConfig
@@ -144,5 +145,6 @@ fun Application.main() {
         enable(CosmeticsModule)
         enable(DiagnosticsModule)
         enable(StoreModule)
+        enable(AnalyticsModule)
     }
 }
