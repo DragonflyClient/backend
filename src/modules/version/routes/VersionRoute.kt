@@ -17,7 +17,7 @@ import kotlin.collections.set
  * Enables a route that the client or installer can send request to to get information about the
  * latest Dragonfly version.
  */
-object VersionRoute : ModuleRoute("/", HttpMethod.Get) {
+object VersionRoute : ModuleRoute("", HttpMethod.Get) {
 
     override suspend fun Call.handleCall() {
         if (call.parameters.contains("channel")) {
