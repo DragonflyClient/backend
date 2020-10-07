@@ -8,5 +8,4 @@
 /gradlew.bat
 /gradlew
 
-/src/secrets/Passwords.kt
-/src/secrets/MongoDatabase.kt
+/src/secrets/
