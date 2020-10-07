@@ -3,12 +3,13 @@ package modules.authentication.util
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
+import secrets.SECRET
 import java.util.*
 
 object JwtConfig {
 
-    private const val secret = "aA6e66hNodNBmQQMzjLskLfeaJb43LKD9oh8GdJ3"
-    private const val issuer = "inceptioncloud.net"
+    private const val secret = SECRET
+    private const val issuer = "Inception Cloud Dragonfly"
     private const val validityInMs = 1000 * 60 * 60 * 24 * 30L // 30 days
     private val algorithm = Algorithm.HMAC512(secret)
 
