@@ -19,14 +19,8 @@ object RMIClient {
 
         try {
             service.publishUpdate(
-                update.version,
-                update.title,
-                update.patchNotes,
-                update.releaseDate,
-                earlyAccess,
-                stable,
-                "master",
-                KEYS_MASTER_PASSWORD
+                update.version, update.title, update.patchNotes, update.releaseDate,
+                earlyAccess, stable, "master", KEYS_MASTER_PASSWORD
             )
             log("Method invoked!")
         } catch (e: Exception) {

@@ -10,7 +10,7 @@ import modules.version.util.update.*
 /**
  * Adds a route allowing the user to publish updates.
  */
-object PublishRoute : ModuleRoute("publish", HttpMethod.Get, "master") {
+object PublishRoute : ModuleRoute("publish", HttpMethod.Post, "master") {
 
     override suspend fun Call.handleCall() {
         val update = call.receive<Update>()
@@ -28,6 +28,4 @@ object PublishRoute : ModuleRoute("publish", HttpMethod.Get, "master") {
         RMIClient.invokePublishUpdate(update, earlyAccess, stable)
         success()
     }
-
-    override fun legacyRoute() = "publish"
 }
