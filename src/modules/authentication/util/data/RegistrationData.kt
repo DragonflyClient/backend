@@ -1,4 +1,4 @@
-package modules.authentication.util
+package modules.authentication.util.data
 
 data class RegistrationData(
     val email: String,

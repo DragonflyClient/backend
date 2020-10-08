@@ -2,12 +2,10 @@ package modules.authentication.routes
 
 import core.*
 import io.ktor.application.*
-import io.ktor.auth.*
 import io.ktor.http.*
 import io.ktor.request.*
-import io.ktor.response.*
-import modules.authentication.util.AuthenticationManager
-import modules.authentication.util.JwtConfig
+import modules.authentication.util.*
+import modules.authentication.util.data.LoginData
 
 /**
  * Creates a /login route that verifies the credentials and returns a JWT for authenticating
@@ -16,12 +14,15 @@ import modules.authentication.util.JwtConfig
 object LoginRoute : ModuleRoute("login", HttpMethod.Post) {
 
     override suspend fun Call.handleCall() {
-        val credentials = call.receive<UserPasswordCredential>()
+        val credentials = call.receive<LoginData>()
         val account = AuthenticationManager.verify(credentials.name, credentials.password)
-            ?: return call.respond(mapOf(
-                "success" to false,
-                "error" to "Invalid username or password"
-            ))
+            ?: checkedError("Invalid username or password")
+
+        if (account.enable2FA) {
+            if (credentials.code2FA == null) checkedError("Please supply 2FA code", HttpStatusCode.Forbidden)
+            if (TwoFactorAuthentication.verifyCode(account, credentials.code2FA)) checkedError("Invalid 2FA code", HttpStatusCode.Forbidden)
+        }
+
         val token = JwtConfig.makeToken(account)
 
         json {

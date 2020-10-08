@@ -4,7 +4,9 @@ import core.*
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.request.*
-import modules.authentication.util.*
+import modules.authentication.util.AuthenticationManager
+import modules.authentication.util.JwtConfig
+import modules.authentication.util.data.RegistrationData
 
 /**
  * Creates a /register route to create new accounts.
