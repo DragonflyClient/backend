@@ -20,8 +20,8 @@ object CookieLoginRoute : ModuleRoute("cookie/login", HttpMethod.Post) {
             ?: checkedError("Invalid username or password")
 
         if (account.twoFactorAuthentication.enabled) {
-            if (credentials.code2FA == null) checkedError("Please supply 2FA code", HttpStatusCode.Forbidden)
-            if (TwoFactorAuthentication.verifyCode(account, credentials.code2FA)) checkedError("Invalid 2FA code", HttpStatusCode.Forbidden)
+            if (credentials.code == null) checkedError("Please supply 2FA code", HttpStatusCode.Forbidden)
+            if (TwoFactorAuthentication.verifyCode(account, credentials.code)) checkedError("Invalid 2FA code", HttpStatusCode.Forbidden)
         }
 
         respondToken(account)
