@@ -7,7 +7,7 @@ import io.ktor.http.*
 import io.ktor.request.*
 import modules.authentication.util.TwoFactorAuthentication
 
-class TwoFactorAuthenticationRoute : ModuleRoute("two-factor-authentication", HttpMethod.Post) {
+class TwoFactorAuthenticationRoute : ModuleRoute("two-factor-authentication", HttpMethod.Post, "jwt", optional = true) {
 
     override suspend fun Call.handleCall() {
         val account = twoWayAuthentication()

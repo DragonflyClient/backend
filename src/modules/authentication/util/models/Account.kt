@@ -1,6 +1,7 @@
 package modules.authentication.util.models
 
 import io.ktor.auth.*
+import modules.authentication.util.AuthenticationManager
 import org.bson.types.ObjectId
 
 /**
@@ -24,4 +25,12 @@ data class Account(
     val permissionLevel: Int,
     var linkedMinecraftAccounts: List<String>? = null,
     var twoFactorAuthentication: Model2FA = Model2FA()
-) : Principal
+) : Principal {
+
+    /**
+     * Saves the changes made to this account into the database.
+     */
+    suspend fun save() {
+        AuthenticationManager.accountsCollection.updateOneById(this._id!!, this)
+    }
+}

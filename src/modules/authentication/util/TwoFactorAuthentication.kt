@@ -12,38 +12,44 @@ import java.nio.charset.StandardCharsets
  */
 object TwoFactorAuthentication {
 
+    /**
+     * Available chars for generating backup codes.
+     */
     private const val availableChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789012345678901234567890"
 
     /**
      * Enables two factor authentication for the given [account].
      */
-    fun request2FA(account: Account) = with(account) {
+    suspend fun request2FA(account: Account) = with(account) {
         prohibit2FA()
 
-        val newSecret = TimeBasedOneTimePasswordUtil.generateBase32Secret(30)
+        val newSecret = TimeBasedOneTimePasswordUtil.generateBase32Secret()
         with(twoFactorAuthentication) {
             requested = true
             secret = newSecret
         }
+        save()
     }
 
     /**
      * Enables two factor authentication for the given [account].
      */
-    fun enable2FA(account: Account, code: String) = with(account.twoFactorAuthentication) {
+    suspend fun enable2FA(account: Account, code: String) = with(account.twoFactorAuthentication) {
         if (!requested) checkedError("You have to request 2FA first before trying to enable it!")
+        account.prohibit2FA()
 
         val current = TimeBasedOneTimePasswordUtil.generateCurrentNumberString(account.twoFactorAuthentication.secret!!)
         if (code.replace(" ", "") != current) checkedError("Invalid 2FA code")
 
         enabled = true
         backupCodes = generateBackupCodes()
+        account.save()
     }
 
     /**
      * Disables two factor authentication for the given [account].
      */
-    fun disable2FA(account: Account) = with(account) {
+    suspend fun disable2FA(account: Account) = with(account) {
         require2FA()
 
         with(twoFactorAuthentication) {
@@ -52,6 +58,7 @@ object TwoFactorAuthentication {
             secret = null
             backupCodes = null
         }
+        account.save()
     }
 
     /**
@@ -70,10 +77,8 @@ object TwoFactorAuthentication {
      * Google APIs.
      */
     fun generateQRCode(account: Account): String {
-        account.require2FA()
-
         val name = account.email ?: account.identifier
-        val urlEncodedName = URLEncoder.encode(name, StandardCharsets.UTF_8.toString())
+        val urlEncodedName = URLEncoder.encode("Dragonfly ($name)", StandardCharsets.UTF_8.toString())
 
         return "https://chart.googleapis.com/chart" +
                 "?chs=200x200&cht=qr&chl=200x200&chld=M|0&cht=qr" +

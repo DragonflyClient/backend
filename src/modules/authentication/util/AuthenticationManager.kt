@@ -19,7 +19,7 @@ object AuthenticationManager {
     private val database = DragonflyBackend.mongo.getDatabase("dragonfly")
 
     /** The collection in which the [accounts][Account] are stored */
-    private val accountsCollection = database.getCollection<Account>("accounts")
+    val accountsCollection = database.getCollection<Account>("accounts")
 
     /** The collection that manages the uuids */
     private val uuidsCollection = database.getCollection<UUIDs>("uuids")

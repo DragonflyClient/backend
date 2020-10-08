@@ -31,12 +31,12 @@ suspend fun Call.twoWayAuthentication(): Account {
     var account = call.authentication.principal<Account>()
 
     if (account == null) {
-        val cookie = call.request.cookies["dragonfly-token"] ?: checkedError("Unauthenticated")
+        val cookie = call.request.cookies["dragonfly-token"] ?: checkedError("Unauthenticated", HttpStatusCode.Unauthorized)
         val token = JwtConfig.verifier.verify(cookie)
         account = token.getClaim("uuid").asString()?.let { uuid -> AuthenticationManager.getByUUID(uuid) }
     }
 
-    if (account == null) checkedError("Unauthenticated")
+    if (account == null) checkedError("Unauthenticated", HttpStatusCode.Unauthorized)
     return account
 }
 
