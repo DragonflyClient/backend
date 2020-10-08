@@ -83,7 +83,7 @@ class JsonBuilder {
         "identifier" * identifier
         "uuid" * uuid
         "username" * username
-        "email" * email.takeUnless { it == "<no email set>" }
+        "email" * email
         "creationDate" * creationDate
         "permissionLevel" * permissionLevel
         "linkedMinecraftAccounts" * linkedMinecraftAccounts
