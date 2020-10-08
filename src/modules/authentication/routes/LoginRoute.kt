@@ -18,7 +18,7 @@ object LoginRoute : ModuleRoute("login", HttpMethod.Post) {
         val account = AuthenticationManager.verify(credentials.name, credentials.password)
             ?: checkedError("Invalid username or password")
 
-        if (account.enable2FA) {
+        if (account.twoFactorAuthentication.enabled) {
             if (credentials.code2FA == null) checkedError("Please supply 2FA code", HttpStatusCode.Forbidden)
             if (TwoFactorAuthentication.verifyCode(account, credentials.code2FA)) checkedError("Invalid 2FA code", HttpStatusCode.Forbidden)
         }

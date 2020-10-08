@@ -2,8 +2,8 @@ package modules.minecraft.util
 
 import DragonflyBackend
 import com.auth0.jwt.JWT
-import modules.authentication.util.Account
 import modules.authentication.util.AuthenticationManager
+import modules.authentication.util.models.Account
 import modules.cosmetics.util.CosmeticsController
 import modules.cosmetics.util.Filter
 import org.litote.kmongo.eq

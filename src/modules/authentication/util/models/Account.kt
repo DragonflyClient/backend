@@ -1,4 +1,4 @@
-package modules.authentication.util
+package modules.authentication.util.models
 
 import io.ktor.auth.*
 import org.bson.types.ObjectId
@@ -23,6 +23,5 @@ data class Account(
     val creationDate: Long,
     val permissionLevel: Int,
     var linkedMinecraftAccounts: List<String>? = null,
-    var enable2FA: Boolean = false,
-    var secret2FA: String? = null
+    var twoFactorAuthentication: Model2FA = Model2FA()
 ) : Principal

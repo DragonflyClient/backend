@@ -1,4 +1,4 @@
-package modules.authentication.util
+package modules.authentication.util.models
 
 import org.bson.types.ObjectId
 

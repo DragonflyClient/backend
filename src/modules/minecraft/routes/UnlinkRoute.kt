@@ -5,7 +5,7 @@ import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.http.*
 import io.ktor.request.*
-import modules.authentication.util.Account
+import modules.authentication.util.models.Account
 import modules.minecraft.util.MinecraftLinkManager
 import modules.minecraft.util.MinecraftLinkManager.getByMinecraftUUID
 
