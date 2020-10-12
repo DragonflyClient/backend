@@ -11,5 +11,6 @@ object AuthenticationModule : Module(
     CookieTokenRoute,
     CookieLoginRoute,
     CookieLogoutRoute,
-    TwoFactorAuthenticationRoute()
+    TwoFactorAuthenticationRoute(),
+    RenameRoute()
 )

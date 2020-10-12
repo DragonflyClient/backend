@@ -77,7 +77,7 @@ object TwoFactorAuthentication {
      * Google APIs.
      */
     fun generateQRCode(account: Account): String {
-        val name = account.email ?: account.identifier
+        val name = account.email ?: account.username
         val urlEncodedName = URLEncoder.encode("Dragonfly ($name)", StandardCharsets.UTF_8.toString())
 
         return "https://chart.googleapis.com/chart" +

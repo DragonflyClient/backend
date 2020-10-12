@@ -17,10 +17,10 @@ suspend fun Call.success() = json("success" to true)
 
 suspend fun <K, V> Call.json(vararg pairs: Pair<K, V>) = call.respond(mapOf(*pairs))
 
-suspend fun Call.json(block: JsonBuilder.() -> Unit) {
+suspend fun Call.json(code: HttpStatusCode = HttpStatusCode.OK, block: JsonBuilder.() -> Unit) {
     val builder = JsonBuilder()
     builder.block()
-    call.respond(builder.map)
+    call.respond(code, builder.map)
 }
 
 fun checkedError(message: Any?, code: HttpStatusCode = HttpStatusCode.InternalServerError): Nothing {
@@ -82,7 +82,6 @@ class JsonBuilder {
     }
 
     operator fun Account.unaryPlus() {
-        "identifier" * identifier
         "uuid" * uuid
         "username" * username
         "email" * email

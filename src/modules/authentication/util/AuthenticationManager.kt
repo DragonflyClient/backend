@@ -7,7 +7,9 @@ import log
 import modules.authentication.util.models.*
 import org.litote.kmongo.coroutine.updateOne
 import org.litote.kmongo.eq
+import org.litote.kmongo.regex
 import java.util.*
+import java.util.regex.Pattern
 
 /**
  * The base authentication class connects to the database and manages the accounts that
@@ -35,15 +37,15 @@ object AuthenticationManager {
      */
     suspend fun register(email: String, username: String, password: String): Account {
         validateInput(username, password)
-        if (getByUsername(username) != null) checkedError("An account with the given username ('$username') does already exist!")
-        if (getByEmail(email) != null) checkedError("An account with the given email ('$email') does already exist!")
+
+        if (getByUsername(username, ignoreCase = true) != null) checkedError("The username '$username' is already taken!")
+        if (getByEmail(email) != null) checkedError("The email '$email' is already in use!")
 
         val document = emailVerification.findOne(EmailVerificationDocument::email eq email)
             ?.takeIf { it.status == "confirmed" }
             ?: checkedError("No email verification document found!")
         val encryptedPassword = BCrypt.withDefaults().hashToString(12, password.toCharArray())
         val account = Account(
-            identifier = username.toLowerCase(),
             uuid = generateUUID(),
             email = email,
             username = username,
@@ -70,7 +72,7 @@ object AuthenticationManager {
         val account = if (usernameOrEmail.contains("@")) {
             getByEmail(usernameOrEmail)
         } else {
-            getByUsername(usernameOrEmail)?.takeIf { it.username.equals(usernameOrEmail, ignoreCase = false) }
+            getByUsername(usernameOrEmail, ignoreCase = false)
         } ?: return null
 
         val verified = BCrypt.verifyer().verify(password.toCharArray(), account.password).verified
@@ -92,17 +94,30 @@ object AuthenticationManager {
     }
 
     /**
-     * Returns a [Account] from the [database] by its [username][Account.username].
+     * Returns if the [account] can be renamed to the [newUsername] or throws an exception if this isn't possible.
      */
-    suspend fun getByUsername(username: String) = accountsCollection.findOne(Account::identifier eq username.toLowerCase())
+    suspend fun assertCanRename(account: Account, newUsername: String) {
+        validateUsername(newUsername)
+
+        if (account.username.equals(newUsername, ignoreCase = true)) return
+        if (getByUsername(newUsername, ignoreCase = true) != null) checkedError("Username '$newUsername' is already taken!")
+    }
 
     /**
-     * Returns a [Account] from the [database] by its [email][Account.email].
+     * Returns an [Account] from the [database] by its [username][Account.username] with ignored case.
+     */
+    suspend fun getByUsername(username: String, ignoreCase: Boolean) = accountsCollection.findOne(
+        if (ignoreCase) Account::username regex Pattern.compile("^$username$", Pattern.CASE_INSENSITIVE)
+        else Account::username eq username
+    )
+
+    /**
+     * Returns an [Account] from the [database] by its [email][Account.email].
      */
     suspend fun getByEmail(email: String) = accountsCollection.findOne(Account::email eq email)
 
     /**
-     * Returns a [Account] from the [database] by its [uuid][Account.uuid].
+     * Returns an [Account] from the [database] by its [uuid][Account.uuid].
      */
     suspend fun getByUUID(uuid: String) = accountsCollection.findOne(Account::uuid eq uuid)
 
@@ -110,10 +125,18 @@ object AuthenticationManager {
      * Validates the length of the [username] and [password].
      */
     private fun validateInput(username: String, password: String) {
+        validateUsername(username)
+        validatePassword(password)
+    }
+
+    private fun validatePassword(password: String) {
+        if (password.length !in 10..30) checkedError("The password must have between 10 and 30 characters")
+    }
+
+    private fun validateUsername(username: String) {
         if (!username.matches(Regex("[a-zA-Z0-9]*"))) checkedError("Username must only contain numbers and letters")
         if (username.equals("master", ignoreCase = true)) checkedError("Username is not valid!")
         if (username.length !in 4..16) checkedError("The username must have between 4 and 16 characters")
-        if (password.length !in 10..30) checkedError("The password must have between 10 and 30 characters")
     }
 
     /**
