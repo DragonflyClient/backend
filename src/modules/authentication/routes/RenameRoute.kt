@@ -9,7 +9,7 @@ import modules.authentication.util.AuthenticationManager
 
 class RenameRoute : ModuleRoute("rename", HttpMethod.Post, "jwt", optional = true) {
 
-    private val renameDelay = 1000 * 60 * 60 * 24 * 7
+    private val renameDelay = 1000L * 60L * 60L * 24L * 7L
 
     override suspend fun Call.handleCall() {
         val account = twoWayAuthentication()
@@ -20,7 +20,7 @@ class RenameRoute : ModuleRoute("rename", HttpMethod.Post, "jwt", optional = tru
             return json(HttpStatusCode.TooManyRequests) {
                 "success" * false
                 "error" * "You can only change your username every 7 days."
-                "next" * renameDate + renameDelay
+                "next" * (renameDate + renameDelay)
             }
 
         AuthenticationManager.assertCanRename(account, newUsername)
