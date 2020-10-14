@@ -10,7 +10,7 @@ import modules.version.util.update.UpdateHistory
  */
 object VersionInstallerRoute : ModuleRoute("installer", HttpMethod.Get) {
 
-    override suspend fun Call.handleCall() {
+    override suspend fun CallContext.handleCall() {
         json {
             "version" * UpdateHistory.installer
         }

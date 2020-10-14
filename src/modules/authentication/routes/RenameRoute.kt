@@ -11,8 +11,8 @@ class RenameRoute : ModuleRoute("rename", HttpMethod.Post, "jwt", optional = tru
 
     private val renameDelay = 1000L * 60L * 60L * 24L * 7L
 
-    override suspend fun Call.handleCall() {
-        val account = twoWayAuthentication()
+    override suspend fun CallContext.handleCall() {
+        val account = getAccount()
         val newUsername = call.receive<JsonObject>().get("name").asString!!
         val renameDate = (account.metadata["renameDate"] as? Long) ?: 0L
 
@@ -23,10 +23,10 @@ class RenameRoute : ModuleRoute("rename", HttpMethod.Post, "jwt", optional = tru
                 "next" * (renameDate + renameDelay)
             }
 
-        AuthenticationManager.assertCanRename(account, newUsername)
-
         if (newUsername == account.username)
-            return success()
+            checkedError("Your account is already named like that!")
+
+        AuthenticationManager.assertCanRename(account, newUsername)
 
         account.username = newUsername
         account.metadata["renameDate"] = System.currentTimeMillis()

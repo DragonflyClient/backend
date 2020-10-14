@@ -19,7 +19,7 @@ import kotlin.collections.set
  */
 object VersionRoute : ModuleRoute("", HttpMethod.Get) {
 
-    override suspend fun Call.handleCall() {
+    override suspend fun CallContext.handleCall() {
         if (call.parameters.contains("channel")) {
             val channel = UpdateChannel.getByIdentifier(call.parameters["channel"]!!)
             val jsonObject = if (channel == STABLE) stable else earlyAccess

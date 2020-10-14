@@ -26,7 +26,7 @@ object ExecutePaymentRoute : ModuleRoute("execute_payment", HttpMethod.Post) {
 
     private val processing = mutableListOf<String>()
 
-    override suspend fun Call.handleCall() {
+    override suspend fun CallContext.handleCall() {
         // parse request
         val payload = call.receive<JsonObject>()
         val paymentId = payload["paymentId"].asString

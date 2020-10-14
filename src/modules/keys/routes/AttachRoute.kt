@@ -16,7 +16,7 @@ import org.litote.kmongo.coroutine.updateOne
  */
 object AttachRoute : ModuleRoute("attach", HttpMethod.Post) {
 
-    override suspend fun Call.handleCall() {
+    override suspend fun CallContext.handleCall() {
         val parameters = receiveParameters()
         val machineIdentifier = parameters.machineIdentifier
         val keyDocument = getKeyDocument(parameters)

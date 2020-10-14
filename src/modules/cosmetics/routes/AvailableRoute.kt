@@ -6,7 +6,7 @@ import modules.cosmetics.util.CosmeticsController
 
 object AvailableRoute : ModuleRoute("available", HttpMethod.Get) {
 
-    override suspend fun Call.handleCall() {
+    override suspend fun CallContext.handleCall() {
         val availableCosmetics = CosmeticsController.getAvailable()
 
         json {

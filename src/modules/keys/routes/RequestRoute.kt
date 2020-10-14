@@ -17,7 +17,7 @@ import java.util.*
  */
 object RequestRoute : ModuleRoute("find", HttpMethod.Get, "master") {
 
-    override suspend fun Call.handleCall() {
+    override suspend fun CallContext.handleCall() {
         val key = call.parameters["key"] ?: checkedError("Missing URL parameter 'key'")
         val keyDocument = KeyGenerator.collection.findOne(KeyDocument::key eq key)
         val machineIdentifier = keyDocument?.machineIdentifier

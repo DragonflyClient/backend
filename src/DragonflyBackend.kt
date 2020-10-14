@@ -1,5 +1,4 @@
-import core.CheckedErrorException
-import core.enable
+import core.*
 import input.InputListener
 import io.ktor.application.*
 import io.ktor.auth.*
@@ -7,8 +6,10 @@ import io.ktor.auth.jwt.*
 import io.ktor.features.*
 import io.ktor.gson.*
 import io.ktor.http.*
+import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import kotlinx.coroutines.runBlocking
 import modules.analytics.AnalyticsModule
 import modules.authentication.AuthenticationModule
 import modules.authentication.util.AuthenticationManager
@@ -55,6 +56,8 @@ fun log(message: String, level: Level = Level.INFO) = with(DragonflyBackend.appl
     }
 }
 
+private val ignoredRoutes = listOf("/v1/cosmetics/find")
+
 /**
  * The main module of the application.
  *
@@ -68,6 +71,25 @@ fun Application.main() {
 
     install(CallLogging) {
         level = Level.INFO
+        format { call ->
+            runBlocking {
+                buildString {
+                    append(call.response.status() ?: "Unhandled")
+                    append(": ")
+                    append(call.request.toLogString())
+                    append(" from ")
+                    append(call.request.header("x-forwarded-for")?.split(", ")?.get(1))
+
+                    call.getAccount()?.let {
+                        append(" (")
+                        append(it.username)
+                        append("#")
+                        append(it.uuid)
+                        append(")")
+                    }
+                }
+            }
+        }
     }
 
     install(CORS) {
@@ -97,6 +119,8 @@ fun Application.main() {
 
     install(StatusPages) {
         exception<Throwable> {
+            if (call.request.path() in ignoredRoutes) return@exception
+
             if (it is CheckedErrorException) {
                 call.respond(it.statusCode, mapOf(
                     "success" to false,

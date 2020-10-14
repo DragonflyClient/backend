@@ -11,13 +11,13 @@ import modules.authentication.util.JwtConfig
 import modules.authentication.util.models.Account
 import kotlin.random.Random
 
-typealias Call = PipelineContext<Unit, ApplicationCall>
+typealias CallContext = PipelineContext<Unit, ApplicationCall>
 
-suspend fun Call.success() = json("success" to true)
+suspend fun CallContext.success() = json("success" to true)
 
-suspend fun <K, V> Call.json(vararg pairs: Pair<K, V>) = call.respond(mapOf(*pairs))
+suspend fun <K, V> CallContext.json(vararg pairs: Pair<K, V>) = call.respond(mapOf(*pairs))
 
-suspend fun Call.json(code: HttpStatusCode = HttpStatusCode.OK, block: JsonBuilder.() -> Unit) {
+suspend fun CallContext.json(code: HttpStatusCode = HttpStatusCode.OK, block: JsonBuilder.() -> Unit) {
     val builder = JsonBuilder()
     builder.block()
     call.respond(code, builder.map)
@@ -27,20 +27,21 @@ fun checkedError(message: Any?, code: HttpStatusCode = HttpStatusCode.InternalSe
     throw CheckedErrorException(message.toString(), code)
 }
 
-suspend fun Call.twoWayAuthentication(): Account {
-    var account = call.authentication.principal<Account>()
+suspend fun CallContext.getAccount() = call.getAccount() ?: checkedError("Unauthenticated", HttpStatusCode.Unauthorized)
+
+suspend fun ApplicationCall.getAccount(): Account? {
+    var account = authentication.principal<Account>()
 
     if (account == null) {
-        val cookie = call.request.cookies["dragonfly-token"] ?: checkedError("Unauthenticated", HttpStatusCode.Unauthorized)
-        val token = JwtConfig.verifier.verify(cookie)
-        account = token.getClaim("uuid").asString()?.let { uuid -> AuthenticationManager.getByUUID(uuid) }
+        val cookie = request.cookies["dragonfly-token"]
+        val token = cookie?.let { JwtConfig.verifier.verify(cookie) }
+        account = token?.getClaim("uuid")?.asString()?.let { uuid -> AuthenticationManager.getByUUID(uuid) }
     }
 
-    if (account == null) checkedError("Unauthenticated", HttpStatusCode.Unauthorized)
     return account
 }
 
-suspend fun Call.respondAccount(account: Account?) {
+suspend fun CallContext.respondAccount(account: Account?) {
     if (account == null) {
         json {
             "success" * false
@@ -54,7 +55,7 @@ suspend fun Call.respondAccount(account: Account?) {
     }
 }
 
-suspend fun Call.respondToken(account: Account) {
+suspend fun CallContext.respondToken(account: Account) {
     val token = JwtConfig.makeToken(account)
 
     call.response.cookies.append(Cookie(

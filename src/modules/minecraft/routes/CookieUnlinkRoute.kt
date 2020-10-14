@@ -11,7 +11,7 @@ import modules.minecraft.util.MinecraftLinkManager.getByMinecraftUUID
 
 object CookieUnlinkRoute : ModuleRoute("cookie/unlink", HttpMethod.Post) {
 
-    override suspend fun Call.handleCall() {
+    override suspend fun CallContext.handleCall() {
         val cookie = call.request.cookies["dragonfly-token"] ?: checkedError("No token cookie found")
         val token = JwtConfig.verifier.verify(cookie)
         val account = token.getClaim("uuid").asString()?.let { uuid -> AuthenticationManager.getByUUID(uuid) }

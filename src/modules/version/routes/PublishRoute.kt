@@ -12,7 +12,7 @@ import modules.version.util.update.*
  */
 object PublishRoute : ModuleRoute("publish", HttpMethod.Post, "master") {
 
-    override suspend fun Call.handleCall() {
+    override suspend fun CallContext.handleCall() {
         val update = call.receive<Update>()
         val earlyAccess = call.parameters["eap"]?.toBoolean() ?: checkedError("Missing parameter 'eap' of type boolean")
         val stable = call.parameters["stable"]?.toBoolean() ?: checkedError("Missing parameter 'stable' of type boolean")

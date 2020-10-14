@@ -9,8 +9,8 @@ import modules.authentication.util.TwoFactorAuthentication
 
 class TwoFactorAuthenticationRoute : ModuleRoute("two-factor-authentication", HttpMethod.Post, "jwt", optional = true) {
 
-    override suspend fun Call.handleCall() {
-        val account = twoWayAuthentication()
+    override suspend fun CallContext.handleCall() {
+        val account = getAccount()
         val body = call.receive<JsonObject>()
 
         when (val action = body.get("action").asString) {

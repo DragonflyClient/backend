@@ -18,7 +18,7 @@ private const val SPACE_ID = 4656056L
 @Suppress("UNCHECKED_CAST")
 class SubmitInternalExceptionRoute : ModuleRoute("submit_internal_exception", HttpMethod.Post, "master") {
 
-    override suspend fun Call.handleCall() {
+    override suspend fun CallContext.handleCall() {
         try {
             val internalException = call.receive<InternalException>()
             val list = internalException.createList()

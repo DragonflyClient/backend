@@ -10,8 +10,8 @@ import modules.cosmetics.util.Filter
 
 object ToggleRoute : ModuleRoute("toggle", HttpMethod.Post, "jwt", true) {
 
-    override suspend fun Call.handleCall() {
-        val account = twoWayAuthentication()
+    override suspend fun CallContext.handleCall() {
+        val account = getAccount()
         val body = call.receive<JsonObject>()
         val cosmeticQualifier = body["cosmeticQualifier"].asString
         val enable = body["enable"].asBoolean

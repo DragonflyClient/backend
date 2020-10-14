@@ -25,7 +25,7 @@ import kotlin.math.absoluteValue
 
 class SubmitCrashReportRoute : ModuleRoute("submit_crash_report", HttpMethod.Post) {
 
-    override suspend fun Call.handleCall() {
+    override suspend fun CallContext.handleCall() {
         val report = call.receive<CrashReport>()
 
         // validate report secretly

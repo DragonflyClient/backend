@@ -10,7 +10,7 @@ import io.ktor.util.date.*
  */
 object CookieLogoutRoute : ModuleRoute("cookie/logout", HttpMethod.Post) {
 
-    override suspend fun Call.handleCall() {
+    override suspend fun CallContext.handleCall() {
         call.response.cookies.append(Cookie(
             name = "dragonfly-token",
             value = "",

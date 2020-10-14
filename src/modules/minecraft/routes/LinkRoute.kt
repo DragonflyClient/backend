@@ -12,7 +12,7 @@ import modules.minecraft.util.MinecraftLinkManager.verifyAccount
 
 object LinkRoute : ModuleRoute("link", HttpMethod.Post, "jwt") {
 
-    override suspend fun Call.handleCall() {
+    override suspend fun CallContext.handleCall() {
         val account = call.authentication.principal<Account>() ?: checkedError("Not authenticated with Dragonfly")
         val token = call.receiveText()
         val uuid = verifyAccount(token) ?: checkedError("Invalid Minecraft access token")

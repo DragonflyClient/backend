@@ -16,7 +16,7 @@ import modules.keys.util.receiveParameters
  */
 object ValidateRoute : ModuleRoute("validate", HttpMethod.Post) {
 
-    override suspend fun Call.handleCall() {
+    override suspend fun CallContext.handleCall() {
         val parameters = receiveParameters()
         val machineIdentifier = parameters.machineIdentifier
         val keyDocument = getKeyDocument(parameters)

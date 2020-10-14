@@ -8,7 +8,7 @@ abstract class ModuleRoute(
     val authentication: String? = null,
     val optional: Boolean = false
 ) {
-    abstract suspend fun Call.handleCall()
+    abstract suspend fun CallContext.handleCall()
 
     open fun legacyRoute(): String? = null
 

@@ -11,7 +11,7 @@ import modules.minecraft.util.MinecraftLinkManager.getByMinecraftUUID
 
 object UnlinkRoute : ModuleRoute("unlink", HttpMethod.Post, "jwt") {
 
-    override suspend fun Call.handleCall() {
+    override suspend fun CallContext.handleCall() {
         val account = call.authentication.principal<Account>() ?: checkedError("Not authenticated with Dragonfly")
         val uuid = MinecraftLinkManager.parseWithoutDashes(call.receiveText())
 

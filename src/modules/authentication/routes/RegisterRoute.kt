@@ -13,7 +13,7 @@ import modules.authentication.util.data.RegistrationData
  */
 object RegisterRoute : ModuleRoute("register", HttpMethod.Post) {
 
-    override suspend fun Call.handleCall() {
+    override suspend fun CallContext.handleCall() {
         val data = call.receive<RegistrationData>()
         val isVerified = AuthenticationManager.verifyEmail(data.email, data.code)
 

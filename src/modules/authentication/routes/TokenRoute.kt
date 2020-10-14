@@ -8,7 +8,7 @@ import modules.authentication.util.models.Account
 
 object TokenRoute : ModuleRoute("token", HttpMethod.Post, "jwt", true) {
 
-    override suspend fun Call.handleCall() {
+    override suspend fun CallContext.handleCall() {
         val account = call.authentication.principal<Account>()
 
         respondAccount(account)

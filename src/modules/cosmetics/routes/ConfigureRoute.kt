@@ -11,8 +11,8 @@ import org.bson.Document
 
 object ConfigureRoute : ModuleRoute("configure", HttpMethod.Post, "jwt", optional = true) {
 
-    override suspend fun Call.handleCall() {
-        val account = twoWayAuthentication()
+    override suspend fun CallContext.handleCall() {
+        val account = getAccount()
         val body = call.receive<JsonObject>()
         val cosmeticQualifier = body["cosmeticQualifier"].asString
         val config = body["config"].asJsonObject

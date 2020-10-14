@@ -12,7 +12,7 @@ class DownloadCountRoute : ModuleRoute("download", HttpMethod.Post) {
     private val lastCalls = mutableMapOf<String, Long>()
     private val totalAmounts = mutableMapOf<String, Long>()
 
-    override suspend fun Call.handleCall() {
+    override suspend fun CallContext.handleCall() {
         val ip = call.request.header("x-forwarded-for") ?: return success()
         val lastCall = lastCalls[ip]
 

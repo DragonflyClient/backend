@@ -16,7 +16,7 @@ import java.util.*
  */
 object GenerateRoute : ModuleRoute("generate", HttpMethod.Get, "master") {
 
-    override suspend fun Call.handleCall() {
+    override suspend fun CallContext.handleCall() {
         val date = Date()
         val key = KeyGenerator.generateSafeKey()
         val keyDocument = KeyDocument(key, false, date.time, null)

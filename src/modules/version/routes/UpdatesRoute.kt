@@ -14,7 +14,7 @@ import modules.version.util.update.UpdateHistory
  */
 object UpdatesRoute : ModuleRoute("updates", HttpMethod.Get) {
 
-    override suspend fun Call.handleCall() {
+    override suspend fun CallContext.handleCall() {
         if (call.parameters.contains("channel") && call.parameters.contains("since")) {
             val channel = UpdateChannel.getByIdentifier(call.parameters["channel"]!!) ?: checkedError("Invalid channel identifier")
             val since = Version.of(call.parameters["since"]!!) ?: checkedError("Invalid 'since' parameter")
