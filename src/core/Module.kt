@@ -21,21 +21,7 @@ fun Routing.enable(module: Module) {
     module.routes.forEach {
         with(it) {
             route("v${version()}") {
-                makeRoute(module, it)
-            }
-        }
-    }
-}
-
-/**
- * Creates the route for the given [module route][route] of the [module].
- */
-private fun Route.makePlainRoute(module: Module, route: ModuleRoute) {
-    route(module.name.toLowerCase()) {
-        route(route.path, route.method) {
-            log(" - ${route.method.pretty()} /v${route.version()}/${module.name.toLowerCase()}/${route.path}")
-            handle {
-                with(route) { handleCall() }
+                createRoute(module, it)
             }
         }
     }
@@ -45,13 +31,36 @@ private fun Route.makePlainRoute(module: Module, route: ModuleRoute) {
  * Creates the route for the given [module route][module] of the [module] while respecting the authentication
  * specifications.
  */
-private fun Route.makeRoute(module: Module, route: ModuleRoute) {
+private fun Route.createRoute(module: Module, route: ModuleRoute) {
     if (route.authentication != null) {
         authenticate(route.authentication, optional = route.isAuthenticationOptional) {
-            makePlainRoute(module, route)
+            buildRoute(module, route)
         }
     } else {
-        makePlainRoute(module, route)
+        buildRoute(module, route)
+    }
+}
+
+/**
+ * Builds the route for the given [module route][route] of the [module].
+ */
+private fun Route.buildRoute(module: Module, route: ModuleRoute) {
+    route(module.name.toLowerCase()) {
+        if (route.method != null) {
+            route(route.path, route.method) {
+                log(" - ${route.method.pretty()} /v${route.version()}/${module.name.toLowerCase()}/${route.path}")
+                handle {
+                    with(route) { handleCall() }
+                }
+            }
+        } else {
+            route(route.path) {
+                log(" - ROUTE /v${route.version()}/${module.name.toLowerCase()}/${route.path}")
+                with(route) {
+                    setup()
+                }
+            }
+        }
     }
 }
 

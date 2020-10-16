@@ -1,6 +1,7 @@
 package core
 
 import io.ktor.http.*
+import io.ktor.routing.*
 
 /**
  * Represents a route that belongs to a [Module].
@@ -12,14 +13,19 @@ import io.ktor.http.*
  */
 abstract class ModuleRoute(
     val path: String,
-    val method: HttpMethod,
+    val method: HttpMethod? = null,
     val authentication: String? = null,
     val isAuthenticationOptional: Boolean = false
 ) {
     /**
      * Handles all calls to this specific route
      */
-    abstract suspend fun CallContext.handleCall()
+    open suspend fun CallContext.handleCall() {}
+
+    /**
+     * Sets up a more complex route by defining the different HTTP methods inside of this function.
+     */
+    open fun Route.setup() {}
 
     /**
      * The version of this route that is prepended to the path
