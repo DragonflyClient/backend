@@ -119,20 +119,24 @@ fun Application.main() {
 
     install(StatusPages) {
         exception<Throwable> {
-            if (call.request.path() in ignoredRoutes) return@exception
+            val ignored = call.request.path() in ignoredRoutes
 
             if (it is CheckedErrorException) {
                 call.respond(it.statusCode, mapOf(
                     "success" to false,
                     "error" to it.message
                 ))
-                log("Checked: \"${it.message.toString()}\"", Level.WARN)
+
+                if (!ignored)
+                    log("Checked: \"${it.message.toString()}\"", Level.WARN)
             } else {
                 call.respond(HttpStatusCode.InternalServerError, mapOf(
                     "success" to false,
                     "error" to "Unhandled exception"
                 ))
-                log("Exception: \"${it.message.toString()}\"", Level.ERROR)
+
+                if (!ignored)
+                    log("Exception: \"${it.message.toString()}\"", Level.ERROR)
             }
         }
     }
