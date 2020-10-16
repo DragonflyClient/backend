@@ -20,10 +20,7 @@ import modules.keys.KeysModule
 import modules.minecraft.MinecraftModule
 import modules.store.StoreModule
 import modules.version.VersionModule
-import org.litote.kmongo.coroutine.coroutine
-import org.litote.kmongo.reactivestreams.KMongo
 import org.slf4j.event.Level
-import secrets.CONNECTION_STRING
 import secrets.KEYS_MASTER_PASSWORD
 import java.text.DateFormat
 
@@ -31,12 +28,6 @@ import java.text.DateFormat
  * The main class of the Dragonfly backend server.
  */
 object DragonflyBackend {
-
-    /**
-     * A coroutine-based KMongo client to connect to the database
-     */
-    val mongo = KMongo.createClient(CONNECTION_STRING).coroutine
-
     /**
      * The instance of the ktor application
      */

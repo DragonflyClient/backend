@@ -1,8 +1,8 @@
 package modules.cosmetics.util
 
-import DragonflyBackend
 import com.google.gson.JsonParser
 import com.mongodb.client.model.Filters
+import core.MongoDB
 import core.checkedError
 import io.ktor.http.*
 import modules.cosmetics.util.config.PropertiesSchema
@@ -14,11 +14,9 @@ import org.litote.kmongo.setValue
 
 object CosmeticsController {
 
-    private val database = DragonflyBackend.mongo.getDatabase("dragonfly")
+    private val collection = MongoDB.dragonflyDB.getCollection<CosmeticsDocument>("cosmetics")
 
-    private val collection = database.getCollection<CosmeticsDocument>("cosmetics")
-
-    private val available = database.getCollection<Document>("available-cosmetics")
+    private val available = MongoDB.dragonflyDB.getCollection<Document>("available-cosmetics")
 
     /**
      * Returns all items in the 'available-cosmetics' collection.

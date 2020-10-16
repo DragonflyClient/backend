@@ -1,12 +1,12 @@
 package modules.analytics.util
 
-import DragonflyBackend
 import com.mongodb.client.model.Filters
+import core.MongoDB
 import org.bson.Document
 
 object DownloadCounter {
 
-    private val collection = DragonflyBackend.mongo.getDatabase("dragonfly").getCollection<Document>("analytics")
+    private val collection = MongoDB.dragonflyDB.getCollection<Document>("analytics")
 
     suspend fun countDownload() {
         val document = collection.findOne(Filters.eq("title", "downloads"))

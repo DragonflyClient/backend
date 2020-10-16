@@ -1,7 +1,7 @@
 package modules.minecraft.util
 
-import DragonflyBackend
 import com.auth0.jwt.JWT
+import core.MongoDB
 import modules.authentication.util.AuthenticationManager
 import modules.authentication.util.models.Account
 import modules.cosmetics.util.CosmeticsController
@@ -12,14 +12,11 @@ import java.util.*
 
 object MinecraftLinkManager {
 
-    /** The Dragonfly database */
-    private val database = DragonflyBackend.mongo.getDatabase("dragonfly")
-
     /** The collection in which the [accounts][Account] are stored */
-    private val accountsCollection = database.getCollection<Account>("accounts")
+    private val accountsCollection = MongoDB.dragonflyDB.getCollection<Account>("accounts")
 
     /** The collection that manages the uuids */
-    private val linksCollection = database.getCollection<MinecraftLink>("minecraft-links")
+    private val linksCollection = MongoDB.dragonflyDB.getCollection<MinecraftLink>("minecraft-links")
 
     /**
      * Verifies that the given [minecraftToken] is valid and returns the UUID associated with the token.

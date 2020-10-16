@@ -1,6 +1,6 @@
 package modules.keys.util
 
-import DragonflyBackend
+import core.MongoDB
 import log
 import org.litote.kmongo.eq
 
@@ -12,7 +12,7 @@ object KeyGenerator {
     /**
      * The mongodb collection in which the keys are stored.
      */
-    val collection = DragonflyBackend.mongo.getDatabase("dragonfly").getCollection<KeyDocument>("keys")
+    val collection = MongoDB.dragonflyDB.getCollection<KeyDocument>("keys")
 
     /**
      * All characters that are available for generating the key.

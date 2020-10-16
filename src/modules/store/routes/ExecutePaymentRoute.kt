@@ -1,6 +1,5 @@
 package modules.store.routes
 
-import DragonflyBackend
 import com.google.gson.JsonObject
 import core.*
 import io.ktor.application.*
@@ -18,11 +17,9 @@ import java.util.*
 
 object ExecutePaymentRoute : ModuleRoute("execute_payment", HttpMethod.Post) {
 
-    private val database = DragonflyBackend.mongo.getDatabase("dragonfly")
+    private val shopItems = MongoDB.dragonflyDB.getCollection<ShopItem>("shop-items")
 
-    private val shopItems = database.getCollection<ShopItem>("shop-items")
-
-    private val payments = database.getCollection<Payment>("payments")
+    private val payments = MongoDB.dragonflyDB.getCollection<Payment>("payments")
 
     private val processing = mutableListOf<String>()
 

@@ -1,7 +1,7 @@
 package modules.authentication.util
 
-import DragonflyBackend
 import at.favre.lib.crypto.bcrypt.BCrypt
+import core.MongoDB
 import core.checkedError
 import log
 import modules.authentication.util.models.*
@@ -17,23 +17,16 @@ import java.util.regex.Pattern
  */
 object AuthenticationManager {
 
-    /** The Dragonfly database */
-    private val database = DragonflyBackend.mongo.getDatabase("dragonfly")
-
-    /** The collection in which the [accounts][Account] are stored */
-    val accountsCollection = database.getCollection<Account>("accounts")
-
-    /** The collection that manages the uuids */
-    private val uuidsCollection = database.getCollection<UUIDs>("uuids")
-
-    private val emailVerification = database.getCollection<EmailVerificationDocument>("email-verification")
+    val accountsCollection = MongoDB.dragonflyDB.getCollection<Account>("accounts")
+    val uuidsCollection = MongoDB.dragonflyDB.getCollection<UUIDs>("uuids")
+    val emailVerification = MongoDB.dragonflyDB.getCollection<EmailVerificationDocument>("email-verification")
 
     /**
      * Registers a new account with the [username] and [password].
      *
      * This function checks if the [username] is already in use and encrypts the password using
      * a hash function with a randomized salt and inserts the created [Account] into
-     * the [database].
+     * the database.
      */
     suspend fun register(email: String, username: String, password: String): Account {
         validateInput(username, password)
