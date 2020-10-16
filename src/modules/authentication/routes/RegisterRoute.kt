@@ -28,6 +28,4 @@ object RegisterRoute : ModuleRoute("register", HttpMethod.Post) {
             +account
         }
     }
-
-    override fun legacyRoute() = "register"
 }

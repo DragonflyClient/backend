@@ -30,8 +30,6 @@ object VersionRoute : ModuleRoute("", HttpMethod.Get) {
         }
     }
 
-    override fun legacyRoute() = "version"
-
     /**
      * Converts the given json object to a simple map of strings and objects.
      */

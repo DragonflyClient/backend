@@ -7,7 +7,7 @@ import io.ktor.http.*
 import io.ktor.request.*
 import modules.authentication.util.AuthenticationManager
 
-class RenameRoute : ModuleRoute("rename", HttpMethod.Post, "jwt", optional = true) {
+class RenameRoute : ModuleRoute("rename", HttpMethod.Post, "jwt", isAuthenticationOptional = true) {
 
     private val renameDelay = 1000L * 60L * 60L * 24L * 7L
 

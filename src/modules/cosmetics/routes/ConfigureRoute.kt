@@ -9,7 +9,7 @@ import modules.cosmetics.util.CosmeticsController
 import modules.cosmetics.util.Filter
 import org.bson.Document
 
-object ConfigureRoute : ModuleRoute("configure", HttpMethod.Post, "jwt", optional = true) {
+object ConfigureRoute : ModuleRoute("configure", HttpMethod.Post, "jwt", isAuthenticationOptional = true) {
 
     override suspend fun CallContext.handleCall() {
         val account = getAccount()

@@ -22,6 +22,4 @@ object UpdatesHistoryRoute : ModuleRoute("updates/history", HttpMethod.Get) {
             call.respond(history)
         } else checkedError("Missing 'channel' parameter")
     }
-
-    override fun legacyRoute() = "updates/history"
 }

@@ -36,6 +36,4 @@ object RequestRoute : ModuleRoute("find", HttpMethod.Get, "master") {
             }
         }
     }
-
-    override fun legacyRoute() = "keys/request"
 }

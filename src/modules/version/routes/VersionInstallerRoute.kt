@@ -15,6 +15,4 @@ object VersionInstallerRoute : ModuleRoute("installer", HttpMethod.Get) {
             "version" * UpdateHistory.installer
         }
     }
-
-    override fun legacyRoute() = "version/installer"
 }

@@ -33,6 +33,4 @@ object UpdatesRoute : ModuleRoute("updates", HttpMethod.Get) {
             )
         } else checkedError("Missing 'channel' or 'since' parameter")
     }
-
-    override fun legacyRoute() = "updates"
 }
