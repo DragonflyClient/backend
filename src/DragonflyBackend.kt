@@ -1,3 +1,4 @@
+import com.google.gson.*
 import core.*
 import input.InputListener
 import io.ktor.application.*
@@ -20,8 +21,10 @@ import modules.keys.KeysModule
 import modules.minecraft.MinecraftModule
 import modules.store.StoreModule
 import modules.version.VersionModule
+import org.bson.types.ObjectId
 import org.slf4j.event.Level
 import secrets.KEYS_MASTER_PASSWORD
+import java.lang.reflect.Type
 import java.text.DateFormat
 
 /**
@@ -105,6 +108,11 @@ fun Application.main() {
         gson {
             setDateFormat(DateFormat.LONG)
             setPrettyPrinting()
+            registerTypeAdapter(ObjectId::class.java, object : JsonSerializer<ObjectId> {
+                override fun serialize(obj: ObjectId?, type: Type?, context: JsonSerializationContext?): JsonElement {
+                    return JsonPrimitive(obj?.toHexString())
+                }
+            })
         }
     }
 
