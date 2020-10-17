@@ -22,9 +22,9 @@ object LoginRoute : ModuleRoute("login", HttpMethod.Post) {
             if (credentials.code == null) return json {
                 "success" * false
                 "require2FA" * true
-                "error" * "Please provide a 2FA code!"
+                "error" * "Please provide a two factor authentication code"
             }
-            if (!TwoFactorAuthentication.verifyCode(account, credentials.code)) checkedError("Invalid 2FA code")
+            if (!TwoFactorAuthentication.verifyCode(account, credentials.code)) checkedError("Invalid two factor authentication code")
         }
 
         val token = JwtConfig.makeToken(account)

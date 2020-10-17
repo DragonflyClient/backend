@@ -36,11 +36,11 @@ object TwoFactorAuthentication {
      * Enables two factor authentication for the given [account].
      */
     suspend fun enable2FA(account: Account, code: String) = with(account.twoFactorAuthentication) {
-        if (!requested) checkedError("You have to request 2FA first before trying to enable it!")
+        if (!requested) checkedError("You have to request two factor authentication first before trying to enable it!")
         account.prohibit2FA()
 
         val current = TimeBasedOneTimePasswordUtil.generateCurrentNumberString(account.twoFactorAuthentication.secret!!)
-        if (code.replace(" ", "") != current) checkedError("Invalid 2FA code")
+        if (code.replace(" ", "") != current) checkedError("Invalid two factor authentication code")
 
         enabled = true
         backupCodes = generateBackupCodes().toMutableList()
