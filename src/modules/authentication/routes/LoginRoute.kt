@@ -22,6 +22,7 @@ object LoginRoute : ModuleRoute("login", HttpMethod.Post) {
             if (credentials.code == null) return json {
                 "success" * false
                 "require2FA" * true
+                "error" * "Please provide a 2FA code!"
             }
             if (!TwoFactorAuthentication.verifyCode(account, credentials.code)) checkedError("Invalid 2FA code")
         }
