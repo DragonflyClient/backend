@@ -4,5 +4,5 @@ data class Model2FA(
     var enabled: Boolean = false,
     var requested: Boolean = false,
     var secret: String? = null,
-    var backupCodes: List<String>? = null
+    var backupCodes: MutableList<String>? = null
 )

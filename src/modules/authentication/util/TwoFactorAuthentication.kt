@@ -2,6 +2,7 @@ package modules.authentication.util
 
 import com.j256.twofactorauth.TimeBasedOneTimePasswordUtil
 import core.checkedError
+import log
 import modules.authentication.util.models.Account
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
@@ -42,7 +43,7 @@ object TwoFactorAuthentication {
         if (code.replace(" ", "") != current) checkedError("Invalid 2FA code")
 
         enabled = true
-        backupCodes = generateBackupCodes()
+        backupCodes = generateBackupCodes().toMutableList()
         account.save()
     }
 
@@ -64,8 +65,15 @@ object TwoFactorAuthentication {
     /**
      * Returns whether the given [code] matches the current TOTP of the given [account].
      */
-    fun verifyCode(account: Account, code: String): Boolean {
+    suspend fun verifyCode(account: Account, code: String): Boolean {
         account.require2FA()
+
+        if (code.contains("-") && account.twoFactorAuthentication.backupCodes!!.contains(code)) {
+            log("${account.username} is using his backup code $code")
+            account.twoFactorAuthentication.backupCodes!!.remove(code)
+            account.save()
+            return true
+        }
 
         val current = TimeBasedOneTimePasswordUtil.generateCurrentNumberString(account.twoFactorAuthentication.secret!!)
         return code.replace(" ", "") == current

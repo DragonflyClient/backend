@@ -17,7 +17,10 @@ class TwoFactorAuthenticationRoute : ModuleRoute("two-factor-authentication", Ht
             "enable" -> {
                 val code = body.get("code").asString
                 TwoFactorAuthentication.enable2FA(account, code)
-                success()
+                json {
+                    "success" * true
+                    "backup_codes" * account.twoFactorAuthentication.backupCodes
+                }
             }
             "disable" -> {
                 TwoFactorAuthentication.disable2FA(account)
