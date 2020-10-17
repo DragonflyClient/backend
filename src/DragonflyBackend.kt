@@ -72,7 +72,7 @@ fun Application.main() {
                     append(": ")
                     append(call.request.toLogString())
                     append(" from ")
-                    append(call.request.header("x-forwarded-for")?.split(", ")?.get(1))
+                    append(call.request.header("x-forwarded-for")?.split(", ")?.get(1) ?: "unknown")
 
                     call.getAccount()?.let {
                         append(" (")
