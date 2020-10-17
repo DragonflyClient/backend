@@ -1,7 +1,6 @@
 package modules.cosmetics.util.models
 
-
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 import org.bson.types.ObjectId
 
 /**
@@ -20,37 +19,37 @@ data class TokenDocument(
     /**
      * The id of the cosmetic that is unlocked with the token
      */
-    @SerializedName("cosmetic_id")
+    @JsonProperty("cosmetic_id")
     val cosmeticId: Int,
 
     /**
      * When the token was created (UNIX timestamp)
      */
-    @SerializedName("created_date")
+    @JsonProperty("created_date")
     val createdDate: Long,
 
     /**
      * The Dragonfly account that created this token
      */
-    @SerializedName("created_account")
+    @JsonProperty("created_account")
     val createdAccount: String,
 
     /**
      * Whether the token has been redeemed
      */
-    @SerializedName("redeemed")
+    @JsonProperty("redeemed")
     var isRedeemed: Boolean = false,
 
     /**
      * The Dragonfly account that redeemed this token
      */
-    @SerializedName("redeemed_account")
+    @JsonProperty("redeemed_account")
     var redeemedAccount: String? = null,
 
     /**
      * The time when the token was redeemed (UNIX timestamp)
      */
-    @SerializedName("redeemed_date")
+    @JsonProperty("redeemed_date")
     var redeemedDate: Long? = null,
 
     /**
