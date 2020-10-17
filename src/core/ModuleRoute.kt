@@ -31,4 +31,9 @@ abstract class ModuleRoute(
      * The version of this route that is prepended to the path
      */
     open fun version(): Int = 1
+
+    /**
+     * Can return the path for a legacy route to keep support for older versions of Dragonfly.A
+     */
+    open fun getLegacyRoute(): String? = null
 }

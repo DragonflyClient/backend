@@ -23,6 +23,14 @@ fun Routing.enable(module: Module) {
             route("v${version()}") {
                 createRoute(module, it)
             }
+            if (it.getLegacyRoute() != null) {
+                route(it.getLegacyRoute()!!, it.method!!) {
+                    log(" - ${it.method.pretty()} /${it.getLegacyRoute()!!} (legacy)")
+                    handle {
+                        handleCall()
+                    }
+                }
+            }
         }
     }
 }
