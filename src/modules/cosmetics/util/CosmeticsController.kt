@@ -5,6 +5,8 @@ import com.mongodb.client.model.Filters
 import core.MongoDB
 import core.checkedError
 import modules.cosmetics.util.config.PropertiesSchema
+import modules.cosmetics.util.models.CosmeticItem
+import modules.cosmetics.util.models.CosmeticsDocument
 import org.bson.Document
 import org.litote.kmongo.setValue
 

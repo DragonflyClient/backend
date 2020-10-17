@@ -8,7 +8,9 @@ import io.ktor.request.*
 import log
 import modules.authentication.util.AuthenticationManager
 import modules.authentication.util.JwtConfig
-import modules.cosmetics.util.*
+import modules.cosmetics.util.CosmeticsController
+import modules.cosmetics.util.Filter
+import modules.cosmetics.util.models.CosmeticItem
 import modules.store.util.Payment
 import modules.store.util.ShopItem
 import org.bson.Document

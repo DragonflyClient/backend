@@ -1,4 +1,4 @@
-package modules.cosmetics.util
+package modules.cosmetics.util.models
 
 import org.bson.Document
 

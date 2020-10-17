@@ -3,7 +3,9 @@ package modules.cosmetics.routes
 import core.*
 import io.ktor.application.*
 import io.ktor.http.*
-import modules.cosmetics.util.*
+import modules.cosmetics.util.CosmeticsController
+import modules.cosmetics.util.Filter
+import modules.cosmetics.util.models.CosmeticItem
 
 object FindRoute : ModuleRoute("find", HttpMethod.Get) {
 

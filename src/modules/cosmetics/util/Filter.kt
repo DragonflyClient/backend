@@ -2,6 +2,8 @@ package modules.cosmetics.util
 
 import core.checkedError
 import io.ktor.http.*
+import modules.cosmetics.util.models.CosmeticItem
+import modules.cosmetics.util.models.CosmeticsDocument
 import modules.minecraft.util.MinecraftLinkManager
 import org.bson.conversions.Bson
 import org.litote.kmongo.eq
