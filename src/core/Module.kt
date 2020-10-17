@@ -55,7 +55,7 @@ private fun Route.buildRoute(module: Module, route: ModuleRoute) {
             }
         } else {
             route(route.path) {
-                log(" - ROUTE /v${route.version()}/${module.name.toLowerCase()}/${route.path}")
+                log(" - ROUTE   /v${route.version()}/${module.name.toLowerCase()}/${route.path}")
                 with(route) {
                     setup()
                 }
