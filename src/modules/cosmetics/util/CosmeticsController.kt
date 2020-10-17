@@ -5,9 +5,9 @@ import com.mongodb.client.model.Filters
 import core.MongoDB
 import core.checkedError
 import modules.cosmetics.util.config.PropertiesSchema
-import modules.cosmetics.util.models.CosmeticItem
-import modules.cosmetics.util.models.CosmeticsDocument
+import modules.cosmetics.util.models.*
 import org.bson.Document
+import org.litote.kmongo.eq
 import org.litote.kmongo.setValue
 
 object CosmeticsController {
@@ -110,5 +110,15 @@ object CosmeticsController {
      * by the [filter].
      */
     suspend fun insert(filter: Filter, cosmeticItem: CosmeticItem) = update(filter) { it.add(cosmeticItem) }
+
+    /**
+     * The collection that contains all cosmetic tokens.
+     */
+    private val tokens = MongoDB.cosmeticsDB.getCollection<TokenDocument>("tokens")
+
+    /**
+     * Returns a token by its payload string.
+     */
+    suspend fun getToken(payload: String): TokenDocument? = tokens.findOne(TokenDocument::payload eq payload)
 }
 

@@ -9,5 +9,6 @@ object CosmeticsModule : Module(
     AvailableRoute,
     ToggleRoute,
     BindRoute,
-    ConfigureRoute
+    ConfigureRoute,
+    TokenRoute
 )
