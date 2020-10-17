@@ -86,11 +86,14 @@ object TwoFactorAuthentication {
      */
     fun generateQRCode(account: Account): String {
         val name = account.email ?: account.username
-        val urlEncodedName = URLEncoder.encode("Dragonfly ($name)", StandardCharsets.UTF_8.toString())
+        val url = URLEncoder.encode(
+            "otpauth://totp/Dragonfly:$name?secret=${account.twoFactorAuthentication.secret!!}&issuer=Dragonfly",
+            StandardCharsets.UTF_8.toString()
+        )
 
         return "https://chart.googleapis.com/chart" +
                 "?chs=200x200&cht=qr&chl=200x200&chld=M|0&cht=qr" +
-                "&chl=otpauth://totp/$urlEncodedName?secret=${account.twoFactorAuthentication.secret!!}"
+                "&chl=$url"
     }
 
     /**
