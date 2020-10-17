@@ -56,4 +56,23 @@ data class TokenDocument(
      * The MongoDB object id to identify the document in the database
      */
     val _id: ObjectId? = null
-)
+) {
+
+    companion object {
+
+        /**
+         * Available chars for generating cosmetic tokens.
+         */
+        private const val availableChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789012345678901234567890"
+
+        /**
+         * Generates the payload string for a cosmetic token.
+         */
+        fun generatePayload(): String = buildString {
+            append("CSM-")
+            append((1..6).map { availableChars.random() }.joinToString(""))
+            append("-")
+            append((1..6).map { availableChars.random() }.joinToString(""))
+        }
+    }
+}
