@@ -39,5 +39,5 @@ object AttachRoute : ModuleRoute("attach", HttpMethod.Post) {
         }
     }
 
-    override fun getLegacyRoute(): String? = "/keys/attach"
+    override fun getLegacyRoute(): String? = "keys/attach"
 }

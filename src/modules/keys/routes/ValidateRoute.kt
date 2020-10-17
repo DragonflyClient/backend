@@ -41,5 +41,5 @@ object ValidateRoute : ModuleRoute("validate", HttpMethod.Post) {
         }
     }
 
-    override fun getLegacyRoute(): String? = "/keys/validate"
+    override fun getLegacyRoute(): String? = "keys/validate"
 }
