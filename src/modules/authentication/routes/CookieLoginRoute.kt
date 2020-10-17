@@ -24,7 +24,7 @@ object CookieLoginRoute : ModuleRoute("cookie/login", HttpMethod.Post) {
                 "success" * false
                 "require2FA" * true
             }
-            if (TwoFactorAuthentication.verifyCode(account, credentials.code)) checkedError("Invalid 2FA code", HttpStatusCode.Forbidden)
+            if (TwoFactorAuthentication.verifyCode(account, credentials.code)) checkedError("Invalid 2FA code")
         }
 
         respondToken(account)
