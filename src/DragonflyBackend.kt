@@ -10,11 +10,13 @@ import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import io.ktor.util.*
 import kotlinx.coroutines.runBlocking
 import modules.analytics.AnalyticsModule
 import modules.authentication.AuthenticationModule
 import modules.authentication.util.AuthenticationManager
 import modules.authentication.util.JwtConfig
+import modules.authentication.util.models.Account
 import modules.cosmetics.CosmeticsModule
 import modules.diagnostics.DiagnosticsModule
 import modules.keys.KeysModule
@@ -37,20 +39,9 @@ object DragonflyBackend {
     lateinit var application: Application
 }
 
-/**
- * Logs the given [message] with some additional information to the console.
- */
-fun log(message: String, level: Level = Level.INFO) = with(DragonflyBackend.application.log) {
-    when (level) {
-        Level.ERROR -> error(message)
-        Level.WARN -> warn(message)
-        Level.INFO -> info(message)
-        Level.DEBUG -> debug(message)
-        Level.TRACE -> trace(message)
-    }
-}
-
 private val ignoredRoutes = listOf("/v1/cosmetics/find")
+
+val AccountAttributeKey = AttributeKey<Account>("account")
 
 /**
  * The main module of the application.
@@ -72,9 +63,9 @@ fun Application.main() {
                     append(": ")
                     append(call.request.toLogString())
                     append(" from ")
-                    append(call.request.header("x-forwarded-for")?.split(", ")?.get(1) ?: "unknown")
+                    append(call.request.header("x-forwarded-for") ?: "unknown")
 
-                    call.getAccount()?.let {
+                    call.account?.let {
                         append(" (")
                         append(it.username)
                         append("#")
@@ -153,8 +144,22 @@ fun Application.main() {
             verifier(JwtConfig.verifier)
             realm = "inceptioncloud.net"
             validate {
-                it.payload.getClaim("uuid").asString().let { uuid -> AuthenticationManager.getByUUID(uuid) }
+                val principal = it.payload.getClaim("uuid").asString().let { uuid -> AuthenticationManager.getByUUID(uuid) }
+                if (principal != null && !attributes.contains(AccountAttributeKey)) {
+                    attributes.put(AccountAttributeKey, principal)
+                }
+                principal
             }
+        }
+    }
+
+    intercept(ApplicationCallPipeline.Call) {
+        val cookie = call.request.cookies["dragonfly-token"]
+        val token = cookie?.let { JwtConfig.verifier.verify(cookie) }
+        val account = token?.getClaim("uuid")?.asString()?.let { uuid -> AuthenticationManager.getByUUID(uuid) }
+
+        if (account != null) {
+            call.attributes.put(AccountAttributeKey, account)
         }
     }
 
@@ -173,5 +178,18 @@ fun Application.main() {
         enable(DiagnosticsModule)
         enable(StoreModule)
         enable(AnalyticsModule)
+    }
+}
+
+/**
+ * Logs the given [message] with some additional information to the console.
+ */
+fun log(message: String, level: Level = Level.INFO) = with(DragonflyBackend.application.log) {
+    when (level) {
+        Level.ERROR -> error(message)
+        Level.WARN -> warn(message)
+        Level.INFO -> info(message)
+        Level.DEBUG -> debug(message)
+        Level.TRACE -> trace(message)
     }
 }

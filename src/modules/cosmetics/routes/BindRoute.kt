@@ -11,7 +11,7 @@ import modules.cosmetics.util.Filter
 object BindRoute : ModuleRoute("bind", HttpMethod.Post, "jwt", true) {
 
     override suspend fun CallContext.handleCall() {
-        val account = getAccount()
+        val account = requireAccount()
         val body = call.receive<JsonObject>()
         val cosmeticQualifier = body["cosmeticQualifier"].asString
         val minecraftUUID = if (body.has("unbind")) null else body["minecraftUUID"].asString

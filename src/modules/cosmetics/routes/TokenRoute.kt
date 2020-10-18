@@ -35,7 +35,7 @@ object TokenRoute : ModuleRoute("token") {
 
         authenticate("jwt", optional = true) {
             put {
-                val account = getAccount()
+                val account = requireAccount()
                 val cosmeticId = call.receive<JsonObject>().get("cosmeticId").asInt
 
                 if (account.permissionLevel < 8)
@@ -57,7 +57,7 @@ object TokenRoute : ModuleRoute("token") {
 
             post("{payload}") {
                 val payload = call.parameters["payload"]!!
-                val account = getAccount()
+                val account = requireAccount()
 
                 redeemToken(payload, account)
                 success()

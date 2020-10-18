@@ -12,7 +12,7 @@ class RenameRoute : ModuleRoute("rename", HttpMethod.Post, "jwt", isAuthenticati
     private val renameDelay = 1000L * 60L * 60L * 24L * 7L
 
     override suspend fun CallContext.handleCall() {
-        val account = getAccount()
+        val account = requireAccount()
         val newUsername = call.receive<JsonObject>().get("name").asString!!
         val renameDate = (account.metadata["renameDate"] as? Long) ?: 0L
 

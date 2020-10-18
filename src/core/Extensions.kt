@@ -1,12 +1,11 @@
 package core
 
+import AccountAttributeKey
 import io.ktor.application.*
-import io.ktor.auth.*
 import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.util.date.*
 import io.ktor.util.pipeline.*
-import modules.authentication.util.AuthenticationManager
 import modules.authentication.util.JwtConfig
 import modules.authentication.util.models.Account
 import kotlin.random.Random
@@ -27,19 +26,10 @@ fun checkedError(message: Any?, code: HttpStatusCode = HttpStatusCode.InternalSe
     throw CheckedErrorException(message.toString(), code)
 }
 
-suspend fun CallContext.getAccount() = call.getAccount() ?: checkedError("Unauthenticated", HttpStatusCode.Unauthorized)
+fun CallContext.requireAccount() = call.account ?: checkedError("Unauthenticated", HttpStatusCode.Unauthorized)
 
-suspend fun ApplicationCall.getAccount(): Account? {
-    var account = authentication.principal<Account>()
-
-    if (account == null) {
-        val cookie = request.cookies["dragonfly-token"]
-        val token = cookie?.let { JwtConfig.verifier.verify(cookie) }
-        account = token?.getClaim("uuid")?.asString()?.let { uuid -> AuthenticationManager.getByUUID(uuid) }
-    }
-
-    return account
-}
+val ApplicationCall.account: Account?
+    get() = attributes.getOrNull(AccountAttributeKey)
 
 suspend fun CallContext.respondAccount(account: Account?) {
     if (account == null) {

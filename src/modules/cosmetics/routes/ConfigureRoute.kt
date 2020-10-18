@@ -12,7 +12,7 @@ import org.bson.Document
 object ConfigureRoute : ModuleRoute("configure", HttpMethod.Post, "jwt", isAuthenticationOptional = true) {
 
     override suspend fun CallContext.handleCall() {
-        val account = getAccount()
+        val account = requireAccount()
         val body = call.receive<JsonObject>()
         val cosmeticQualifier = body["cosmeticQualifier"].asString
         val config = body["config"].asJsonObject
