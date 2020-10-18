@@ -75,6 +75,7 @@ fun Application.main() {
                 }
             }
         }
+        filter { call -> call.request.path() !in ignoredRoutes }
     }
 
     install(CORS) {
