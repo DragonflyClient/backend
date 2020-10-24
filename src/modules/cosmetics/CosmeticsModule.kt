@@ -10,5 +10,6 @@ object CosmeticsModule : Module(
     ToggleRoute,
     BindRoute,
     ConfigureRoute,
-    TokenRoute
+    TokenRoute,
+    TransferRoute
 )

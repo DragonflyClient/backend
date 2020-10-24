@@ -26,6 +26,8 @@ fun checkedError(message: Any?, code: HttpStatusCode = HttpStatusCode.InternalSe
     throw CheckedErrorException(message.toString(), code)
 }
 
+fun Any?.shouldBe(expected: Any?) = if (this == expected) null else CheckedErrorBuilder()
+
 fun CallContext.requireAccount() = call.account ?: checkedError("Unauthenticated", HttpStatusCode.Unauthorized)
 
 val ApplicationCall.account: Account?
@@ -79,5 +81,11 @@ class JsonBuilder {
         "creationDate" * creationDate
         "permissionLevel" * permissionLevel
         "linkedMinecraftAccounts" * linkedMinecraftAccounts
+    }
+}
+
+class CheckedErrorBuilder {
+    fun orError(message: Any?) {
+        checkedError(message, HttpStatusCode.InternalServerError)
     }
 }
