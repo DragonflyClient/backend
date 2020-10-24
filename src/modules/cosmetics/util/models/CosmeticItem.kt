@@ -7,5 +7,6 @@ data class CosmeticItem(
     val cosmeticQualifier: String,
     var enabled: Boolean,
     var minecraft: String? = null,
-    var config: Document
+    var config: Document,
+    var lastTransferred: Long? = null
 )

@@ -12,6 +12,8 @@ import org.bson.Document
 
 object TransferRoute : ModuleRoute("transfer", HttpMethod.Post, "jwt", true) {
 
+    private const val transferDelay = 1000 * 60 * 60 * 24 * 2
+
     override suspend fun CallContext.handleCall() {
         val account = requireAccount()
         val body = call.receive<JsonObject>()
@@ -26,6 +28,14 @@ object TransferRoute : ModuleRoute("transfer", HttpMethod.Post, "jwt", true) {
             .singleOrNull { it.cosmeticQualifier == cosmeticQualifier }
             ?: checkedError("${account.username} doesn't own a cosmetic item with the qualifier '$cosmeticQualifier'")
 
+        if (cosmeticItem.lastTransferred != null && System.currentTimeMillis() - cosmeticItem.lastTransferred!! < transferDelay) {
+            val remaining = cosmeticItem.lastTransferred!! + transferDelay - System.currentTimeMillis()
+            val minutes = (remaining / (1000 * 60)) % 60
+            val hours = remaining / (1000 * 60 * 60)
+            val formatted = if (hours > 0) "$hours hours and $minutes minutes" else "$minutes minutes"
+            checkedError("This cosmetic has just been transferred and can be moved again in $formatted")
+        }
+
         CosmeticsController.update(Filter.new().dragonfly(account.uuid)) {
             it.remove(cosmeticItem).shouldBe(true)?.orError("Could not remove cosmetic item from ${account.username}")
         }
@@ -33,6 +43,7 @@ object TransferRoute : ModuleRoute("transfer", HttpMethod.Post, "jwt", true) {
         cosmeticItem.apply {
             enabled = false
             minecraft = null
+            lastTransferred = System.currentTimeMillis()
             if (resetConfig) config = Document()
         }
 
