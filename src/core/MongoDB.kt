@@ -23,4 +23,9 @@ object MongoDB {
      * The database that contains all information about cosmetics for the Dragonfly client.
      */
     val cosmeticsDB = client.getDatabase("cosmeticsDB")
+
+    /**
+     * The database dedicated for Dragonfly community features.
+     */
+    val communityDB = client.getDatabase("communityDB")
 }
