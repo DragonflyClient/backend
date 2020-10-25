@@ -16,7 +16,7 @@ object NotificationsManager {
     /**
      * Finds a notification by its [id].
      */
-    suspend fun getNotification(id: String) = collection.findOneById(ObjectId(id))
+    suspend fun getNotification(id: String) = id.runCatching { collection.findOneById(ObjectId(this)) }.getOrNull()
 
     /**
      * Extension function for updating or inserting the profile.
