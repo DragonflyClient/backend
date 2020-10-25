@@ -17,6 +17,7 @@ import modules.authentication.AuthenticationModule
 import modules.authentication.util.AuthenticationManager
 import modules.authentication.util.JwtConfig
 import modules.authentication.util.models.Account
+import modules.community.CommunityModule
 import modules.cosmetics.CosmeticsModule
 import modules.diagnostics.DiagnosticsModule
 import modules.keys.KeysModule
@@ -179,6 +180,7 @@ fun Application.main() {
         enable(DiagnosticsModule)
         enable(StoreModule)
         enable(AnalyticsModule)
+        enable(CommunityModule)
     }
 }
 
