@@ -82,6 +82,10 @@ fun Application.main() {
     install(CORS) {
         method(HttpMethod.Get)
         method(HttpMethod.Post)
+        method(HttpMethod.Patch)
+        method(HttpMethod.Put)
+        method(HttpMethod.Delete)
+        method(HttpMethod.Head)
         header(HttpHeaders.AccessControlAllowHeaders)
         header(HttpHeaders.AccessControlAllowOrigin)
         header(HttpHeaders.ContentType)
