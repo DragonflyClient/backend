@@ -9,6 +9,12 @@ import org.bson.types.ObjectId
 data class Notification(
 
     /**
+     * The id of the Dragonfly profile which this notification belongs to.
+     */
+    @JsonProperty("profile_id")
+    val profileId: String,
+
+    /**
      * The category which the notification belongs to. The category is displayed in the overview.
      */
     val category: String?,
