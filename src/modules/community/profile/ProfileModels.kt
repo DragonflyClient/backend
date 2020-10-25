@@ -18,7 +18,7 @@ data class Profile(
      * The list of the notifications that this profile has received. The notifications are
      * represented by their object ids and have to be collected from the notifications collection.
      */
-    val notifications: List<String> = listOf(),
+    val notifications: MutableList<String> = mutableListOf(),
 
     /**
      * Unique object id to identify this profile.
