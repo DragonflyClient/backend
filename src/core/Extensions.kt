@@ -12,7 +12,7 @@ import kotlin.random.Random
 
 typealias CallContext = PipelineContext<Unit, ApplicationCall>
 
-suspend fun CallContext.success() = json("success" to true)
+suspend fun CallContext.success(vararg properties: Pair<String, Any?>) = json("success" to true, *properties)
 
 suspend fun <K, V> CallContext.json(vararg pairs: Pair<K, V>) = call.respond(mapOf(*pairs))
 
