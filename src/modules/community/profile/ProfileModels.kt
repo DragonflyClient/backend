@@ -23,5 +23,5 @@ data class Profile(
     /**
      * Unique object id to identify this profile.
      */
-    val _id: ObjectId? = null
+    val _id: ObjectId = ObjectId.get()
 )

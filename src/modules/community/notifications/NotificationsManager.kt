@@ -1,5 +1,6 @@
 package modules.community.notifications
 
+import com.mongodb.client.model.UpdateOptions
 import core.MongoDB
 import org.bson.types.ObjectId
 
@@ -21,6 +22,5 @@ object NotificationsManager {
     /**
      * Extension function for updating or inserting the profile.
      */
-    suspend fun Notification.update() = _id?.let { collection.updateOneById(it, this) }
-        ?: collection.insertOne(this)
+    suspend fun Notification.update() = collection.updateOneById(_id, this, UpdateOptions().upsert(true))
 }

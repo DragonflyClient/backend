@@ -1,5 +1,6 @@
 package modules.community.profile
 
+import com.mongodb.client.model.UpdateOptions
 import core.MongoDB
 import modules.authentication.util.models.Account
 import org.litote.kmongo.eq
@@ -27,6 +28,5 @@ object ProfileManager {
     /**
      * Extension function for updating or inserting the profile.
      */
-    suspend fun Profile.update() = _id?.let { collection.updateOneById(it, this) }
-        ?: collection.insertOne(this)
+    suspend fun Profile.update() = collection.updateOneById(_id, this, UpdateOptions().upsert(true))
 }

@@ -54,7 +54,7 @@ data class Notification(
     /**
      * Unique object id to identify this notification.
      */
-    val _id: ObjectId? = null
+    val _id: ObjectId = ObjectId.get()
 ) {
     /**
      * Marks the notification as read by setting the [read] and [readTime] properties.
