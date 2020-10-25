@@ -60,14 +60,7 @@ data class Notification(
 }
 
 /**
- * An action that is executed when a notification. It consists of a [type] that is specified
- * by the inheriting class and the [target] whose role depends on the type of the action.
- *
- * @param type
+ * An action that is executed when a notification. It consists of a [type] that specifies which
+ * action is taken and the [target] whose role depends on the type of the action.
  */
-sealed class NotificationAction(val type: String, val target: String)
-
-/**
- * Opens the given [url][target] when the notification is clicked.
- */
-class OpenUrlAction(url: String) : NotificationAction("open_url", url)
+data class NotificationAction(val type: String, val target: String)
