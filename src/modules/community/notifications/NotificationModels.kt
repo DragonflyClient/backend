@@ -38,7 +38,7 @@ data class Notification(
     /**
      * The action that is performed when the notification is clicked.
      */
-    val action: NotificationAction,
+    val action: NotificationAction?,
 
     /**
      * Whether the notification was read by the user.

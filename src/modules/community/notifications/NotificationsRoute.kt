@@ -57,7 +57,7 @@ class NotificationsRoute : ModuleRoute("notifications") {
                     body["message"].asString,
                     body["icon"].asString,
                     System.currentTimeMillis(),
-                    Gson().fromJson(body["action"].asJsonObject, NotificationAction::class.java)
+                    if (body.has("action")) Gson().fromJson(body["action"].asJsonObject, NotificationAction::class.java) else null
                 )
 
                 notification.update()
