@@ -27,6 +27,19 @@ class NotificationsRoute : ModuleRoute("notifications") {
                 }
             }
 
+            patch("all") {
+                val account = requireAccount()
+                val profile = account.getProfile()
+
+                val updated = profile.notifications.mapNotNull { NotificationsManager.getNotification(it) }
+                    .filterNot { it.read }
+                    .onEach {
+                        it.markAsRead()
+                        it.update()
+                    }
+                success("updated" to updated.size)
+            }
+
             patch("{id}") {
                 val id = call.parameters["id"]!!
                 val account = requireAccount()
