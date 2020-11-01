@@ -2,6 +2,7 @@ package modules.community.notifications
 
 import com.mongodb.client.model.UpdateOptions
 import core.MongoDB
+import modules.community.profile.Profile
 import org.bson.types.ObjectId
 
 /**
@@ -23,4 +24,12 @@ object NotificationsManager {
      * Extension function for updating or inserting the profile.
      */
     suspend fun Notification.update() = collection.updateOneById(_id, this, UpdateOptions().upsert(true))
+
+    /**
+     * Sends a notification with the given properties to this profile.
+     */
+    suspend fun Profile.sendNotification(category: String? = null, message: String, icon: String, action: NotificationAction? = null) {
+        val notification = Notification(_id.toHexString(), category, message, icon, System.currentTimeMillis(), action)
+        notification.update()
+    }
 }

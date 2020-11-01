@@ -6,6 +6,8 @@ import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.request.*
 import modules.authentication.util.AuthenticationManager
+import modules.community.notifications.NotificationsManager.sendNotification
+import modules.community.profile.ProfileManager.getProfile
 import modules.cosmetics.util.CosmeticsController
 import modules.cosmetics.util.Filter
 import org.bson.Document
@@ -50,6 +52,9 @@ object TransferRoute : ModuleRoute("transfer", HttpMethod.Post, "jwt", true) {
         CosmeticsController.update(Filter.new().dragonfly(receiverAccount.uuid)) {
             it.add(cosmeticItem)
         }
+
+        val cosmeticName = CosmeticsController.getAvailableById(cosmeticItem.cosmeticId)!!.getString("name")
+        account.getProfile().sendNotification("Cosmetics", "**${account.username}** gifted you **$cosmeticName**.", "gift")
 
         success()
     }

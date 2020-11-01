@@ -7,6 +7,8 @@ import io.ktor.auth.*
 import io.ktor.request.*
 import io.ktor.routing.*
 import modules.authentication.util.models.Account
+import modules.community.notifications.NotificationsManager.sendNotification
+import modules.community.profile.ProfileManager.getProfile
 import modules.cosmetics.util.CosmeticsController
 import modules.cosmetics.util.Filter
 import modules.cosmetics.util.models.CosmeticItem
@@ -86,6 +88,9 @@ object TokenRoute : ModuleRoute("token") {
         token.redeemedAccount = account.uuid
         token.redeemedDate = System.currentTimeMillis()
         tokens.updateOneById(token._id!!, token)
+
+        val cosmeticName = CosmeticsController.getAvailableById(token.cosmeticId)!!.getString("name")
+        account.getProfile().sendNotification("Cosmetics", "**$cosmeticName** has been added to your cosmetics collection.", "new")
 
         CosmeticsController.insert(
             Filter.new().dragonfly(account.uuid),

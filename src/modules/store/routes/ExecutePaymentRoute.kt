@@ -8,6 +8,8 @@ import io.ktor.request.*
 import log
 import modules.authentication.util.AuthenticationManager
 import modules.authentication.util.JwtConfig
+import modules.community.notifications.NotificationsManager.sendNotification
+import modules.community.profile.ProfileManager.getProfile
 import modules.cosmetics.util.CosmeticsController
 import modules.cosmetics.util.Filter
 import modules.cosmetics.util.models.CosmeticItem
@@ -60,6 +62,11 @@ object ExecutePaymentRoute : ModuleRoute("execute_payment", HttpMethod.Post) {
             CosmeticsController.insert(
                 Filter.new().dragonfly(account.uuid),
                 CosmeticItem(cosmeticId, UUID.randomUUID().toString(), enabled = true, config = Document())
+            )
+
+            val cosmeticName = CosmeticsController.getAvailableById(cosmeticId)!!.getString("name")
+            account.getProfile().sendNotification(
+                "Cosmetics", "Your new cosmetic item **$cosmeticName** has arrived. Thanks for your purchase!", "store"
             )
 
             log("Inserted cosmetic #$cosmeticId for user ${account.username}.")
