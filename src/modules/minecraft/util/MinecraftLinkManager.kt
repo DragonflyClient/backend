@@ -22,17 +22,22 @@ object MinecraftLinkManager {
      * Verifies that the given [minecraftToken] is valid and returns the UUID associated with the token.
      * Returns null if the token is invalid.
      */
-    fun verifyAccount(minecraftToken: String): UUID? {
-        val valid = khttp.post(
-            url = "https://authserver.mojang.com/validate",
-            json = mapOf(
-                "accessToken" to minecraftToken
-            )
-        ).statusCode == 204
+    fun verifyAccount(minecraftToken: String): Pair<String, UUID>? {
+        if (khttp.post(
+                url = "https://authserver.mojang.com/validate",
+                json = mapOf("accessToken" to minecraftToken)
+            ).statusCode != 204
+        ) return null
 
-        return valid.takeIf { it }?.runCatching {
+        val uuid = runCatching {
             parseWithoutDashes(JWT.decode(minecraftToken).getClaim("spr").asString())
-        }?.getOrNull()
+        }.getOrNull() ?: return null
+
+        val name = khttp.get(
+            url = "https://sessionserver.mojang.com/session/minecraft/profile/$uuid"
+        ).jsonObject.getString("name")
+
+        return name to uuid
     }
 
     /**
