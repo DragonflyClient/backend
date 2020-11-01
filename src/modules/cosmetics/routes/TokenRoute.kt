@@ -7,6 +7,7 @@ import io.ktor.auth.*
 import io.ktor.request.*
 import io.ktor.routing.*
 import modules.authentication.util.models.Account
+import modules.community.notifications.NotificationAction
 import modules.community.notifications.NotificationsManager.sendNotification
 import modules.community.profile.ProfileManager.getProfile
 import modules.cosmetics.util.CosmeticsController
@@ -90,7 +91,10 @@ object TokenRoute : ModuleRoute("token") {
         tokens.updateOneById(token._id!!, token)
 
         val cosmeticName = CosmeticsController.getAvailableById(token.cosmeticId)!!.getString("name")
-        account.getProfile().sendNotification("Cosmetics", "**$cosmeticName** has been added to your cosmetics collection.", "new")
+        account.getProfile().sendNotification(
+            "Cosmetics", "**$cosmeticName** has been added to your cosmetics collection.", "new",
+            NotificationAction.openUrl("https://dashboard.playdragonfly.net/cosmetics")
+        )
 
         CosmeticsController.insert(
             Filter.new().dragonfly(account.uuid),

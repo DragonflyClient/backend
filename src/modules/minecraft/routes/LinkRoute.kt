@@ -6,6 +6,7 @@ import io.ktor.auth.*
 import io.ktor.http.*
 import io.ktor.request.*
 import modules.authentication.util.models.Account
+import modules.community.notifications.NotificationAction
 import modules.community.notifications.NotificationsManager.sendNotification
 import modules.community.profile.ProfileManager.getProfile
 import modules.minecraft.util.MinecraftLinkManager
@@ -22,7 +23,8 @@ object LinkRoute : ModuleRoute("link", HttpMethod.Post, "jwt") {
         if (getByMinecraftUUID(uuid) == null) {
             MinecraftLinkManager.link(account, uuid)
             account.getProfile().sendNotification(
-                "Account", "The Minecraft account **$name** has been linked to your Dragonfly account.", "link"
+                "Account", "The Minecraft account **$name** has been linked to your Dragonfly account.", "link",
+                NotificationAction.openUrl("https://dashboard.playdragonfly.net/account")
             )
             success()
         } else checkedError("This account is already linked to a Dragonfly account")

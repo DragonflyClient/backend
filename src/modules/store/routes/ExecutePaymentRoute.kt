@@ -8,6 +8,7 @@ import io.ktor.request.*
 import log
 import modules.authentication.util.AuthenticationManager
 import modules.authentication.util.JwtConfig
+import modules.community.notifications.NotificationAction
 import modules.community.notifications.NotificationsManager.sendNotification
 import modules.community.profile.ProfileManager.getProfile
 import modules.cosmetics.util.CosmeticsController
@@ -66,7 +67,8 @@ object ExecutePaymentRoute : ModuleRoute("execute_payment", HttpMethod.Post) {
 
             val cosmeticName = CosmeticsController.getAvailableById(cosmeticId)!!.getString("name")
             account.getProfile().sendNotification(
-                "Cosmetics", "Your new cosmetic item **$cosmeticName** has arrived. Thanks for your purchase!", "store"
+                "Cosmetics", "Your new cosmetic item **$cosmeticName** has arrived. Thanks for your purchase!", "store",
+                NotificationAction.openUrl("https://dashboard.playdragonfly.net/cosmetics")
             )
 
             log("Inserted cosmetic #$cosmeticId for user ${account.username}.")

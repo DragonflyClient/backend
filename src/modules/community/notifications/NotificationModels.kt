@@ -69,4 +69,11 @@ data class Notification(
  * An action that is executed when a notification. It consists of a [type] that specifies which
  * action is taken and the [target] whose role depends on the type of the action.
  */
-data class NotificationAction(val type: String, val target: String)
+data class NotificationAction(val type: String, val target: String) {
+    companion object {
+        /**
+         * Convenient function for creating a notification action that opens an url.
+         */
+        fun openUrl(url: String) = NotificationAction("open_url", url)
+    }
+}
