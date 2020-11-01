@@ -54,7 +54,7 @@ object TransferRoute : ModuleRoute("transfer", HttpMethod.Post, "jwt", true) {
         }
 
         val cosmeticName = CosmeticsController.getAvailableById(cosmeticItem.cosmeticId)!!.getString("name")
-        account.getProfile().sendNotification("Cosmetics", "**${account.username}** gifted you **$cosmeticName**.", "gift")
+        receiverAccount.getProfile().sendNotification("Cosmetics", "**${account.username}** gifted you **$cosmeticName**.", "gift")
 
         success()
     }
