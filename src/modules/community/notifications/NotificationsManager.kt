@@ -3,6 +3,7 @@ package modules.community.notifications
 import com.mongodb.client.model.UpdateOptions
 import core.MongoDB
 import modules.community.profile.Profile
+import modules.community.profile.ProfileManager.update
 import org.bson.types.ObjectId
 
 /**
@@ -31,5 +32,7 @@ object NotificationsManager {
     suspend fun Profile.sendNotification(category: String? = null, message: String, icon: String, action: NotificationAction? = null) {
         val notification = Notification(_id.toHexString(), category, message, icon, System.currentTimeMillis(), action)
         notification.update()
+        notifications.add(notification._id.toHexString())
+        update()
     }
 }
