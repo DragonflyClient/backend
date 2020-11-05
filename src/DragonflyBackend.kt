@@ -22,6 +22,7 @@ import modules.cosmetics.CosmeticsModule
 import modules.diagnostics.DiagnosticsModule
 import modules.keys.KeysModule
 import modules.minecraft.MinecraftModule
+import modules.partner.PartnerModule
 import modules.store.StoreModule
 import modules.version.VersionModule
 import org.bson.types.ObjectId
@@ -185,6 +186,7 @@ fun Application.main() {
         enable(StoreModule)
         enable(AnalyticsModule)
         enable(CommunityModule)
+        enable(PartnerModule)
     }
 }
 

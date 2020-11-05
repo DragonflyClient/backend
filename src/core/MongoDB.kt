@@ -28,4 +28,9 @@ object MongoDB {
      * The database dedicated for Dragonfly community features.
      */
     val communityDB = client.getDatabase("communityDB")
+
+    /**
+     * The database dedicated for Dragonfly partners.
+     */
+    val partnerDB = client.getDatabase("partnerDB")
 }
