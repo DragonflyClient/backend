@@ -20,10 +20,10 @@ object ReferralManager {
     /**
      * Returns the referral document for the given [partnerId].
      */
-    suspend fun getDocument(partnerId: String) = collection.findOne(Referral::partnerId eq partnerId)
+    suspend fun getReferral(partnerId: String) = collection.findOne(Referral::partnerId eq partnerId)
 
     /**
-     * Adds the given [credit] to the partner specified by the [partnerId] in the [referralField].
+     * Adds the given [credit] (in cents) to the partner specified by the [partnerId] in the [referralField].
      */
     suspend fun addCredit(partnerId: String, referralField: ReferralField, credit: Int) {
         val detailsPath = Referral::insights.path() + "." + referralField.path
@@ -43,4 +43,9 @@ object ReferralManager {
      * Convenient function for calling [addCredit].
      */
     suspend fun Partner.addCredit(field: ReferralField, credit: Int) = addCredit(partnerId.toHexString(), field, credit)
+
+    /**
+     * Convenient function for calling [getReferral].
+     */
+    suspend fun Partner.getReferral() = getReferral(partnerId.toHexString())
 }
