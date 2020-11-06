@@ -61,6 +61,5 @@ data class ReferralInsightsDetails(
  */
 enum class ReferralField(val path: String) {
 
-    CREATE_ACCOUNTS("create_accounts"),
-    SHOP("shop")
+    CREATE_ACCOUNTS("create_accounts")
 }

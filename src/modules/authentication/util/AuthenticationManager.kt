@@ -76,14 +76,16 @@ object AuthenticationManager {
      * Verifies that the given [email] has been confirmed and that the [code] matches the
      * confirmation code.
      */
-    suspend fun verifyEmail(email: String?, code: String): Boolean {
-        if (email == null) return false
+    suspend fun verifyEmail(email: String?, code: String): EmailResponse {
+        val unverified = EmailResponse(false)
+
+        if (email == null) return unverified
         if (getByEmail(email) != null) checkedError("An account with the given email ('$email') does already exist!")
 
-        val document = emailVerification.findOne(EmailVerificationDocument::email eq email) ?: return false
-        if (document.code != code) return false
-        if (document.status != "confirmed") return false
-        return true
+        val document = emailVerification.findOne(EmailVerificationDocument::email eq email) ?: return unverified
+        if (document.code != code) return unverified
+        if (document.status != "confirmed") return unverified
+        return EmailResponse(true, document.partner)
     }
 
     /**
@@ -153,3 +155,8 @@ object AuthenticationManager {
         }
     }
 }
+
+data class EmailResponse(
+    val isVerified: Boolean,
+    val referral: String? = null
+)
