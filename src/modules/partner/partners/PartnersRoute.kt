@@ -11,6 +11,14 @@ import modules.partner.partners.PartnersManager.getPartner
 class PartnersRoute : ModuleRoute("partners") {
 
     override fun Route.setup() {
+        authenticate("jwt", optional = true) {
+            get("me") {
+                val account = requireAccount()
+                val partner = account.getPartner() ?: checkedError("You are not a Dragonfly partner!")
+                success("partner" to partner)
+            }
+        }
+
         authenticate("master") {
             post {
                 val uuid = call.receive<JsonObject>().get("uuid").asString
@@ -33,14 +41,6 @@ class PartnersRoute : ModuleRoute("partners") {
                 val dragonflyUUID = call.parameters["dragonflyUUID"]!!
                 val partner = PartnersManager.getByUUID(dragonflyUUID) ?: checkedError("This account is not a partner")
 
-                success("partner" to partner)
-            }
-        }
-
-        authenticate("jwt", optional = true) {
-            get("me") {
-                val account = requireAccount()
-                val partner = account.getPartner() ?: checkedError("You are not a Dragonfly partner!")
                 success("partner" to partner)
             }
         }
