@@ -22,8 +22,8 @@ suspend fun CallContext.json(code: HttpStatusCode = HttpStatusCode.OK, block: Js
     call.respond(code, builder.map)
 }
 
-fun checkedError(message: Any?, code: HttpStatusCode = HttpStatusCode.InternalServerError): Nothing {
-    throw CheckedErrorException(message.toString(), code)
+fun checkedError(message: Any?, code: HttpStatusCode = HttpStatusCode.InternalServerError, errorMessage: String? = null): Nothing {
+    throw CheckedErrorException(message.toString(), code, errorMessage)
 }
 
 fun Any?.shouldBe(expected: Any?) = if (this == expected) null else CheckedErrorBuilder()

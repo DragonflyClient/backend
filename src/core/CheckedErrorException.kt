@@ -4,5 +4,6 @@ import io.ktor.http.*
 
 class CheckedErrorException(
     message: String,
-    val statusCode: HttpStatusCode = HttpStatusCode.InternalServerError
+    val statusCode: HttpStatusCode,
+    val errorCode: String?
 ) : Exception(message)

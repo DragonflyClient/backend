@@ -121,7 +121,8 @@ fun Application.main() {
             if (it is CheckedErrorException) {
                 call.respond(it.statusCode, mapOf(
                     "success" to false,
-                    "error" to it.message
+                    "error" to it.message,
+                    "errorCode" to it.errorCode
                 ))
 
                 if (!ignored)
@@ -129,7 +130,8 @@ fun Application.main() {
             } else {
                 call.respond(HttpStatusCode.InternalServerError, mapOf(
                     "success" to false,
-                    "error" to "Unhandled exception"
+                    "error" to "Unhandled exception",
+                    "errorCode" to "unhandled_exception"
                 ))
 
                 if (!ignored)
