@@ -42,7 +42,9 @@ object ReferralManager {
     /**
      * Convenient function for calling [addCredit].
      */
-    suspend fun Partner.addCredit(field: ReferralField, credit: Int) = addCredit(partnerId.toHexString(), field, credit)
+    suspend fun Partner.addCredit(field: ReferralField, credit: Int) {
+        addCredit(partnerId.toHexString(), field, credit)
+    }
 
     /**
      * Convenient function for calling [getReferral].

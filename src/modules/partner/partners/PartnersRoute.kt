@@ -30,16 +30,24 @@ class PartnersRoute : ModuleRoute("partners") {
                 success("partners" to PartnersManager.getAll())
             }
 
-            get("{partnerId}") {
-                val partnerId = call.parameters["partnerId"]!!
-                val partner = PartnersManager.getByPartnerId(partnerId) ?: checkedError("Invalid partner id")
+            get("uuid/{dragonflyUUID}") {
+                val dragonflyUUID = call.parameters["dragonflyUUID"]!!
+                val partner = PartnersManager.getByUUID(dragonflyUUID) ?: checkedError("This account is not a partner")
 
                 success("partner" to partner)
             }
 
-            get("uuid/{dragonflyUUID}") {
-                val dragonflyUUID = call.parameters["dragonflyUUID"]!!
-                val partner = PartnersManager.getByUUID(dragonflyUUID) ?: checkedError("This account is not a partner")
+            get("name/{partnerName}") {
+                val partnerName = call.parameters["partnerName"]!!
+                val partner = PartnersManager.getByName(partnerName, ignoreCase = true)
+                    ?: checkedError("No partner found for name '$partnerName'", errorCode = "invalid_partner_name")
+
+                success("partner" to partner)
+            }
+
+            get("{partnerId}") {
+                val partnerId = call.parameters["partnerId"]!!
+                val partner = PartnersManager.getByPartnerId(partnerId) ?: checkedError("Invalid partner id")
 
                 success("partner" to partner)
             }
