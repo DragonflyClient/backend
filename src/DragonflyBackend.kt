@@ -41,7 +41,7 @@ object DragonflyBackend {
     lateinit var application: Application
 }
 
-private val ignoredRoutes = listOf("/v1/cosmetics/find")
+private val silentRoutes = listOf("/v1/cosmetics/find")
 
 val AccountAttributeKey = AttributeKey<Account>("account")
 
@@ -77,7 +77,7 @@ fun Application.main() {
                 }
             }
         }
-        filter { call -> call.request.path() !in ignoredRoutes }
+        filter { call -> call.request.path() !in silentRoutes }
     }
 
     install(CORS) {
@@ -116,7 +116,7 @@ fun Application.main() {
 
     install(StatusPages) {
         exception<Throwable> {
-            val ignored = call.request.path() in ignoredRoutes
+            val silent = call.request.path() in silentRoutes
 
             if (it is CheckedErrorException) {
                 call.respond(it.statusCode, mapOf(
@@ -125,7 +125,7 @@ fun Application.main() {
                     "errorCode" to it.errorCode
                 ))
 
-                if (!ignored)
+                if (!silent)
                     log("Checked: \"${it.message.toString()}\"", Level.WARN)
             } else {
                 call.respond(HttpStatusCode.InternalServerError, mapOf(
@@ -134,8 +134,13 @@ fun Application.main() {
                     "errorCode" to "unhandled_exception"
                 ))
 
-                if (!ignored)
+                if (!silent)
                     log("Exception: \"${it.message.toString()}\"", Level.ERROR)
+            }
+
+            if (!silent && Debugger.isDebuggingEnabled) {
+                it.stackTraceToString().split("\n").dropLast(1)
+                    .forEach { line -> log(line, Level.ERROR) }
             }
         }
     }
@@ -164,7 +169,7 @@ fun Application.main() {
 
     intercept(ApplicationCallPipeline.Call) {
         val cookie = call.request.cookies["dragonfly-token"]
-        val token = cookie?.let { JwtConfig.verifier.verify(cookie) }
+        val token = cookie?.runCatching { JwtConfig.verifier.verify(this) }?.getOrNull()
         val account = token?.getClaim("uuid")?.asString()?.let { uuid -> AuthenticationManager.getByUUID(uuid) }
 
         if (account != null) {

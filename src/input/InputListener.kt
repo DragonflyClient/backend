@@ -1,5 +1,6 @@
 package input
 
+import core.Debugger
 import log
 import modules.version.util.VersionManager
 import modules.version.util.update.UpdateHistory
@@ -40,6 +41,7 @@ object InputListener {
                 VersionManager.reloadJsonObject()
                 UpdateHistory.reloadJsonObject()
             }
+            "debug" -> Debugger.toggle()
         }
     }
 }
