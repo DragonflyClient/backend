@@ -7,5 +7,6 @@
 *.iws
 /gradlew.bat
 /gradlew
+/gradle
 
 /src/secrets/
