@@ -35,7 +35,12 @@ data class ReferralInsights(
      * Details about how many accounts have been created with the referral link of the partner.
      */
     @JsonProperty("create_accounts")
-    var createAccounts: ReferralInsightsDetails = ReferralInsightsDetails()
+    var createAccounts: ReferralInsightsDetails = ReferralInsightsDetails(),
+
+    /**
+     * Insights on the profit made via the Dragonfly store.
+     */
+    var store: ReferralInsightsDetails = ReferralInsightsDetails(),
 )
 
 /**
