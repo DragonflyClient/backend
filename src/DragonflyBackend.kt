@@ -21,6 +21,7 @@ import modules.community.CommunityModule
 import modules.cosmetics.CosmeticsModule
 import modules.diagnostics.DiagnosticsModule
 import modules.keys.KeysModule
+import modules.launcher.LauncherModule
 import modules.minecraft.MinecraftModule
 import modules.partner.PartnerModule
 import modules.store.StoreModule
@@ -194,6 +195,7 @@ fun Application.main() {
         enable(AnalyticsModule)
         enable(CommunityModule)
         enable(PartnerModule)
+        enable(LauncherModule)
     }
 }
 

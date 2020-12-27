@@ -2,6 +2,7 @@ package input
 
 import core.Debugger
 import log
+import modules.launcher.LauncherModule
 import modules.version.util.VersionManager
 import modules.version.util.update.UpdateHistory
 import java.util.*
@@ -42,6 +43,7 @@ object InputListener {
                 UpdateHistory.reloadJsonObject()
             }
             "debug" -> Debugger.toggle()
+            "launcher-files" -> LauncherModule.filesService.loadFiles()
         }
     }
 }
