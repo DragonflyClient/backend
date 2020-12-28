@@ -1,4 +1,4 @@
-package modules.launcher.editions
+package modules.client.editions
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.bson.types.ObjectId

@@ -1,4 +1,4 @@
-package modules.launcher.files
+package modules.client.files
 
 import log
 import java.io.File
@@ -6,7 +6,7 @@ import java.io.FileInputStream
 import java.security.MessageDigest
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter
 
-class LauncherFilesService {
+class ClientFilesService {
     var fileIndex: List<String> = emptyList()
     private val rootDirectory = File("/var/www/cdn/dragonfly/client/")
 
