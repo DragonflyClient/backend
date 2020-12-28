@@ -33,4 +33,9 @@ object MongoDB {
      * The database dedicated for Dragonfly partners.
      */
     val partnerDB = client.getDatabase("partnerDB")
+
+    /**
+     * The database dedicated for the Dragonfly launcher.
+     */
+    val launcherDB = client.getDatabase("launcherDB")
 }
