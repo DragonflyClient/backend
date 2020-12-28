@@ -26,7 +26,13 @@ object RegisterRoute : ModuleRoute("register", HttpMethod.Post) {
         val token = JwtConfig.makeToken(account)
 
         if (referral != null) {
-            PartnersManager.getByName(referral, true)?.addCredit(ReferralField.CREATE_ACCOUNTS, 20)
+            val partner = PartnersManager.getByName(referral, true)
+            println("partner = ${partner}")
+
+            if (partner != null) {
+                val result = partner.addCredit(ReferralField.CREATE_ACCOUNTS, 20)
+                println("result = ${result}")
+            }
         }
 
         json {

@@ -37,6 +37,7 @@ object ReferralManager {
             ),
             UpdateOptions().upsert(true)
         )
+        Unit
     }
 
     /**
