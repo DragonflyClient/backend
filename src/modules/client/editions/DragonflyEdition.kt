@@ -10,6 +10,8 @@ data class DragonflyEdition(
     val version: String,
     @JsonProperty("minecraft_version")
     val minecraftVersion: String,
+    @JsonProperty("optifine_version")
+    val optifineVersion: String,
     val description: String,
     val tags: List<String>,
     @JsonProperty("injection_hook")
